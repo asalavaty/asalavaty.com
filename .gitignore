@@ -1,0 +1,11 @@
+# Add the following lines to the .gitignore file:
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.DS_Store
+Thumbs.db
+Personal Website.Rproj
+.hugo_build.lock
+Personal_Website.Rproj
+themes
