@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>R Package | Abbas (Adrian) Salavaty</title>
+    <link>https://academic-demo.netlify.app/tag/r-package/</link>
+      <atom:link href="https://academic-demo.netlify.app/tag/r-package/index.xml" rel="self" type="application/rss+xml" />
+    <description>R Package</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><copyright>© 2022 Adrian Salavaty</copyright><lastBuildDate>Wed, 27 Nov 2019 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://academic-demo.netlify.app/media/icon_hu42183a54c411539f55c3048d146aaf95_18295_512x512_fill_lanczos_center_3.png</url>
+      <title>R Package</title>
+      <link>https://academic-demo.netlify.app/tag/r-package/</link>
+    </image>
+    
+    <item>
+      <title>Influential R package</title>
+      <link>https://academic-demo.netlify.app/developments/influential-r-package/</link>
+      <pubDate>Wed, 27 Nov 2019 00:00:00 +0000</pubDate>
+      <guid>https://academic-demo.netlify.app/developments/influential-r-package/</guid>
+      <description>&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;
+&lt;p&gt;The goal of &lt;code&gt;influential&lt;/code&gt; is to help identification of the most
+&lt;code&gt;influential&lt;/code&gt; nodes in a network as well as the classification and
+ranking of top candidate features. This package contains functions for
+the classification and ranking of features, reconstruction of networks
+from adjacency matrices and data frames, analysis of the topology of the
+network and calculation of centrality measures as well as a novel and
+powerful &lt;code&gt;influential&lt;/code&gt; node ranking. The &lt;strong&gt;Experimental data-based
+Integrative Ranking (ExIR)&lt;/strong&gt; is a sophisticated model for classification
+and ranking of the top candidate features based on only the experimental
+data. The first integrative method, namely the &lt;strong&gt;Integrated Value of
+Influence (IVI)&lt;/strong&gt;, that captures all topological dimensions of the
+network for the identification of network most &lt;code&gt;influential&lt;/code&gt; nodes is
+also provided as a function. Also, neighborhood connectivity, H-index,
+local H-index, and collective influence (CI), all of which required
+centrality measures for the calculation of &lt;strong&gt;IVI&lt;/strong&gt;, are for the first
+time provided in an R package. Additionally, a function is provided for
+running &lt;strong&gt;SIRIR&lt;/strong&gt; model, which is the combination of leave-one-out cross
+validation technique and the conventional SIR model, on a network to
+unsupervisedly rank the true influence of vertices. Furthermore, some
+functions have been provided for the assessment of dependence and
+correlation of two network centrality measures as well as the
+conditional probability of deviation from their corresponding means in
+opposite directions.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

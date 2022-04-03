@@ -1,0 +1,18 @@
+{
+  "name": "Abbas (Adrian) Salavaty",
+  "short_name": "Abbas (Adrian) Salavaty",
+  "lang": "en-us",
+  "theme_color": "#3f51b5",
+  "background_color": "#3f51b5",
+  "icons": [{
+    "src": "/media/icon_hu42183a54c411539f55c3048d146aaf95_18295_192x192_fill_lanczos_center_3.png",
+    "sizes": "192x192",
+    "type": "image/png"
+    }, {
+    "src": "/media/icon_hu42183a54c411539f55c3048d146aaf95_18295_512x512_fill_lanczos_center_3.png",
+    "sizes": "512x512",
+    "type": "image/png"
+     }],
+  "display": "standalone",
+  "start_url": "/?utm_source=web_app_manifest"
+}
