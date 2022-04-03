@@ -131,3 +131,13 @@ blogdown::check_site()
 
 # Now build the website
 blogdown::build_site()
+
+#=============================================================================
+#
+#    Code chunk 6: Set personal domain
+#
+#=============================================================================
+
+# Follow the instructions in both of the followings. The domain is bought from namecheap.com
+# https://towardsdatascience.com/create-and-host-your-personal-website-in-a-few-minutes-using-r-9c94e87e2942
+# https://www.narendrasahu.com/2020/08/06/build-a-personal-website-using-blogdown-and-r-markdown/
