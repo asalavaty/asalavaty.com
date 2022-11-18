@@ -14,13 +14,13 @@ font_size: M
 
 site_type: Person
 local_business_type: ''
-org_name: ''
-description: ''
-twitter: ''
+org_name: 'RemOmics'
+description: 'Abbas (Adrian) Salavaty | Bioinformatician and Systems Biologist'
+twitter: 'https://twitter.com/mania_abbas'
 
 # Contact (edit or remove options as required)
 
-email: abbas.salavaty@gmail.com
+email: ""
 address:
   city: Melbourne
   region: VIC
@@ -70,7 +70,7 @@ highlight_languages:
   - latex
 math: true
 diagram: true
-privacy_pack: false
+privacy_pack: true
 edit_page:
   repo_url: 'https://github.com/asalavaty/asalavaty.com.git'
   content_dir: ''
@@ -81,17 +81,17 @@ edit_page:
     book: false
 show_related:
   book: true
-  page: false
+  page: true
   post: true
   project: true
   publication: true
   event: true
 reading_time: true
-section_pager: false
+section_pager: true
 docs_section_pager: true
 sharing: true
 copyright_license:
-  enable: false
+  enable: true
   allow_derivatives: false
   share_alike: true
   allow_commercial: false
@@ -136,14 +136,17 @@ map:
   api_key: ''
   zoom: 15
 marketing:
-  google_analytics: ''
+  google_analytics: 'G-FRY3CE2K6Q'
   google_tag_manager: ''
   google_site_verification: ''
   baidu_site_verification: ''
   baidu_tongji: ''
 cms:
-  branch: master
+  branch: main
   local_backend: false
 icon:
   pack:
     ai: true
+    fas: true
+    fab: true
+    far: true
