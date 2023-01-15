@@ -8996,7 +8996,10 @@ html[dir='rtl'] body {
     padding-top: 40px; } }
 
 .section-heading h1 {
-  margin: 0 0 10px 0; }
+  margin: 0 0 10px 0;
+  position: sticky;
+  position: -webkit-sticky;
+  top: 150px; }
 
 .section-subheading {
   font-size: 1.25rem;

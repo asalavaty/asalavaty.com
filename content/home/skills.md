@@ -7,7 +7,7 @@ widget: featurette
 headless: true
 
 # Order that this section appears on the page.
-weight: 30
+weight: 2
 
 title: Skills
 subtitle:
@@ -16,18 +16,34 @@ subtitle:
 # - Add/remove as many `feature` blocks below as you like.
 # - For available icons, see: https://wowchemy.com/docs/page-builder/#icons
 feature:
-- description: 90%
+- description: <b>90%</b>
   icon: r-project
   icon_pack: fab
-  name: R
-- description: 100%
+  name: <b>R</b><br><sub>Data Analysis and Visualization,<br>R Package and Shiny App Development</sub>
+- description: <b>60%</b>
+  icon: python
+  icon_pack: fab
+  name: <b>Python</b><br><sub>Data Analysis and Visualization,Python Package Development</sub>
+- description: <b>40%</b>
+  icon: server
+  icon_pack: fas
+  name: <b>High Performance Computing</b><br><sub>NGS Data Analysis,<br>Bash and Shell Scripting</sub>
+- description: <b>60%</b>
   icon: chart-line
   icon_pack: fas
-  name: Statistics
-- description: 10%
-  icon: camera-retro
+  name: <b>Statistics</b><br><sub>Statistical Data Analysis,<br>Biostatistical Modeling</sub>
+- description: <b>80%</b>
+  icon: dna
   icon_pack: fas
-  name: Photography
+  name: <b>Bioinformatics</b><br><sub>Genomics, Transcriptomics,<br>Proteomics, Multi-omics</sub>
+- description: <b>80%</b>
+  icon: network-wired
+  icon_pack: fas
+  name: <b>Systems Biology</b><br><sub>Network Reconstruction and Analysis,<br>Graph-based Model Development</sub>
+- description: <b>40%</b>
+  icon: robot
+  icon_pack: fas
+  name: <b>Machine Learning</b><br><sub>Supervised and Unsupervised Models,<br>Classical and Modern Models</sub>
 
 # Uncomment to use emoji icons.
 #- icon: ':smile:'

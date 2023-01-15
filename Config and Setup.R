@@ -44,7 +44,7 @@ library(blogdown)
 # 1. New Project -> New Directory -> Website using blogdown
 # 2. Directory Name: Personal Website
 # 3. Theme: wowchemy/starter-hugo-academic (From https://github.com/wowchemy/starter-hugo-academic )
-# 4. GitHub Repo: Theme: https://github.com/asalavaty/asalavaty.com.git
+# 4. GitHub Repo: https://github.com/asalavaty/asalavaty.com.git
 
 ###############
 
@@ -55,7 +55,7 @@ library(blogdown)
 # content/: Website source files to edit and add, such as blog posts.
 # themes/: Hugo theme assets like HTML layout files and CSS, etc. Do not edit!
 
-# LiveReload (Run blogdown::serve_site()): Dou will only need to do it once per work session
+# LiveReload (Run blogdown::serve_site()): You will only need to do it once per work session
 blogdown::serve_site()
 
 ## To stop the server, you can use stop_server()
@@ -119,10 +119,19 @@ file.edit(".gitignore")
 # Thumbs.db
 # Personal_Website.Rproj
 # .hugo_build.lock
+# Redundant stuff/
 
 #=============================================================================
 #
-#    Code chunk 6: Publish website
+#    Code chunk 6: Additional points
+#
+#=============================================================================
+
+# To generate BibTex citation for articles use https://www.bibtex.com/converters/
+
+#=============================================================================
+#
+#    Code chunk 7: Publish website
 #
 #=============================================================================
 
@@ -134,10 +143,10 @@ blogdown::build_site()
 
 #=============================================================================
 #
-#    Code chunk 6: Set personal domain
+#    Code chunk 8: Set personal domain
 #
 #=============================================================================
 
-# Follow the instructions in both of the followings. The domain is bought from namecheap.com
+# Follow the instructions in both of the followings. The domain is bought from namecheap.com and the website is deployed on Netlify
 # https://towardsdatascience.com/create-and-host-your-personal-website-in-a-few-minutes-using-r-9c94e87e2942
 # https://www.narendrasahu.com/2020/08/06/build-a-personal-website-using-blogdown-and-r-markdown/

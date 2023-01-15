@@ -8,10 +8,10 @@ widget: portfolio
 headless: true
 
 # Order that this section appears on the page.
-weight: 20
+weight: 4
 
 title: 'Developments'
-subtitle: ''
+subtitle: '  '
 
 content:
   # Page type to display. E.g. project.
@@ -38,15 +38,15 @@ content:
       tag: R Package
     - name: Shiny App
       tag: Shiny App
-    - name: Visualization
-      tag: Visualization
+    - name: Visualization Function
+      tag: Visualization Function
 
 design:
-  columns: '1'
-  view: Showcase
+  columns: '2'
+  view: Compact
   flip_alt_rows: true
   background: {}
-  spacing: {padding: [0, 0, 0, 0]}
+  spacing: {padding: [1, 0, 0, 0]}
 ---
 
 

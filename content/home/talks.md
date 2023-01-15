@@ -7,14 +7,14 @@ widget: pages
 headless: true
 
 # Order that this section appears on the page.
-weight: 70
+weight: 11
 
 title: 'Recent & Upcoming Talks'
 subtitle:
 
 content:
   # Page type to display. E.g. post, event, publication...
-  page_type: event
+  page_type: talks
   # Choose how many pages you would like to display (0 = all pages)
   count: 5
   # Filter on criteria
@@ -38,4 +38,11 @@ design:
   #   3 = Card
   #   4 = Citation (publication only)
   view: 2
+  columns: '1'
+  background:
+    gradient_start: '#eff9fc'
+    gradient_end: '#f5f3fb'
+    gradient_angle: 180
+    # Text color (true=light, false=dark, or remove for the dynamic theme color).
+    # text_color_light: true
 ---
