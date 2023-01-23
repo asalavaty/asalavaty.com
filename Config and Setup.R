@@ -40,6 +40,9 @@
 remotes::install_github('rstudio/blogdown')
 library(blogdown)
 
+# Install the Hugo theme with the specific version that I have used for developing the website.
+blogdown::install_hugo("0.96.0")
+
 ## Details for starting the new project
 # 1. New Project -> New Directory -> Website using blogdown
 # 2. Directory Name: Personal Website
