@@ -58,7 +58,7 @@ title: Abbas "Adrian" Salavaty
 ---
 
 <div style="text-align: justify">
-Abbas (Adrian) was born in 1993. He completed his diploma in biology at the age of 18 years (2011) from Shahid Beheshti High School. He obtained a B.Sc. degree in Genetics from the Shahid Chamran University of Ahvaz in spring 2015. Then, he studied Masters of Cellular and Molecular Biology at the University of Kashan. He then did a Ph.D. in Bioinformatics at the Australian Regenerative Medicine Institute (ARMI), Monash University, Melbourne. His special research interests focus on bioinformatics and systems biology, graph-based model development, and multi-omics cancer analysis. He is also an enthusiastic fan of cancer epigenetic topics.
+Abbas (Adrian) was born in 1993. He obtained a B.Sc. degree in Genetics from the SCU in the spring of 2015. Then, he studied Master of Biology-Biochemistry at the University of Kashan. Next, he did his Ph.D. in Bioinformatics at the Australian Regenerative Medicine Institute (ARMI), Monash University, Melbourne. He is now a postdoctoral research fellow at Children’s Cancer Institute Australia. His special research interests focus on Bioinformatics and Systems Biology, Graph-based Model Development, and Multi-omics Cancer Analysis.
 </div>
 
 {{< icon name="download" pack="fas" >}} Download my {{< staticref "uploads/C.V..pdf" "newtab" >}}C.V.{{< /staticref >}}
