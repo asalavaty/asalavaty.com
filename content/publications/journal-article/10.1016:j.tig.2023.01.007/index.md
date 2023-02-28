@@ -18,10 +18,10 @@ image:
   focal_point: ""
   preview_only: false
 links:
-# - icon: pubmed
-#   icon_pack: ai
-#   name: PubMed
-#   url: https://pubmed.ncbi.nlm.nih.gov/36281397/
+- icon: pubmed
+  icon_pack: ai
+  name: PubMed
+  url: https://pubmed.ncbi.nlm.nih.gov/36842901/
 projects: []
 publication: '*Trends in Genetics*'
 publication_short: "Clonal selection parallels between normal and cancer"
@@ -54,7 +54,7 @@ Clonal selection and drift drive both normal tissue and cancer development. Howe
 clonal selection; clonal drift; cancer evolution; tissue development; tissue regeneration; stem cells
 
 <div style="text-align: left">
-<a href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank">
+<a href="https://pubmed.ncbi.nlm.nih.gov/36842901" target="_blank">
 <button style="background-color:#326599;color:#fff;margin-top:6px;margin-bottom:16px;border-radius:1px;font-size:1.2em;padding:6px 20px; font-family: "GibsonSemibold", "Helvetica Neue", Helvetica, Arial, sans-serif;cursor: pointer; vertical-align: middle; float:none !important;text-shadow:0 1px 1px rgba(0,0,0,0.2)" class="btn"><i class="ai ai-pubmed"></i>
 PubMed
 </button>
