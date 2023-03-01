@@ -4,7 +4,7 @@ education:
   courses:
   - course: PhD in Bioinformatics
     institution: Monash University
-    year: 2022
+    year: 2023
   - course: MSc in Cellular and Molecular Biology
     institution: University of Kashan
     year: 2018
