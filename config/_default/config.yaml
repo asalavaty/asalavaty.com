@@ -6,7 +6,7 @@ theme: "starter-hugo-academic"
 
 title: Adrian Salavaty # Website name
 baseurl: 'https://asalavaty.com/' # Website URL
-copyright: '© 2022 Adrian Salavaty' # Footer text, e.g. '© {year} Me'
+copyright: '© 2023 Adrian Salavaty' # Footer text, e.g. '© {year} Me'
 
 ############################
 ## LANGUAGE
