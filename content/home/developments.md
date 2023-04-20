@@ -34,6 +34,8 @@ content:
       tag: Graph-based Model
     - name: Integrative Model
       tag: Integrative Model
+    - name: Python Package
+      tag: Python Package
     - name: R Package
       tag: R Package
     - name: Shiny App

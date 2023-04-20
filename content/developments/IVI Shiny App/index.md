@@ -35,5 +35,5 @@ url_video: ""
 ## Overview
 
 <div style="text-align: justify">
-IVI Shiny App is a user-friendly web app for calculating the influence of network nodes using the {{< staticref "developments/ivi/" "newtab" >}}IVI algorithm{{< /staticref >}}. This shiny web app provides a graphical user interface to adjust that enables users to adjust all of the parameters and arguments of the IVI algorithm before running it on their similarity/dissimilarity (e.g. gene co-expression) data. Also, users can easily visualize the network based on the IVI values of nodes and adjust it as they desire.
+IVI Shiny App is a user-friendly web app for calculating the influence of network nodes using the {{< staticref "developments/ivi/" "newtab" >}}IVI algorithm{{< /staticref >}}. This shiny web app provides a graphical user interface that enables users to adjust all of the parameters and arguments of the IVI algorithm before running it on their similarity/dissimilarity (e.g. gene co-expression) data. Also, users can easily visualize the network based on the IVI values of nodes and adjust it as they desire.
 </div>

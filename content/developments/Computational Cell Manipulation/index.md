@@ -11,7 +11,7 @@ links:
   url: https://github.com/asalavaty/influential
 - icon: code
   icon_pack: fas
-  name: Function Description 
+  name: R Function Description 
   url: https://rdrr.io/cran/influential/man/comp_manipulate.html
 summary: Evaluation of the impact of knockout or over-expression of a node (e.g. gene, protein, etc.) within a network.
 tags:

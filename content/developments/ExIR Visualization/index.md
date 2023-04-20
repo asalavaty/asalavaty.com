@@ -5,13 +5,21 @@ image:
   caption: Photo by Adrian Salavaty
   focal_point: Smart
 links:
+- icon: researcherid
+  icon_pack: ai
+  name: Video
+  url: https://www.youtube.com/watch?v=Ie19y6PuBDg&list=PL38ZLo00h-YHu2SbnQ-lfh4iaIsMQ99Qj&index=1
 - icon: github
   icon_pack: fab
-  name: GitHub
+  name: R
   url: https://github.com/asalavaty/influential
+- icon: github
+  icon_pack: fab
+  name: Python
+  url: https://github.com/asalavaty/python-influential
 - icon: code
   icon_pack: fas
-  name: Function Description 
+  name: R Function Description 
   url: https://rdrr.io/cran/influential/man/exir.vis.html
 summary: Visualization of ExIR results.
 tags:
@@ -20,11 +28,11 @@ title: ExIR Visualization
 url_code: ""
 url_pdf: ""
 url_slides: ""
-url_video: "https://www.youtube.com/watch?v=Ie19y6PuBDg&list=PL38ZLo00h-YHu2SbnQ-lfh4iaIsMQ99Qj&index=1"
+url_video: ""
 ---
 
 ## Overview
 
 <div style="text-align: justify">
-This function has been developed for the visualization of {{< staticref "developments/exir/" "newtab" >}}ExIR{{< /staticref >}} results. All of the arguments provided for the adjustment of the visual features of the figure are explained in the tutorial video and in the function description.
+This function has been developed for the visualization of {{< staticref "developments/exir/" "newtab" >}}ExIR{{< /staticref >}} results.  This function is available in both {{< staticref "developments/influential-r-package/" "newtab" >}}R{{< /staticref >}} and {{< staticref "developments/influential-python-package/" "newtab" >}}Python{{< /staticref >}} versions of the influential package. All of the arguments provided for the adjustment of the visual features of the figure are explained in the function descriptions. Also, the tutorial video showcases the function performance in the R environment.
 </div>

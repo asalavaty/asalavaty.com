@@ -38,7 +38,7 @@ title: Clonal selection parallels between normal and cancer tissues
 url_code: 
 url_dataset: ""
 url_pdf: https://www.cell.com/trends/genetics/pdf/S0168-9525(23)00022-7.pdf
-url_poster: 
+url_poster: https://www.cell.com/trends/genetics/issue?pii=S0168-9525(22)X0006-1#fullCover
 url_project: ""
 url_slides: ""
 url_source: ""
