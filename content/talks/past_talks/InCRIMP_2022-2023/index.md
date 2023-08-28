@@ -27,7 +27,7 @@ links:
 - icon: image
   icon_pack: fas
   name: Poster
-  url: talks/past_talks/incrimp_2022/poster.pdf
+  url: talks/past_talks/incrimp_2022-2023/poster.pdf
 - icon: globe
   icon_pack: fas
   name: AGTA
