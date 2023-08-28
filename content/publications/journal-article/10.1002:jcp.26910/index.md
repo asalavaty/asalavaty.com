@@ -9,7 +9,7 @@ author_notes:
 - 
 - 
 authors:
-- Abbas (Adrian) Salavaty
+- Adrian Salavaty
 - Fatemeh Movahedi Motlagh
 - Mehri Barabadi
 - Hamid Cheshomi

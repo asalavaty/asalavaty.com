@@ -6,7 +6,7 @@ author_notes:
 - Equal contribution
 - Equal contribution
 authors:
-- Abbas (Adrian) Salavaty
+- Adrian Salavaty
 - Sara Alaei Shehni
 - Mirana Ramialison
 - Peter D Currie

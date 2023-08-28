@@ -7,7 +7,7 @@ author_notes:
 - 
 authors:
 - Mohammadreza Hajjari
-- Abbas (Adrian) Salavaty
+- Adrian Salavaty
 - Francesco Crea
 - Young Kee Shin
 date: "2016-04-04T00:00:00Z"

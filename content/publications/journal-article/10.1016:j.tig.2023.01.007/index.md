@@ -6,7 +6,7 @@ author_notes:
 - 
 - Corresponding author
 authors:
-- Abbas (Adrian) Salavaty
+- Adrian Salavaty
 - Esmaeel Azadian
 - Shalin H. Naik
 - Peter D Currie

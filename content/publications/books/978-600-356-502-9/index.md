@@ -5,7 +5,7 @@ author_notes:
 - 
 authors:
 - Maryam Naderi Soorki
-- Abbas (Adrian) Salavaty
+- Adrian Salavaty
 date: "2016-01-12T00:00:00Z"
 doi: ""
 featured: true

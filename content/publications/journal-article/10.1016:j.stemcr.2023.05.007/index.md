@@ -47,7 +47,7 @@ authors:
 - Yu Bo Yang Sun
 - Jia Ping Tan
 - Guizhi Sun
-- Abbas Salavaty
+- Adrian Salavaty
 - Natalie Charitakis
 - Hieu T. Nim
 - Peter D. Currie
@@ -62,7 +62,7 @@ date: "2023-06-13T00:00:00Z"
 doi: "10.1016/j.stemcr.2023.05.007"
 featured: true
 image:
-  caption: 'Image credit: Gartner M. J., Neil J. A., & [**Salavaty A**](https://asalavaty.com/author/abbas-adrian-salavaty/)'
+  caption: 'Image credit: Gartner M. J., Neil J. A., & [**Salavaty A**](https://asalavaty.com/author/adrian-salavaty/)'
   focal_point: ""
   preview_only: false
 links:

@@ -20,27 +20,27 @@ feature:
   icon: r-project
   icon_pack: fab
   name: <b>R</b><br><sub>Data Analysis and Visualization,<br>R Package and Shiny App Development</sub>
-- description: <b>60%</b>
+- description: <b>80%</b>
   icon: python
   icon_pack: fab
-  name: <b>Python</b><br><sub>Data Analysis and Visualization,Python Package Development</sub>
-- description: <b>40%</b>
+  name: <b>Python</b><br><sub>Data Analysis and Visualization,<br>Python Package Development</sub>
+- description: <b>70%</b>
   icon: server
   icon_pack: fas
   name: <b>High Performance Computing</b><br><sub>NGS Data Analysis,<br>Bash and Shell Scripting</sub>
-- description: <b>60%</b>
+- description: <b>70%</b>
   icon: chart-line
   icon_pack: fas
   name: <b>Statistics</b><br><sub>Statistical Data Analysis,<br>Biostatistical Modeling</sub>
-- description: <b>80%</b>
+- description: <b>90%</b>
   icon: dna
   icon_pack: fas
   name: <b>Bioinformatics</b><br><sub>Genomics, Transcriptomics,<br>Proteomics, Multi-omics</sub>
-- description: <b>80%</b>
+- description: <b>90%</b>
   icon: network-wired
   icon_pack: fas
   name: <b>Systems Biology</b><br><sub>Network Reconstruction and Analysis,<br>Graph-based Model Development</sub>
-- description: <b>40%</b>
+- description: <b>60%</b>
   icon: robot
   icon_pack: fas
   name: <b>Machine Learning</b><br><sub>Supervised and Unsupervised Models,<br>Classical and Modern Models</sub>

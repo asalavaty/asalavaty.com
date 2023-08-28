@@ -19,7 +19,7 @@ author_notes:
 - Corresponding author
 authors:
 - Avnika A. Ruparelia
-- Abbas (Adrian) Salavaty
+- Adrian Salavaty
 - Christopher K. Barlow
 - Yansong Lu
 - Carmen Sonntag
