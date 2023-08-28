@@ -36,7 +36,7 @@ links:
   icon_pack: fas
   name: ICG
   url: https://www.icg2023.com.au/
-location: AGTA 2022: Sunshine Coast, Queensland, Australia; ICG 2023: Melbourne Convention and Exhibition Centre (MCEC)
+location: AGTA 2022, Sunshine Coast, Queensland, Australia; ICG 2023, Melbourne Convention and Exhibition Centre (MCEC)
 projects:
 - 
 publication_types:
