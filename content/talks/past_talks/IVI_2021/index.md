@@ -12,7 +12,7 @@ author_notes:
 - Contributed equally
 - Contributed equally
 authors:
-- Abbas (Adrian) Salavaty
+- Adrian Salavaty
 - Mirana Ramialison
 - Peter D Currie
 date: "2021-08-11T00:00:00Z"
@@ -22,7 +22,7 @@ event: ISMB/ECCB
 event_url: https://www.iscb.org/ismbeccb2021
 featured: true
 image:
-  caption: 'Image credit: [**Abbas (Adrian) Salavaty**](https://asalavaty.com/author/abbas-adrian-salavaty/)'
+  caption: 'Image credit: [**Adrian Salavaty**](https://asalavaty.com/author/adrian-salavaty/)'
   focal_point: ""
   preview_only: false
 links:

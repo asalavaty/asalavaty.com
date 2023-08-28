@@ -12,7 +12,7 @@ author_notes:
 - Contributed equally
 - Contributed equally
 authors:
-- Abbas (Adrian) Salavaty
+- Adrian Salavaty
 - Mirana Ramialison
 - Peter D Currie
 date: "2021-08-12T00:00:00Z"
@@ -22,7 +22,7 @@ event: ANZSCDB
 event_url: https://www.anzscdb.org/
 featured: true
 image:
-  caption: 'Image credit: [**Abbas (Adrian) Salavaty**](https://asalavaty.com/author/abbas-adrian-salavaty/)'
+  caption: 'Image credit: [**Adrian Salavaty**](https://asalavaty.com/author/adrian-salavaty/)'
   focal_point: ""
   preview_only: false
 links:
@@ -49,7 +49,7 @@ links:
 - icon: globe
   icon_pack: fas
   name: VCBS
-  url: http://viccancerbioinfsymposium.org/abstracts/
+  url: http://viccancerbioinfsymposium.org/vcbs2021/program/
 location: Virtual
 projects:
 - 

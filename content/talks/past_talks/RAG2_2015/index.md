@@ -11,7 +11,7 @@ author_notes:
 - 
 - 
 authors:
-- Abbas (Adrian) Salavaty
+- Adrian Salavaty
 - Mohammadreza Hajjari
 date: "2015-09-01T00:00:00Z"
 date_end: "2015-09-03T00:00:00Z"
@@ -20,7 +20,7 @@ event: 5th International Conference on Proteomics & Bioinformatics
 event_url: https://www.tsnn.com/events/5th-international-conference-proteomics-and-bioinformatics
 featured: true
 image:
-  caption: 'Image credit: [**Abbas (Adrian) Salavaty**](https://asalavaty.com/author/abbas-adrian-salavaty/)'
+  caption: 'Image credit: [**Adrian Salavaty**](https://asalavaty.com/author/adrian-salavaty/)'
   focal_point: ""
   preview_only: false
 links:
