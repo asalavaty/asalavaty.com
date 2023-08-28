@@ -20,7 +20,7 @@ date: "2018-08-04T00:00:00Z"
 doi: "10.1002/jcp.26910"
 featured: true
 image:
-  caption: 'Image credit: [**Abbas (Adrian) Salavaty**](https://asalavaty.com/author/abbas-adrian-salavaty/)'
+  caption: 'Image credit: [**Adrian Salavaty**](https://asalavaty.com/author/adrian-salavaty/)'
   focal_point: ""
   preview_only: false
 links:

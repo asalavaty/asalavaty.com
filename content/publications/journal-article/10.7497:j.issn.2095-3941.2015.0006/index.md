@@ -5,12 +5,12 @@ author_notes:
 - 
 authors:
 - Mohammadreza Hajjari
-- Abbas (Adrian) Salavaty
+- Adrian Salavaty
 date: "2015-03-12T00:00:00Z"
 doi: "10.7497/j.issn.2095-3941.2015.0006"
 featured: true
 image:
-  caption: 'Image credit: [**Abbas (Adrian) Salavaty**](https://asalavaty.com/author/abbas-adrian-salavaty/)'
+  caption: 'Image credit: [**Adrian Salavaty**](https://asalavaty.com/author/adrian-salavaty/)'
   focal_point: ""
   preview_only: false
 links:

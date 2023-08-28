@@ -15,7 +15,7 @@ authors:
 - Elham Esfandiari
 - Esmat Fazel-Najafabadi
 - Mansoor Salehi
-- Abbas (Adrian) Salavaty
+- Adrian Salavaty
 - Shirin Fattahpour
 - Leila Dehghani
 - Nayerossadat Nouri

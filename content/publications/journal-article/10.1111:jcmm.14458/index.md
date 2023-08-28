@@ -5,14 +5,14 @@ author_notes:
 - 
 - 
 authors:
-- Abbas (Adrian) Salavaty
+- Adrian Salavaty
 - Zahra Rezvani
 - Ali Najafi
 date: "2019-08-23T00:00:00Z"
 doi: "10.1111/jcmm.14458"
 featured: true
 image:
-  caption: 'Image credit: [**Abbas (Adrian) Salavaty**](https://asalavaty.com/author/abbas-adrian-salavaty/)'
+  caption: 'Image credit: [**Adrian Salavaty**](https://asalavaty.com/author/adrian-salavaty/)'
   focal_point: ""
   preview_only: false
 links:

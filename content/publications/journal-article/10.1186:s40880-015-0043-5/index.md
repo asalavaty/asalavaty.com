@@ -3,12 +3,12 @@ abstract: Circadian rhythms refer to the endogenous rhythms that are generated t
 author_notes:
 - 
 authors:
-- Abbas (Adrian) Salavaty
+- Adrian Salavaty
 date: "2015-08-08T00:00:00Z"
 doi: "10.1186/s40880-015-0043-5"
 featured: true
 image:
-  caption: 'Image credit: [**Abbas (Adrian) Salavaty**](https://asalavaty.com/author/abbas-adrian-salavaty/)'
+  caption: 'Image credit: [**Adrian Salavaty**](https://asalavaty.com/author/adrian-salavaty/)'
   focal_point: ""
   preview_only: false
 links:

@@ -5,14 +5,14 @@ author_notes:
 - Equal contribution
 - Equal contribution
 authors:
-- Abbas (Adrian) Salavaty
+- Adrian Salavaty
 - Mirana Ramialison
 - Peter D Currie
 date: "2020-06-22T00:00:00Z"
 doi: "10.1016/j.patter.2020.100052"
 featured: true
 image:
-  caption: 'Image credit: [**Abbas (Adrian) Salavaty**](https://asalavaty.com/author/abbas-adrian-salavaty/)'
+  caption: 'Image credit: [**Adrian Salavaty**](https://asalavaty.com/author/adrian-salavaty/)'
   focal_point: ""
   preview_only: false
 links:

@@ -9,14 +9,14 @@ author_notes:
 authors:
 - Mohammadreza Hajjari
 - Iman Sadeghi
-- Abbas (Adrian) Salavaty
+- Adrian Salavaty
 - Habib Nasiri
 - Maryam Tahmasebi Birgani
 date: "2016-12-14T00:00:00Z"
 doi: "10.5808/GI.2016.14.4.234"
 featured: true
 image:
-  caption: 'Image credit: [**Abbas (Adrian) Salavaty**](https://asalavaty.com/author/abbas-adrian-salavaty/)'
+  caption: 'Image credit: [**Adrian Salavaty**](https://asalavaty.com/author/adrian-salavaty/)'
   focal_point: ""
   preview_only: false
 links:

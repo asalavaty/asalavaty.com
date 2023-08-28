@@ -38,7 +38,7 @@ date: "2023-05-14T00:00:00Z"
 doi: "10.1111/acel.13862"
 featured: true
 image:
-  caption: 'Image credit: Ruparelia A & [**Salavaty A**](https://asalavaty.com/author/abbas-adrian-salavaty/)'
+  caption: 'Image credit: Ruparelia A & [**Salavaty A**](https://asalavaty.com/author/adrian-salavaty/)'
   focal_point: ""
   preview_only: false
 links:

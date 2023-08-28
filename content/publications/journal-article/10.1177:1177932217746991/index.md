@@ -6,7 +6,7 @@ author_notes:
 - 
 - 
 authors:
-- Abbas (Adrian) Salavaty
+- Adrian Salavaty
 - Niloufar Mohammadi
 - Mozhdeh Shahmoradi
 - Maryam Naderi Soorki
@@ -14,7 +14,7 @@ date: "2017-12-12T00:00:00Z"
 doi: "10.1177/1177932217746991"
 featured: true
 image:
-  caption: 'Image credit: [**Abbas (Adrian) Salavaty**](https://asalavaty.com/author/abbas-adrian-salavaty/)'
+  caption: 'Image credit: [**Adrian Salavaty**](https://asalavaty.com/author/adrian-salavaty/)'
   focal_point: ""
   preview_only: false
 links:
