@@ -43,7 +43,7 @@ social:
   link: https://pubmed.ncbi.nlm.nih.gov/?term=Salavaty+A&cauthor_id=33205118
 - icon: researchgate
   icon_pack: ai
-  link: https://www.researchgate.net/profile/Abbas-Salavaty
+  link: https://www.researchgate.net/profile/Adrian-Salavaty
 - icon: orcid
   icon_pack: ai
   link: https://orcid.org/0000-0001-9320-5889
