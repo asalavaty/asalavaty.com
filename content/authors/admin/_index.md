@@ -52,7 +52,7 @@ social:
   link: https://github.com/asalavaty
 - icon: linkedin
   icon_pack: fab
-  link: https://www.linkedin.com/in/abbassalavaty/
+  link: https://www.linkedin.com/in/asalavaty/
 superuser: true
 title: Adrian Salavaty
 ---
