@@ -24,6 +24,14 @@ date_format: Jan 2006
 #   Begin multi-line descriptions with YAML's `|2-` multi-line prefix.
 
 item:
+- certificate_url: "uploads/MIT_ML_Course_ADRIAN SALAVATY - certificate.pdf"
+  date_end: ""
+  date_start: "2023-09-03"
+  description: "In this course I learned advanced Data Science & Machine Learning skills from world-renowned MIT faculty. The topics included Python, Machine Learning, Neural Networks, Deep Learning, NLP, Recommendation Systems, and Predictive Analytics."
+  organization: MIT-IDSS
+  organization_url: https://idss.mit.edu/
+  title: Data Science and Machine Learning; Making Data-Driven Decisions
+  url: "https://verify.mygreatlearning.com/verify/EUWGTDDZ"
 - certificate_url: "uploads/CertificateOfCompletion_Python Essential Training.pdf"
   date_end: ""
   date_start: "2022-02-24"
