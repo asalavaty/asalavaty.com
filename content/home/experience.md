@@ -22,13 +22,38 @@ date_format: Jan 2006
 #   Leave `date_end` empty if it's your current employer.
 #   Begin multi-line descriptions with YAML's `|2-` multi-line prefix.
 experience:
+  - title: Senior Bioinformatics Scientist
+    company: oNKo-innate
+    company_url: 'https://www.onko-innate.com/'
+    company_logo: oNKo
+    location: Melbourne, VIC, Australia
+    date_start: '2023-11-27'
+    date_end: ''
+    description: |2-
+        **Responsibilities include:**
+        
+        * Omics Data Analysis
+        * Drug-target compound screening analysis
+        * Systems Biology
+        * Pipeline development
+        * Machine Learning
+  
+  - title: Scientific Advisor
+    company: Arta Bioanalytics
+    company_url: 'https://www.artabioanalytics.com/'
+    company_logo: ARTA
+    location: Sydney, UNSW, Australia
+    date_start: '2023-10-26'
+    date_end: ''
+    description: |2-
+    
   - title: Research Officer <br /> (Bioinformatician and Systems Biologist)
     company: Children’s Cancer Institute Australia
     company_url: 'https://www.ccia.org.au/about-the-institute/our-research/personalised-medicine/genomic-childhood-cancer-risk'
     company_logo: ccia
     location: Sydney, UNSW, Australia
     date_start: '2022-03-01'
-    date_end: ''
+    date_end: '2023-11-26'
     description: |2-
         **Responsibilities include:**
         
@@ -37,19 +62,19 @@ experience:
         * Cancer risk, driver, and biomarker module identification
         
   - title: Scientific Advisor
-    company: MEDDA (Next Generation Alternative Medicine)
-    company_url: 'http://medda.io/'
-    company_logo: MEDDA
+    company: ANUNA AI (Previously MEDDA)
+    company_url: 'https://anuna.ai/'
+    company_logo: ANUNA
     location: USA
     date_start: '2021-10-01'
-    date_end: ''
+    date_end: '2023-09-06'
     description: |2-
     
   - title: Tutor (TA)
     company: Monash University
     company_url: 'https://www.monash.edu/'
     company_logo: Monash_University
-    location: Australia
+    location: Melbourne, VIC, Australia
     date_start: '2020-03-01'
     date_end: '2021-11-29'
     description: |2-
