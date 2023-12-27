@@ -13,7 +13,7 @@ author_notes:
 - 
 - 
 authors:
-- Abbas (Adrian) Salavaty
+- Adrian Salavaty
 - Alon M Douek
 - Florian Kreuder
 - Sebastian-Alexander Stamatis
@@ -28,7 +28,7 @@ date: "2022-07-24T00:00:00Z"
 doi: "10.1101/2022.10.03.510585"
 featured: true
 image:
-  caption: 'Image credit: [**Abbas (Adrian) Salavaty**](https://asalavaty.com/author/abbas-adrian-salavaty/)'
+  caption: 'Image credit: [**Adrian Salavaty**](https://asalavaty.com/author/adrian-salavaty/)'
   focal_point: ""
   preview_only: false
 projects: []
