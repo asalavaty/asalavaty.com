@@ -19,7 +19,7 @@ interests:
 - Graph-based Model Development
 - Multi-omics Cancer Analysis
 organizations:
-- name: Children’s Cancer Institute Australia
+- name: oNKo-Innate Pty. Ltd
   url: https://www.onko-innate.com/
 role: Senior Bioinformatician <br /> (Senior Scientist)
 social:
@@ -58,7 +58,7 @@ title: Adrian Salavaty
 ---
 
 <div style="text-align: justify">
-Adrian was born in 1993. He obtained a B.Sc. degree in Genetics from the SCU in the spring of 2015. Then, he studied Master of Biology-Biochemistry at the University of Kashan. Next, he did his Ph.D. in Bioinformatics at the Australian Regenerative Medicine Institute (ARMI), Monash University, Melbourne. He is now a postdoctoral research officer at Children’s Cancer Institute Australia. His special research interests focus on Bioinformatics and Systems Biology, Graph-based Model Development, and Multi-omics Cancer Analysis.
+Adrian, born in 1993, earned his B.Sc. in Genetics from SCU in 2015. Following that, he pursued a Master of Biology-Biochemistry at the University of Kashan. He furthered his studies with a Ph.D. in Bioinformatics at the Australian Regenerative Medicine Institute (ARMI), Monash University, Melbourne. Subsequently, he joined the Children’s Cancer Institute Australia as a postdoctoral research officer before assuming his current role as a senior bioinformatician at oNKo-innate company. His research interests lie in Bioinformatics and Systems Biology, Graph-based Model Development, and Multi-omics Cancer Analysis. Adrian has a notable track record of developing multiple network analysis models and strategies for prioritizing candidate genes and proteins.
 </div>
 
 {{< icon name="download" pack="fas" >}} Download my {{< staticref "uploads/C.V..pdf" "newtab" >}}C.V.{{< /staticref >}}
