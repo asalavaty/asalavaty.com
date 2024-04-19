@@ -20,8 +20,8 @@ interests:
 - Multi-omics Cancer Analysis
 organizations:
 - name: Children’s Cancer Institute Australia
-  url: https://www.ccia.org.au/about-the-institute/our-research/personalised-medicine/genomic-childhood-cancer-risk
-role: Research Officer <br /> (Bioinformatician and Systems Biologist)
+  url: https://www.onko-innate.com/
+role: Senior Bioinformatician <br /> (Senior Scientist)
 social:
 - icon: envelope
   icon_pack: fas
