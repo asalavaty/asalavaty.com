@@ -14,7 +14,7 @@ subtitle:
 
 # Showcase personal skills or business features.
 # - Add/remove as many `feature` blocks below as you like.
-# - For available icons, see: https://wowchemy.com/docs/page-builder/#icons
+# - For available icons, see: https://docs.hugoblox.com/getting-started/page-builder/#icons or https://wowchemy.com/docs/page-builder/#icons
 feature:
 - description: <b>90%</b>
   icon: r-project
@@ -29,9 +29,9 @@ feature:
   icon_pack: fas
   name: <b>High Performance Computing</b><br><sub>NGS Data Analysis,<br>Bash and Shell Scripting</sub>
 - description: <b>70%</b>
-  icon: chart-line
+  icon: sitemap
   icon_pack: fas
-  name: <b>Statistics</b><br><sub>Statistical Data Analysis,<br>Biostatistical Modeling</sub>
+  name: <b>Nextflow</b><br><sub>Nextflow Pipeline Development,<br>Chaining Tasks and Scripting Languages</sub>
 - description: <b>90%</b>
   icon: dna
   icon_pack: fas
@@ -40,6 +40,10 @@ feature:
   icon: network-wired
   icon_pack: fas
   name: <b>Systems Biology</b><br><sub>Network Reconstruction and Analysis,<br>Graph-based Model Development</sub>
+- description: <b>70%</b>
+  icon: chart-line
+  icon_pack: fas
+  name: <b>Statistics</b><br><sub>Statistical Data Analysis,<br>Biostatistical Modeling</sub>
 - description: <b>60%</b>
   icon: robot
   icon_pack: fas
