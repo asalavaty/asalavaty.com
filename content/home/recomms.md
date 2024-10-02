@@ -14,6 +14,15 @@ interval = 4200
   gradient_angle = -55
   text_color_light = true
   columns = '2'
+  
+[[item]]
+  title = "![Joe Cursons](Joe_Cursons.png)\n\n ### Joe Cursons"
+  content = "**Vice President, Computational Biology at oNKo-Innate**\n\n Since joining oNKo-innate, Adrian has quickly become a key member of the Computational Biology team. Adrian has a particularly strong skill set in the development of interactive applications using RShiny and similar tools, often exceeding my expectations around what is possible. Combined with his rigorous and methodical approach to data analysis and his creative solutions for integrating multi-modal data - ranging from assay readouts through to physicochemical and cheminformatic parameters - his work has become integral to oNKo's drug screening programs, allowing us to rapidly group similar compounds and identify novel chemical matter for drug development programs."
+  cta_label = "Email"
+  cta_url = "mailto:joe@onko-innate.com"
+  target = "_blank"
+  cta_icon_pack = "fas"
+  cta_icon = "envelope"
 
 [[item]]
   title = "![Peter Currie](Peter_Currie.png)\n\n ### Peter Currie"
