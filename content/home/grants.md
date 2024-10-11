@@ -27,7 +27,7 @@ item:
 - certificate_url: 
   date_end: ""
   date_start: "2021-08-01"
-  description: "**Finding the right targets: most influential nodes in complex networks**\n\n**Chief investigators:** Mirana Ramialison, Peter Currie, David Dowe\n\nAbbas Salavaty is a named investigator in this grant"
+  description: "**Finding the right targets: most influential nodes in complex networks**\n\n**Chief investigators:** Mirana Ramialison, Peter Currie, David Dowe\n\nAdrian Salavaty is a named investigator in this grant"
   organization: Monash Data Futures Institute
   organization_url: https://www.monash.edu/data-futures-institute
   title: Monash Data Futures Institute Seed Grants - AI and Data Science for Monash Global Challenges
