@@ -19,9 +19,9 @@ interests:
 - Graph-based Model Development
 - Multi-omics Cancer Analysis
 organizations:
-- name: oNKo-Innate Pty. Ltd
-  url: https://www.onko-innate.com/
-role: Senior Bioinformatician <br /> (Senior Scientist)
+- name: Peter MacCallum Cancer Centre
+  url: https://www.petermac.org/
+role: Senior Bioinformatician <br /> (Senior Cancer Scientist)
 social:
 - icon: envelope
   icon_pack: fas

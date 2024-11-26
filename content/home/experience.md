@@ -22,13 +22,27 @@ date_format: Jan 2006
 #   Leave `date_end` empty if it's your current employer.
 #   Begin multi-line descriptions with YAML's `|2-` multi-line prefix.
 experience:
+  - title: Senior Bioinformatician
+    company: Bioinformatics Core Facility, Peter MacCallum Cancer Centre
+    company_url: 'https://www.petermac.org/'
+    company_logo: PeterMac
+    location: Melbourne, VIC, Australia
+    date_start: '2024-11-18'
+    date_end: ''
+    description: |2-
+        **Responsibilities include:**
+        
+        * Multi-Omics Data Analysis
+        * Systems Biology
+        * Spacial transcriptomic/proteomic data analysis
+        * Single cell and bulk RNA-seq/proteomics Data Analysis
   - title: Senior Bioinformatics Scientist
     company: oNKo-innate
     company_url: 'https://www.onko-innate.com/'
     company_logo: oNKo
     location: Melbourne, VIC, Australia
     date_start: '2023-11-27'
-    date_end: ''
+    date_end: '2024-11-15'
     description: |2-
         **Responsibilities include:**
         
@@ -44,7 +58,7 @@ experience:
     company_logo: ARTA
     location: Sydney, UNSW, Australia
     date_start: '2023-10-26'
-    date_end: ''
+    date_end: '2024-10-26'
     description: |2-
     
   - title: Research Officer <br /> (Bioinformatician and Systems Biologist)
