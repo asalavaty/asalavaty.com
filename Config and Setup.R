@@ -49,6 +49,23 @@ blogdown::install_hugo("0.96.0")
 # 3. Theme: wowchemy/starter-hugo-academic (From https://github.com/wowchemy/starter-hugo-academic )
 # 4. GitHub Repo: https://github.com/asalavaty/asalavaty.com.git
 
+# Troubleshooting in case pushing to the main branch didn't work
+
+#0. If you are accessing through firewalls from within an institute, your connection may be blocked by the firewalls.
+# In such a case, first try connecting to another network (e.g. your phone's network) and see if pushing works.
+
+#1. Check if ssh agent is working and set the path to the key if not
+# eval `ssh-agent -s`
+# ssh-add path_to_your_key
+
+#2. Check the Repository URL. Ensure the repository URL is correct. If it's not, update it.
+# git remote -v
+# git remote set-url origin <repository-url>
+
+#3. Check if your SSH key is added to the SSH agent. If no keys are listed, add your SSH key.
+# ssh-add -l
+# ssh-add ~/.ssh/id_rsa
+
 ###############
 
 # Several files and directories will be automatically generated including:
