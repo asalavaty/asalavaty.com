@@ -34,7 +34,7 @@ experience:
         
         * Multi-Omics Data Analysis
         * Systems Biology
-        * Spacial transcriptomic/proteomic data analysis
+        * Spatial transcriptomic/proteomic data analysis
         * Single cell and bulk RNA-seq/proteomics Data Analysis
   - title: Senior Bioinformatics Scientist
     company: oNKo-innate
