@@ -24,13 +24,13 @@ feature:
   icon: python
   icon_pack: fab
   name: <b>Python</b><br><sub>Data Analysis and Visualization,<br>Python Package Development</sub>
-- description: <b>75%</b>
-  icon: server
-  icon_pack: fas
 - description: <b>65%</b>
   icon: robot
   icon_pack: fas
   name: <b>AI & Machine Learning</b><br><sub>Supervised and Unsupervised Models,<br>Classical and Modern Models</sub>
+- description: <b>75%</b>
+  icon: server
+  icon_pack: fas
   name: <b>High Performance Computing</b><br><sub>NGS Data Analysis,<br>Bash and Shell Scripting</sub>
 - description: <b>70%</b>
   icon: sitemap
