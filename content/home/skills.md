@@ -27,6 +27,10 @@ feature:
 - description: <b>75%</b>
   icon: server
   icon_pack: fas
+- description: <b>65%</b>
+  icon: robot
+  icon_pack: fas
+  name: <b>AI & Machine Learning</b><br><sub>Supervised and Unsupervised Models,<br>Classical and Modern Models</sub>
   name: <b>High Performance Computing</b><br><sub>NGS Data Analysis,<br>Bash and Shell Scripting</sub>
 - description: <b>70%</b>
   icon: sitemap
@@ -48,10 +52,6 @@ feature:
   icon: atom
   icon_pack: fas
   name: <b>Cheminformatics</b><br><sub>Structural Similarity & Fingerprint Analysis,<br>Drug-Drug and Drug-Target Interaction Analysis</sub>
-- description: <b>60%</b>
-  icon: robot
-  icon_pack: fas
-  name: <b>Machine Learning</b><br><sub>Supervised and Unsupervised Models,<br>Classical and Modern Models</sub>
 - description: <b>70%</b>
   icon: chart-line
   icon_pack: fas

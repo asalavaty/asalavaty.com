@@ -26,6 +26,14 @@ date_format: Jan 2006
 item:
 - certificate_url: 
   date_end: ""
+  date_start: "2026-03-01"
+  description: "**Multi-omics investigation of mCRPC rapid autopsy samples**\n\n**Chief investigators:** Mirana Ramialison, Peter Currie, David Dowe\n\nAdrian Salavaty is a named investigator in this grant"
+  organization: AstraZeneca
+  organization_url: https://www.astrazeneca.com/
+  title: Monash Data Futures Institute Seed Grants - AI and Data Science for Monash Global Challenges
+  url: ""
+- certificate_url: 
+  date_end: ""
   date_start: "2021-08-01"
   description: "**Finding the right targets: most influential nodes in complex networks**\n\n**Chief investigators:** Mirana Ramialison, Peter Currie, David Dowe\n\nAdrian Salavaty is a named investigator in this grant"
   organization: Monash Data Futures Institute

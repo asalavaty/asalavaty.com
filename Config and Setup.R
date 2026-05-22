@@ -88,7 +88,7 @@ blogdown::stop_server()
 #=============================================================================
 
 # In the config.yaml file in the config directory change the followings:
-title: Abbas (Adrian) Salavaty # Website name
+title: Adrian Salavaty # Website name
 baseurl: 'https://academic-demo.netlify.app/' # Website URL
 copyright: '© 2022 Adrian Salavaty' # Footer text, e.g. '© {year} Me'
 enableGitInfo: true

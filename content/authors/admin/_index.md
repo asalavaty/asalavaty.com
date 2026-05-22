@@ -1,10 +1,10 @@
 ---
-bio: My research interests include Bioinformatics, Systems Biology, Graph-based Model Development, and Multi-omics Cancer Analysis.
+bio: My research interests include Bioinformatics, Systems Biology, AI for Biomedicine, Graph-based Model Development, and Multi-omics Cancer Analysis.
 education:
   courses:
   - course: PhD in Bioinformatics
     institution: Monash University
-    year: 2023
+    year: 2022
   - course: MSc in Cellular and Molecular Biology
     institution: University of Kashan
     year: 2018

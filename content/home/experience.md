@@ -37,9 +37,9 @@ experience:
         * Spatial transcriptomic/proteomic data analysis
         * Single cell and bulk RNA-seq/proteomics Data Analysis
   - title: Senior Bioinformatics Scientist
-    company: oNKo-innate
-    company_url: 'https://www.onko-innate.com/'
-    company_logo: oNKo
+    company: Audax (f.k.a. oNKo-innate)
+    company_url: 'https://www.audax.bio/'
+    company_logo: Audax
     location: Melbourne, VIC, Australia
     date_start: '2023-11-27'
     date_end: '2024-11-15'
