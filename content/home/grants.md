@@ -30,7 +30,7 @@ item:
   description: "**Multi-omics investigation of mCRPC rapid autopsy samples**\n\n**Chief investigators:** Mirana Ramialison, Peter Currie, David Dowe\n\nAdrian Salavaty is a named investigator in this grant"
   organization: AstraZeneca
   organization_url: https://www.astrazeneca.com/
-  title: Monash Data Futures Institute Seed Grants - AI and Data Science for Monash Global Challenges
+  title: AstraZeneca Research Grant
   url: ""
 - certificate_url: 
   date_end: ""
