@@ -1,11 +1,6 @@
 ---
-abstract: 
+abstract: ""
 author_notes:
-- 
-- 
-- 
-- 
-- 
 - 
 - 
 - 
