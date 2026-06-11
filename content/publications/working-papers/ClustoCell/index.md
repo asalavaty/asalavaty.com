@@ -25,7 +25,7 @@ projects: []
 publication: ''
 publication_short: ""
 publication_types:
-- "2"
+- "7"
 publishDate: "2026-05-24T00:00:00Z"
 slides: 
 summary: " "
