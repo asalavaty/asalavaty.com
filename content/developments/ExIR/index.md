@@ -24,7 +24,7 @@ links:
 - icon: book
   icon_pack: fas
   name: Associated Paper 
-  url: https://doi.org/10.1016/j.patter.2020.100052
+  url: https://doi.org/10.1016/j.isci.2026.116303
 summary: ExIR; a versatile one-stop model for the extraction, classification, and prioritization of candidate genes from experimental data.
 tags:
 - Graph-based Model
@@ -40,5 +40,21 @@ url_video: ""
 ## Overview
 
 <div style="text-align: justify">
-High-throughput sequencing technologies have transformed our ability to interrogate biological systems, switching from single gene studies towards generating data on thousands of genes simultaneously. While the latter allows a systematic understanding of the genetic networks driving specific biological functions, functional biological validation of these predicted networks remains a necessity. However, prioritization of candidate genes for functional validation remains a difficult exercise, due to the lack of effective computational tools that can accurately and effectively prioritize the essential genes within a network. We developed ExIR—Experimental data-based Integrative Ranking—which enables the extraction, classification and prioritization of candidates from high-throughput experimental data. ExIR is a standalone computational model able to simultaneously classify genes into “drivers”, “biomarkers”, and “mediators” according to their functional importance. You can also visualize the ExIR results using its {{< staticref "developments/exir-visualization/" "newtab" >}}visualization function{{< /staticref >}}. This model is available in both {{< staticref "developments/influential-r-package/" "newtab" >}}R{{< /staticref >}} and {{< staticref "developments/influential-python-package/" "newtab" >}}Python{{< /staticref >}} versions of the influential package. The tutorial video showcases the function performance in the R environment.
+
+<p>
+This model is available in both {{< staticref "developments/influential-r-package/" "newtab" >}}R{{< /staticref >}} and {{< staticref "developments/influential-python-package/" "newtab" >}}Python{{< /staticref >}} versions of the influential package. The tutorial video showcases the function performance in the R environment.
+</p>
+
+<p>
+ExIR (experimental data-based integrative ranking) is a data-driven framework designed to identify and prioritize the most biologically relevant genes, proteins, and other molecular features from high-dimensional omics data. By analyzing feature behavior within inferred association networks, ExIR classifies and ranks candidates as drivers, biomarkers, or mediators, helping researchers focus on the features most likely to play important biological roles. Unlike many prioritization approaches, ExIR operates directly on experimental data without requiring external annotations or prior biological knowledge.
+</p>
+
+<p>
+ExIR is applicable to virtually all bulk and single-cell omics data types, including large-scale single-cell atlases. To support efficient analysis of very large datasets, it incorporates pseudo-bulking functionality that can process datasets containing millions of cells while substantially reducing computational requirements. ExIR also integrates seamlessly with standard single-cell analysis workflows through native support for Seurat objects.
+</p>
+
+<p>
+The framework has been evaluated across multiple transcriptomic and proteomic datasets, consistently demonstrating strong feature-prioritization performance relative to commonly used approaches. In one application, ExIR identified candidate regulators associated with disease progression in RNA-seq data from a zebrafish model of mucopolysaccharidosis IIIA. Together, these capabilities make ExIR a versatile and scalable solution for extracting biologically meaningful insights from modern omics datasets and guiding downstream experimental investigation.
+</p>
+
 </div>
