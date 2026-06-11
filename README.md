@@ -1,4 +1,4 @@
-# Abbas (Adrian) Salavaty
+# Adrian Salavaty
 ## https://asalavaty.com/
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/fc154ae1-8795-4b2b-b04d-5704f3d5f4b1/deploy-status)](https://app.netlify.com/sites/asalavaty/deploys)
