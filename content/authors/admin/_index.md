@@ -30,8 +30,8 @@ social:
     header: true
   icon: twitter
   icon_pack: fab
-  label: Follow me on Twitter
-  link: https://twitter.com/mania_abbas
+  label: Follow me on X
+  link: https://x.com/mania_abbas
 - icon: graduation-cap
   icon_pack: fas
   link: https://scholar.google.com/citations?user=XnTz9JIAAAAJ&hl=en&authuser=1
