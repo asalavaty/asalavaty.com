@@ -22,7 +22,7 @@ links:
 - icon: pubmed
   icon_pack: ai
   name: PubMed
-  url: https://pubmed.ncbi.nlm.nih.gov/33205118/
+  url: https://pubmed.ncbi.nlm.nih.gov/42291207/
 projects: []
 publication: '*iScience (Cell Press)*'
 publication_short: "Experimental Data-based Integrative Ranking"
@@ -56,7 +56,7 @@ High-throughput sequencing enables genome-wide interrogation of biological syste
 Experimental data-based Integrative Ranking (ExIR); Gene prioritization; Network-based analysis; Transcriptomics; Proteomics; Driver genes; Biomarker discovery; Systems biology; Mucopolysaccharidosis IIIA
 
 <div style="text-align: left">
-<a href="https://pubmed.ncbi.nlm.nih.gov/33205118/" target="_blank">
+<a href="https://pubmed.ncbi.nlm.nih.gov/42291207/" target="_blank">
 <button style="background-color:#326599;color:#fff;margin-top:6px;margin-bottom:16px;border-radius:1px;font-size:1.2em;padding:6px 20px; font-family: "GibsonSemibold", "Helvetica Neue", Helvetica, Arial, sans-serif;cursor: pointer; vertical-align: middle; float:none !important;text-shadow:0 1px 1px rgba(0,0,0,0.2)" class="btn"><i class="ai ai-pubmed"></i>
 PubMed
 </button>
