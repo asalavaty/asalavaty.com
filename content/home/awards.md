@@ -31,7 +31,7 @@ item:
   organization: Monash University
   organization_url: https://www.monash.edu/
   title: Postgraduate Publication Award
-  url: "https://www.monash.edu/graduate-research/study/scholarships/postgraduate-publication-award"
+  url: "https://www.monash.edu/graduate-research/support-and-resources/examination/prestigious-awardees"
 
 - certificate_url: uploads/COMBINE21.pdf
   date_end: ""
