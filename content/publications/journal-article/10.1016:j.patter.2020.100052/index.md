@@ -62,3 +62,7 @@ PubMed
 {{% callout note %}}
 Click the *Cite* button above to import the publication metadata into your reference management software.
 {{% /callout %}}
+
+<a href="/widgets/IVI_Demo.html" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px;">
+  <i class="fas fa-desktop"></i> Interactive Demo
+</a>

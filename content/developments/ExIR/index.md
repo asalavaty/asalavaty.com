@@ -25,6 +25,10 @@ links:
   icon_pack: fas
   name: Associated Paper 
   url: https://doi.org/10.1016/j.isci.2026.116303
+- icon: desktop
+  icon_pack: fas
+  name: Interactive Demo
+  url: /widgets/ExIR_Demo.html
 summary: ExIR; a versatile one-stop model for the extraction, classification, and prioritization of candidate genes from experimental data.
 tags:
 - Graph-based Model
@@ -58,3 +62,7 @@ The framework has been evaluated across multiple transcriptomic and proteomic da
 </p>
 
 </div>
+
+<a href="/widgets/ExIR_Demo.html" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px;">
+  <i class="fas fa-desktop"></i> Interactive Demo
+</a>

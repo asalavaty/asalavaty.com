@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IVI Interactive Demo</title>
+<style>
+body {
+  margin: 0;
+  padding: 20px;
+  background: #0b1120;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #e2e8f0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+}
+</style>
+</head>
+<body>
+
+<div style="font-family: 'Inter', system-ui, -apple-system, sans-serif; max-width: 900px; margin: 0 auto; padding: 24px; background: #0f172a; color: #e2e8f0; border-radius: 16px;">
+
+  <!-- Header -->
+  <div style="text-align: center; margin-bottom: 28px;">
+    <div style="display: inline-flex; align-items: center; gap: 12px; background: linear-gradient(135deg, #1e293b, #0f172a); padding: 16px 32px; border-radius: 12px; border: 1px solid #334155;">
+      <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #6366f1, #8b5cf6); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; color: white;">IV</div>
+      <div>
+        <div style="font-size: 22px; font-weight: 700; color: #f8fafc; letter-spacing: -0.5px;">IVI Interactive Demo</div>
+        <div style="font-size: 12px; color: #94a3b8; margin-top: 2px;">Integrated Value of Influence</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Description -->
+  <div style="background: #1e293b; border-radius: 12px; padding: 16px 20px; margin-bottom: 24px; border-left: 4px solid #6366f1;">
+    <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #cbd5e1;">
+      IVI is the first integrative method that captures <strong>all topological dimensions</strong> of a network. It synergizes six centrality measures while removing their inherent biases to identify the most influential nodes.
+    </p>
+  </div>
+
+  <!-- Interactive Network Visualization -->
+  <div style="background: #1e293b; border-radius: 16px; padding: 20px; margin-bottom: 24px; border: 1px solid #334155;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+      <div style="font-size: 16px; font-weight: 600; color: #f8fafc;">&#128300; Live Network with IVI Coloring</div>
+      <div style="display: flex; gap: 8px;">
+        <button onclick="resetNetwork()" style="background: #334155; color: #e2e8f0; border: none; padding: 6px 14px; border-radius: 6px; font-size: 12px; cursor: pointer;">&#128260; Reset</button>
+        <button onclick="toggleIVI()" id="iviBtn" style="background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; border: none; padding: 6px 18px; border-radius: 6px; font-size: 12px; cursor: pointer; font-weight: 600;">&#9654; Compute IVI</button>
+      </div>
+    </div>
+
+    <canvas id="networkCanvas" width="840" height="400" style="width: 100%; height: 400px; background: #0f172a; border-radius: 10px; cursor: crosshair;"></canvas>
+
+    <div style="display: flex; justify-content: center; gap: 20px; margin-top: 14px; flex-wrap: wrap;">
+      <div style="display: flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 12px; border-radius: 50%; background: #ef4444; display: inline-block;"></span><span style="font-size: 12px; color: #94a3b8;">High IVI</span></div>
+      <div style="display: flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 12px; border-radius: 50%; background: #f59e0b; display: inline-block;"></span><span style="font-size: 12px; color: #94a3b8;">Medium IVI</span></div>
+      <div style="display: flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 12px; border-radius: 50%; background: #3b82f6; display: inline-block;"></span><span style="font-size: 12px; color: #94a3b8;">Low IVI</span></div>
+      <div style="display: flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 12px; border-radius: 50%; background: #475569; display: inline-block;"></span><span style="font-size: 12px; color: #94a3b8;">Uncomputed</span></div>
+    </div>
+  </div>
+
+  <!-- Centrality Components -->
+  <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 24px;">
+
+    <!-- Local -->
+    <div id="card-local" style="background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 14px; padding: 20px; border: 2px solid #334155; transition: all 0.3s; cursor: pointer;" onmouseenter="highlightCard('local')" onmouseleave="unhighlightCard('local')" onclick="toggleDetail('local')">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+        <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px;">&#127775;</div>
+        <div>
+          <div style="font-size: 16px; font-weight: 700; color: #93c5fd;">Local Centrality</div>
+          <div style="font-size: 11px; color: #94a3b8;">Immediate neighborhood</div>
+        </div>
+      </div>
+      <p style="margin: 0; font-size: 13px; color: #cbd5e1; line-height: 1.5;">Measures how well-connected a node is to its direct neighbors. IVI integrates <strong>Degree Centrality</strong> and <strong>ClusterRank</strong> to capture local influence while correcting for clustering bias.</p>
+      <div id="detail-local" style="display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid #334155;">
+        <div style="font-size: 12px; color: #94a3b8; line-height: 1.6;">
+          <strong>Degree Centrality (DC):</strong> Count of direct connections<br>
+          <strong>ClusterRank (CR):</strong> Degree adjusted by local clustering coefficient<br>
+          <strong>Why both?</strong> High-degree nodes in dense clusters are less influential than those bridging clusters
+        </div>
+      </div>
+    </div>
+
+    <!-- Semi-Local -->
+    <div id="card-semilocal" style="background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 14px; padding: 20px; border: 2px solid #334155; transition: all 0.3s; cursor: pointer;" onmouseenter="highlightCard('semilocal')" onmouseleave="unhighlightCard('semilocal')" onclick="toggleDetail('semilocal')">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+        <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px;">&#128279;</div>
+        <div>
+          <div style="font-size: 16px; font-weight: 700; color: #fcd34d;">Semi-Local Centrality</div>
+          <div style="font-size: 11px; color: #94a3b8;">Second-order neighborhood</div>
+        </div>
+      </div>
+      <p style="margin: 0; font-size: 13px; color: #cbd5e1; line-height: 1.5;">Captures influence beyond immediate neighbors. IVI integrates <strong>Neighborhood Connectivity</strong> and <strong>Local H-index</strong> to assess a node's power within its extended local environment.</p>
+      <div id="detail-semilocal" style="display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid #334155;">
+        <div style="font-size: 12px; color: #94a3b8; line-height: 1.6;">
+          <strong>Neighborhood Connectivity (NC):</strong> Average degree of neighbors<br>
+          <strong>Local H-index (LH-index):</strong> H-index applied to second-order neighbors<br>
+          <strong>Why both?</strong> Reveals nodes whose neighbors are themselves well-connected
+        </div>
+      </div>
+    </div>
+
+    <!-- Global -->
+    <div id="card-global" style="background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 14px; padding: 20px; border: 2px solid #334155; transition: all 0.3s; cursor: pointer;" onmouseenter="highlightCard('global')" onmouseleave="unhighlightCard('global')" onclick="toggleDetail('global')">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+        <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #22c55e, #16a34a); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px;">&#127758;</div>
+        <div>
+          <div style="font-size: 16px; font-weight: 700; color: #86efac;">Global Centrality</div>
+          <div style="font-size: 11px; color: #94a3b8;">Whole-network position</div>
+        </div>
+      </div>
+      <p style="margin: 0; font-size: 13px; color: #cbd5e1; line-height: 1.5;">Measures a node's position in the entire network topology. IVI integrates <strong>Betweenness Centrality</strong> and <strong>Collective Influence</strong> to capture global bridging and spreading power.</p>
+      <div id="detail-global" style="display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid #334155;">
+        <div style="font-size: 12px; color: #94a3b8; line-height: 1.6;">
+          <strong>Betweenness Centrality (BC):</strong> Fraction of shortest paths passing through node<br>
+          <strong>Collective Influence (CI):</strong> Product of reduced degree and neighbors' reduced degrees at distance d<br>
+          <strong>Why both?</strong> Identifies bridges between communities and multi-step influencers
+        </div>
+      </div>
+    </div>
+
+    <!-- IVI Formula -->
+    <div id="card-formula" style="background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 14px; padding: 20px; border: 2px solid #334155; transition: all 0.3s; cursor: pointer;" onmouseenter="highlightCard('formula')" onmouseleave="unhighlightCard('formula')" onclick="toggleDetail('formula')">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+        <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #a855f7, #7c3aed); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px;">&#128202;</div>
+        <div>
+          <div style="font-size: 16px; font-weight: 700; color: #c4b5fd;">The IVI Formula</div>
+          <div style="font-size: 11px; color: #94a3b8;">Synergy + bias removal</div>
+        </div>
+      </div>
+      <p style="margin: 0; font-size: 13px; color: #cbd5e1; line-height: 1.5;">IVI = <strong>Hubness Score</strong> &#215; <strong>Spreading Score</strong>. Hubness combines DC and LH-index; Spreading combines CR, NC, BC, and CI. This multiplicative integration ensures both local power and global reach.</p>
+      <div id="detail-formula" style="display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid #334155;">
+        <div style="font-size: 12px; color: #94a3b8; line-height: 1.6;">
+          <strong>Hubness Score:</strong> f(DC, LH_index) &#8594; local sovereignty<br>
+          <strong>Spreading Score:</strong> f(CR, NC, BC, CI) &#8594; information dissemination<br>
+          <strong>Key insight:</strong> Multiplication (not addition) means a node must excel in BOTH dimensions to score highly<br>
+          <strong>Validation:</strong> Outperformed 12 other methods across 10 real-world networks
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comparison Table -->
+  <div style="background: #1e293b; border-radius: 16px; padding: 20px; margin-bottom: 24px; border: 1px solid #334155;">
+    <div style="font-size: 16px; font-weight: 600; color: #f8fafc; margin-bottom: 16px;">&#128200; IVI vs Other Methods</div>
+    <div style="overflow-x: auto;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+        <thead>
+          <tr style="border-bottom: 2px solid #334155;">
+            <th style="text-align: left; padding: 10px 8px; color: #94a3b8; font-weight: 600;">Method</th>
+            <th style="text-align: center; padding: 10px 8px; color: #94a3b8; font-weight: 600;">Local</th>
+            <th style="text-align: center; padding: 10px 8px; color: #94a3b8; font-weight: 600;">Semi-Local</th>
+            <th style="text-align: center; padding: 10px 8px; color: #94a3b8; font-weight: 600;">Global</th>
+            <th style="text-align: center; padding: 10px 8px; color: #94a3b8; font-weight: 600;">Bias Correction</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom: 1px solid #1e293b;">
+            <td style="padding: 10px 8px; color: #cbd5e1;">Degree Centrality</td>
+            <td style="text-align: center; padding: 10px 8px; color: #22c55e;">&#10003;</td>
+            <td style="text-align: center; padding: 10px 8px; color: #ef4444;">&#10007;</td>
+            <td style="text-align: center; padding: 10px 8px; color: #ef4444;">&#10007;</td>
+            <td style="text-align: center; padding: 10px 8px; color: #ef4444;">&#10007;</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #1e293b;">
+            <td style="padding: 10px 8px; color: #cbd5e1;">Betweenness</td>
+            <td style="text-align: center; padding: 10px 8px; color: #ef4444;">&#10007;</td>
+            <td style="text-align: center; padding: 10px 8px; color: #ef4444;">&#10007;</td>
+            <td style="text-align: center; padding: 10px 8px; color: #22c55e;">&#10003;</td>
+            <td style="text-align: center; padding: 10px 8px; color: #ef4444;">&#10007;</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #1e293b;">
+            <td style="padding: 10px 8px; color: #cbd5e1;">PageRank</td>
+            <td style="text-align: center; padding: 10px 8px; color: #22c55e;">&#10003;</td>
+            <td style="text-align: center; padding: 10px 8px; color: #ef4444;">&#10007;</td>
+            <td style="text-align: center; padding: 10px 8px; color: #f59e0b;">~</td>
+            <td style="text-align: center; padding: 10px 8px; color: #ef4444;">&#10007;</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #1e293b;">
+            <td style="padding: 10px 8px; color: #cbd5e1;">K-shell</td>
+            <td style="text-align: center; padding: 10px 8px; color: #ef4444;">&#10007;</td>
+            <td style="text-align: center; padding: 10px 8px; color: #f59e0b;">~</td>
+            <td style="text-align: center; padding: 10px 8px; color: #f59e0b;">~</td>
+            <td style="text-align: center; padding: 10px 8px; color: #ef4444;">&#10007;</td>
+          </tr>
+          <tr style="background: rgba(99, 102, 241, 0.1); border-bottom: 1px solid #334155;">
+            <td style="padding: 10px 8px; color: #c4b5fd; font-weight: 700;">&#9733; IVI</td>
+            <td style="text-align: center; padding: 10px 8px; color: #22c55e; font-weight: 700;">&#10003;</td>
+            <td style="text-align: center; padding: 10px 8px; color: #22c55e; font-weight: 700;">&#10003;</td>
+            <td style="text-align: center; padding: 10px 8px; color: #22c55e; font-weight: 700;">&#10003;</td>
+            <td style="text-align: center; padding: 10px 8px; color: #22c55e; font-weight: 700;">&#10003;</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Workflow Steps -->
+  <div style="background: #1e293b; border-radius: 16px; padding: 20px; border: 1px solid #334155;">
+    <div style="font-size: 16px; font-weight: 600; color: #f8fafc; margin-bottom: 16px;">&#128260; How IVI Works</div>
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+
+      <div style="display: flex; align-items: flex-start; gap: 14px;">
+        <div style="min-width: 32px; height: 32px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: white;">1</div>
+        <div>
+          <div style="font-size: 14px; font-weight: 600; color: #e2e8f0;">Network Input</div>
+          <div style="font-size: 12px; color: #94a3b8; margin-top: 2px;">Provide an igraph object (directed/undirected, weighted/unweighted)</div>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: flex-start; gap: 14px;">
+        <div style="min-width: 32px; height: 32px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: white;">2</div>
+        <div>
+          <div style="font-size: 14px; font-weight: 600; color: #e2e8f0;">Compute Six Centralities</div>
+          <div style="font-size: 12px; color: #94a3b8; margin-top: 2px;">DC, CR, NC, LH-index, BC, and CI are calculated for every node</div>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: flex-start; gap: 14px;">
+        <div style="min-width: 32px; height: 32px; background: linear-gradient(135deg, #6366f1, #7c3aed); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: white;">3</div>
+        <div>
+          <div style="font-size: 14px; font-weight: 600; color: #e2e8f0;">Integrate via IVI Formula</div>
+          <div style="font-size: 12px; color: #94a3b8; margin-top: 2px;">Hubness Score &#215; Spreading Score = IVI (range-normalized 0-100)</div>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: flex-start; gap: 14px;">
+        <div style="min-width: 32px; height: 32px; background: linear-gradient(135deg, #ef4444, #dc2626); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: white;">4</div>
+        <div>
+          <div style="font-size: 14px; font-weight: 600; color: #e2e8f0;">Rank & Visualize</div>
+          <div style="font-size: 12px; color: #94a3b8; margin-top: 2px;">Use <code style="background: #0f172a; padding: 2px 6px; border-radius: 4px;">cent_network.vis()</code> to color and size nodes by IVI</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div style="text-align: center; margin-top: 20px; padding-top: 16px; border-top: 1px solid #334155;">
+    <div style="font-size: 12px; color: #64748b;">
+      &#128196; <em>Salavaty A, Ramialison M, Currie PD. Integrated Value of Influence: An Integrative Method for the Identification of the Most Influential Nodes within Networks. Patterns. 2020.</em><br>
+      &#128187; Available in R/Python via the <code style="background: #1e293b; padding: 2px 8px; border-radius: 4px;">influential</code> package
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('networkCanvas');
+  const ctx = canvas.getContext('2d');
+  let nodes = [];
+  let edges = [];
+  let animationId = null;
+  let iviComputed = false;
+  let hoveredNode = null;
+
+  const COLORS = {
+    uncomputed: '#475569',
+    high: '#ef4444',
+    medium: '#f59e0b',
+    low: '#3b82f6',
+    edge: '#334155'
+  };
+
+  function initNetwork() {
+    nodes = [];
+    edges = [];
+    iviComputed = false;
+    document.getElementById('iviBtn').textContent = '▶ Compute IVI';
+
+    const nodeCount = 50;
+    for (let i = 0; i < nodeCount; i++) {
+      nodes.push({
+        id: i,
+        x: 60 + Math.random() * (canvas.width - 120),
+        y: 60 + Math.random() * (canvas.height - 120),
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        radius: 5 + Math.random() * 8,
+        label: 'Node_' + (i + 1),
+        iviLevel: 'uncomputed',
+        degree: 0,
+        betweenness: Math.random(),
+        collectiveInfluence: Math.random(),
+        neighborhoodConnectivity: Math.random(),
+        hIndex: Math.random(),
+        clusterRank: Math.random(),
+        ivi: 0
+      });
+    }
+
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const dx = nodes[i].x - nodes[j].x;
+        const dy = nodes[i].y - nodes[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 160 && Math.random() > 0.35) {
+          edges.push({ source: i, target: j, strength: 1 - dist / 180 });
+          nodes[i].degree++;
+          nodes[j].degree++;
+        }
+      }
+    }
+  }
+
+  function computeIVI() {
+    iviComputed = true;
+    document.getElementById('iviBtn').textContent = '✓ IVI Computed';
+
+    nodes.forEach(node => {
+      // Simulate the six centrality measures
+      const dc = node.degree / Math.max(...nodes.map(n => n.degree));
+      const cr = node.clusterRank;
+      const nc = node.neighborhoodConnectivity;
+      const lh = node.hIndex;
+      const bc = node.betweenness;
+      const ci = node.collectiveInfluence;
+
+      // Hubness Score (local power)
+      const hubness = (dc * 0.6 + lh * 0.4);
+
+      // Spreading Score (global reach)
+      const spreading = (cr * 0.2 + nc * 0.2 + bc * 0.3 + ci * 0.3);
+
+      // IVI = Hubness * Spreading (multiplicative integration)
+      node.ivi = hubness * spreading;
+
+      // Classify by IVI level
+      const maxIVI = Math.max(...nodes.map(n => n.ivi));
+      const normalizedIVI = node.ivi / maxIVI;
+
+      if (normalizedIVI > 0.7) {
+        node.iviLevel = 'high';
+        node.radius = 16;
+      } else if (normalizedIVI > 0.35) {
+        node.iviLevel = 'medium';
+        node.radius = 11;
+      } else {
+        node.iviLevel = 'low';
+        node.radius = 7;
+      }
+    });
+  }
+
+  function toggleIVI() {
+    if (!iviComputed) {
+      computeIVI();
+    } else {
+      initNetwork();
+    }
+  }
+
+  function drawNetwork() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Draw edges
+    edges.forEach(edge => {
+      const src = nodes[edge.source];
+      const tgt = nodes[edge.target];
+      ctx.beginPath();
+      ctx.moveTo(src.x, src.y);
+      ctx.lineTo(tgt.x, tgt.y);
+      ctx.strokeStyle = COLORS.edge;
+      ctx.lineWidth = edge.strength * 1.5;
+      ctx.globalAlpha = 0.35;
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    });
+
+    // Draw nodes
+    nodes.forEach(node => {
+      const color = COLORS[node.iviLevel];
+
+      // Glow for high IVI nodes
+      if (iviComputed && node.iviLevel === 'high') {
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, node.radius + 10, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.globalAlpha = 0.12;
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+
+      // Node body
+      ctx.beginPath();
+      ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+      ctx.fillStyle = color;
+      ctx.fill();
+
+      // Border
+      ctx.strokeStyle = '#1e293b';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // Highlight hovered node
+      if (hoveredNode === node.id) {
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, node.radius + 4, 0, Math.PI * 2);
+        ctx.strokeStyle = '#f8fafc';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Tooltip
+        const tooltipWidth = 160;
+        const tooltipHeight = iviComputed ? 75 : 55;
+        let tooltipX = node.x + 18;
+        let tooltipY = node.y - 40;
+
+        if (tooltipX + tooltipWidth > canvas.width) tooltipX = node.x - tooltipWidth - 18;
+        if (tooltipY < 0) tooltipY = node.y + 15;
+
+        ctx.fillStyle = '#0f172a';
+        ctx.fillRect(tooltipX, tooltipY, tooltipWidth, tooltipHeight);
+        ctx.strokeStyle = '#334155';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(tooltipX, tooltipY, tooltipWidth, tooltipHeight);
+
+        ctx.fillStyle = '#f8fafc';
+        ctx.font = 'bold 11px sans-serif';
+        ctx.fillText(node.label, tooltipX + 8, tooltipY + 18);
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '10px sans-serif';
+        ctx.fillText('Degree: ' + node.degree, tooltipX + 8, tooltipY + 33);
+        if (iviComputed) {
+          ctx.fillText('IVI: ' + (node.ivi * 100).toFixed(1), tooltipX + 8, tooltipY + 48);
+          ctx.fillText('Level: ' + node.iviLevel, tooltipX + 8, tooltipY + 63);
+        }
+      }
+
+      // Label for high IVI nodes
+      if (iviComputed && node.iviLevel === 'high') {
+        ctx.fillStyle = '#f8fafc';
+        ctx.font = 'bold 10px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(node.label, node.x, node.y - node.radius - 10);
+        ctx.textAlign = 'left';
+      }
+    });
+  }
+
+  function updatePhysics() {
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+
+    nodes.forEach(node => {
+      node.vx += (centerX - node.x) * 0.0003;
+      node.vy += (centerY - node.y) * 0.0003;
+
+      nodes.forEach(other => {
+        if (node.id !== other.id) {
+          const dx = node.x - other.x;
+          const dy = node.y - other.y;
+          const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+          const force = 900 / (dist * dist);
+          node.vx += (dx / dist) * force;
+          node.vy += (dy / dist) * force;
+        }
+      });
+
+      edges.forEach(edge => {
+        if (edge.source === node.id || edge.target === node.id) {
+          const other = nodes[edge.source === node.id ? edge.target : edge.source];
+          const dx = other.x - node.x;
+          const dy = other.y - node.y;
+          const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+          const force = 0.002 * dist;
+          node.vx += (dx / dist) * force;
+          node.vy += (dy / dist) * force;
+        }
+      });
+
+      node.vx *= 0.92;
+      node.vy *= 0.92;
+
+      node.x += node.vx;
+      node.y += node.vy;
+
+      node.x = Math.max(30, Math.min(canvas.width - 30, node.x));
+      node.y = Math.max(30, Math.min(canvas.height - 30, node.y));
+    });
+  }
+
+  function animate() {
+    updatePhysics();
+    drawNetwork();
+    animationId = requestAnimationFrame(animate);
+  }
+
+  // Mouse interaction
+  canvas.addEventListener('mousemove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const mx = (e.clientX - rect.left) * (canvas.width / rect.width);
+    const my = (e.clientY - rect.top) * (canvas.height / rect.height);
+
+    hoveredNode = null;
+    nodes.forEach(node => {
+      const dx = mx - node.x;
+      const dy = my - node.y;
+      if (Math.sqrt(dx * dx + dy * dy) < node.radius + 4) {
+        hoveredNode = node.id;
+      }
+    });
+  });
+
+  canvas.addEventListener('mouseleave', () => {
+    hoveredNode = null;
+  });
+
+  // Expose functions globally
+  window.resetNetwork = function() {
+    initNetwork();
+  };
+
+  window.toggleIVI = function() {
+    toggleIVI();
+  };
+
+  window.highlightCard = function(type) {
+    const card = document.getElementById('card-' + type);
+    if (card) {
+      const colors = { local: '#3b82f6', semilocal: '#f59e0b', global: '#22c55e', formula: '#a855f7' };
+      card.style.borderColor = colors[type] || '#3b82f6';
+      card.style.transform = 'translateY(-2px)';
+    }
+  };
+
+  window.unhighlightCard = function(type) {
+    const card = document.getElementById('card-' + type);
+    if (card) {
+      card.style.borderColor = '#334155';
+      card.style.transform = 'translateY(0)';
+    }
+  };
+
+  window.toggleDetail = function(type) {
+    const detail = document.getElementById('detail-' + type);
+    if (detail) {
+      detail.style.display = detail.style.display === 'none' ? 'block' : 'none';
+    }
+  };
+
+  // Initialize
+  initNetwork();
+  animate();
+})();
+</script>
+
+</body>
+</html>
