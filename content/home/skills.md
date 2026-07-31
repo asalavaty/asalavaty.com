@@ -16,7 +16,7 @@ subtitle:
 # - Add/remove as many `feature` blocks below as you like.
 # - For available icons, see: https://docs.hugoblox.com/getting-started/page-builder/#icons or https://wowchemy.com/docs/page-builder/#icons
 feature:
-- description: <b>95%</b>
+- description: <b>99%</b>
   icon: r-project
   icon_pack: fab
   name: <b>R</b><br><sub>Data Analysis and Visualization,<br>R Package and Shiny App Development</sub>
@@ -39,7 +39,7 @@ feature:
 - description: <b>95%</b>
   icon: dna
   icon_pack: fas
-  name: <b>Bioinformatics</b><br><sub>Sinlge Cell & Spatial Omics</sub>Transcriptomics, Proteomics, Genomics, Multi-omics</sub>
+  name: <b>Bioinformatics</b><br><sub>Sinlge Cell & Spatial Omics<br>Transcriptomics, Proteomics,<br>Genomics, Multi-omics</sub>
 - description: <b>95%</b>
   icon: network-wired
   icon_pack: fas
