@@ -27,7 +27,7 @@ feature:
 - description: <b>65%</b>
   icon: robot
   icon_pack: fas
-  name: <b>AI & Machine Learning</b><br><sub>Supervised and Unsupervised Models,<br>Classical and Modern Models</sub>
+  name: <b>AI & Machine Learning</b><br><sub>Supervised and Unsupervised Models,<br>Agent Development</sub>
 - description: <b>75%</b>
   icon: server
   icon_pack: fas
