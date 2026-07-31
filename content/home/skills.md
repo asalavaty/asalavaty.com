@@ -39,7 +39,7 @@ feature:
 - description: <b>95%</b>
   icon: dna
   icon_pack: fas
-  name: <b>Bioinformatics</b><br><sub>Sinlge Cell & Spatial Omics<br>Transcriptomics, Proteomics,<br>Genomics, Multi-omics</sub>
+  name: <b>Bioinformatics</b><br><sub>Sinlge Cell & Spatial Omics,<br>Transcriptomics, Proteomics,<br>Genomics, Multi-omics</sub>
 - description: <b>95%</b>
   icon: network-wired
   icon_pack: fas
