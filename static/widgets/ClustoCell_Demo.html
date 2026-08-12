@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClustoCell — Interactive Explorer</title>
+<style>
+  :root {
+    --kimi-font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --kimi-font-mono: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, monospace;
+    --kimi-color-text-primary: #1a1a1a;
+    --kimi-color-text-secondary: #4a4a4a;
+    --kimi-color-text-tertiary: #6b6b6b;
+    --kimi-color-text-quaternary: #9a9a9a;
+    --kimi-color-surface: #f5f5f5;
+    --kimi-color-surface-secondary: #ebebeb;
+    --kimi-color-border: #e0e0e0;
+    --kimi-color-accent: #2563eb;
+    --kimi-color-positive: #16a34a;
+    --kimi-color-danger: #dc2626;
+    --kimi-color-warning: #d97706;
+    --kimi-chart-1: #2563eb;
+    --kimi-chart-2: #dc2626;
+    --kimi-chart-3: #16a34a;
+    --kimi-chart-4: #7c3aed;
+    --kimi-chart-5: #6b7280;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--kimi-font-sans);
+    color: var(--kimi-color-text-primary);
+    background: #fafafa;
+    line-height: 1.6;
+    padding: 24px;
+  }
+  .widget-container {
+    max-width: 960px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid var(--kimi-color-border);
+    overflow: hidden;
+  }
+  .header {
+    padding: 24px 28px;
+    border-bottom: 1px solid var(--kimi-color-border);
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: #fff;
+  }
+  .header h1 {
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  .header .subtitle {
+    font-size: 15px;
+    color: #a0aec0;
+    font-weight: 400;
+  }
+  .badge-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    font-family: var(--kimi-font-mono);
+  }
+  .badge-primary {
+    background: color-mix(in srgb, var(--kimi-color-accent) 15%, transparent);
+    color: var(--kimi-color-accent);
+  }
+  .badge-success {
+    background: color-mix(in srgb, var(--kimi-color-positive) 15%, transparent);
+    color: var(--kimi-color-positive);
+  }
+  .badge-neutral {
+    background: rgba(255,255,255,0.12);
+    color: #cbd5e1;
+  }
+  .tabs {
+    display: flex;
+    border-bottom: 1px solid var(--kimi-color-border);
+    background: var(--kimi-color-surface);
+  }
+  .tab {
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--kimi-color-text-tertiary);
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s ease;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+  }
+  .tab:hover { color: var(--kimi-color-text-primary); }
+  .tab.active {
+    color: var(--kimi-color-text-primary);
+    border-bottom-color: var(--kimi-color-text-primary);
+    background: #fff;
+  }
+  .tab-content { display: none; padding: 28px; }
+  .tab-content.active { display: block; }
+
+  /* Pipeline visualization */
+  .pipeline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 24px 0;
+    flex-wrap: wrap;
+  }
+  .pipe-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--kimi-color-border);
+    background: #fff;
+    min-width: 130px;
+    flex: 1;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+  .pipe-step:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  }
+  .pipe-step .icon-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+  .pipe-step .step-title {
+    font-size: 13px;
+    font-weight: 500;
+    text-align: center;
+  }
+  .pipe-step .step-desc {
+    font-size: 11px;
+    color: var(--kimi-color-text-quaternary);
+    text-align: center;
+  }
+  .pipe-arrow {
+    color: var(--kimi-color-text-quaternary);
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  /* Parameter cards */
+  .param-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+  }
+  .param-card {
+    border: 1px solid var(--kimi-color-border);
+    border-radius: 10px;
+    padding: 16px;
+    background: #fff;
+    transition: box-shadow 0.2s;
+  }
+  .param-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+  .param-card .param-name {
+    font-family: var(--kimi-font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--kimi-color-accent);
+    margin-bottom: 4px;
+  }
+  .param-card .param-type {
+    font-size: 11px;
+    color: var(--kimi-color-text-quaternary);
+    font-family: var(--kimi-font-mono);
+    margin-bottom: 8px;
+  }
+  .param-card .param-desc {
+    font-size: 13px;
+    color: var(--kimi-color-text-secondary);
+    line-height: 1.5;
+  }
+  .param-card .param-default {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid var(--kimi-color-surface-secondary);
+    font-size: 12px;
+    color: var(--kimi-color-text-tertiary);
+  }
+
+  /* Code block */
+  .code-block {
+    background: #1a1a2e;
+    color: #e2e8f0;
+    border-radius: 10px;
+    padding: 20px;
+    font-family: var(--kimi-font-mono);
+    font-size: 13px;
+    line-height: 1.6;
+    overflow-x: auto;
+    margin: 16px 0;
+    position: relative;
+  }
+  .code-block .code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .code-block .code-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #64748b;
+    font-weight: 500;
+  }
+  .code-block .copy-btn {
+    background: rgba(255,255,255,0.08);
+    border: none;
+    color: #94a3b8;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .code-block .copy-btn:hover {
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+  }
+  .code-block code { color: #e2e8f0; }
+  .code-block .kw { color: #c084fc; }
+  .code-block .fn { color: #60a5fa; }
+  .code-block .str { color: #86efac; }
+  .code-block .num { color: #fca5a5; }
+  .code-block .com { color: #64748b; }
+
+  /* Output structure */
+  .tree {
+    font-family: var(--kimi-font-mono);
+    font-size: 13px;
+    line-height: 2;
+    background: var(--kimi-color-surface);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 16px 0;
+  }
+  .tree-line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .tree-branch { color: var(--kimi-color-text-quaternary); }
+  .tree-key { color: var(--kimi-color-accent); font-weight: 500; }
+  .tree-type { color: var(--kimi-color-text-tertiary); font-size: 11px; }
+  .tree-desc { color: var(--kimi-color-text-quaternary); font-size: 11px; margin-left: 4px; }
+  .tree-nested { padding-left: 24px; border-left: 1px solid var(--kimi-color-border); margin-left: 4px; }
+
+  /* Interactive playground */
+  .playground {
+    background: var(--kimi-color-surface);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+  }
+  .playground-row {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 16px;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--kimi-color-border);
+  }
+  .playground-row:last-child { border-bottom: none; }
+  .playground-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--kimi-color-text-secondary);
+  }
+  .playground-control {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .playground-control input[type="range"] {
+    flex: 1;
+    accent-color: var(--kimi-color-text-primary);
+  }
+  .playground-control select, .playground-control input[type="text"] {
+    padding: 6px 10px;
+    border: 1px solid var(--kimi-color-border);
+    border-radius: 6px;
+    font-size: 13px;
+    font-family: var(--kimi-font-sans);
+    background: #fff;
+    min-width: 140px;
+  }
+  .playground-value {
+    font-family: var(--kimi-font-mono);
+    font-size: 12px;
+    color: var(--kimi-color-accent);
+    min-width: 40px;
+    text-align: right;
+  }
+
+  /* Live preview */
+  .live-preview {
+    background: #fff;
+    border: 1px solid var(--kimi-color-border);
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 16px;
+  }
+  .live-preview h4 {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 12px;
+    color: var(--kimi-color-text-primary);
+  }
+  .preview-call {
+    background: #1a1a2e;
+    color: #86efac;
+    padding: 14px 16px;
+    border-radius: 8px;
+    font-family: var(--kimi-font-mono);
+    font-size: 13px;
+    line-height: 1.6;
+    overflow-x: auto;
+  }
+
+  /* Section titles */
+  h2 {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 28px 0 12px;
+    color: var(--kimi-color-text-primary);
+  }
+  h3 {
+    font-size: 15px;
+    font-weight: 500;
+    margin: 20px 0 10px;
+    color: var(--kimi-color-text-secondary);
+  }
+  p {
+    font-size: 14px;
+    color: var(--kimi-color-text-secondary);
+    margin-bottom: 12px;
+    line-height: 1.6;
+  }
+
+  /* Feature list */
+  .feature-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 8px;
+    background: var(--kimi-color-surface);
+    border: 1px solid transparent;
+    transition: all 0.2s;
+  }
+  .feature-item:hover {
+    border-color: var(--kimi-color-border);
+    background: #fff;
+  }
+  .feature-item .feature-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 14px;
+  }
+  .feature-item .feature-text {
+    font-size: 13px;
+    color: var(--kimi-color-text-secondary);
+    line-height: 1.5;
+  }
+  .feature-item .feature-text strong {
+    display: block;
+    color: var(--kimi-color-text-primary);
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+
+  /* Stats row */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .stat-card {
+    text-align: center;
+    padding: 16px;
+    border-radius: 10px;
+    background: var(--kimi-color-surface);
+    border: 1px solid var(--kimi-color-border);
+  }
+  .stat-card .stat-value {
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--kimi-color-text-primary);
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-card .stat-label {
+    font-size: 12px;
+    color: var(--kimi-color-text-tertiary);
+    margin-top: 4px;
+  }
+
+  /* Algorithm detail */
+  .algo-card {
+    border: 1px solid var(--kimi-color-border);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 16px 0;
+    background: #fff;
+  }
+  .algo-card h4 {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .algo-card .formula {
+    background: var(--kimi-color-surface);
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-family: var(--kimi-font-mono);
+    font-size: 13px;
+    color: var(--kimi-color-text-secondary);
+    margin: 10px 0;
+    border-left: 3px solid var(--kimi-color-accent);
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .playground-row { grid-template-columns: 1fr; }
+    .pipeline { flex-direction: column; }
+    .pipe-arrow { transform: rotate(90deg); }
+  }
+</style>
+</head>
+<body>
+
+<div class="widget-container">
+  <div class="header">
+    <h1>clustoCell()</h1>
+    <div class="subtitle">Unsupervised clustering & marker discovery via EWCSR</div>
+    <div class="badge-row">
+      <span class="badge badge-primary">celliverse</span>
+      <span class="badge badge-success">S4 Class: ClustoCell</span>
+      <span class="badge badge-neutral">RNA-seq</span>
+      <span class="badge badge-neutral">Reference-free</span>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab(0)">Overview</button>
+    <button class="tab" onclick="showTab(1)">Pipeline</button>
+    <button class="tab" onclick="showTab(2)">Parameters</button>
+    <button class="tab" onclick="showTab(3)">Playground</button>
+    <button class="tab" onclick="showTab(4)">Output</button>
+  </div>
+
+  <!-- Tab 1: Overview -->
+  <div class="tab-content active" id="tab-0">
+    <p><strong>clustoCell()</strong> is the main entry point of the CelliVerse package. It performs unsupervised clustering of single-cell data using <strong>Expression-Weighted Centered Scaled Ranks (EWCSR)</strong>, followed by marker discovery and optional sub-clustering — all directly from raw count data. Applying it to the PBMC3K dataset will return:</p>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-value">5</div>
+        <div class="stat-label">Major clusters</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">12</div>
+        <div class="stat-label">Sub-clusters</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">2</div>
+        <div class="stat-label">Quiescent cells</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">263</div>
+        <div class="stat-label">Pure ranked features</div>
+      </div>
+    </div>
+
+    <h2>Key capabilities</h2>
+    <div class="feature-list">
+      <div class="feature-item">
+        <div class="feature-icon" style="background: color-mix(in srgb, var(--kimi-chart-1) 12%, transparent); color: var(--kimi-chart-1);">⚙</div>
+        <div class="feature-text"><strong>EWCSR transformation</strong>Captures within-cell transcriptional structure without normalization</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background: color-mix(in srgb, var(--kimi-chart-3) 12%, transparent); color: var(--kimi-chart-3);">🧬</div>
+        <div class="feature-text"><strong>Leiden clustering</strong>Community detection for biologically coherent populations</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background: color-mix(in srgb, var(--kimi-chart-4) 12%, transparent); color: var(--kimi-chart-4);">🎯</div>
+        <div class="feature-text"><strong>Marker discovery</strong>Identifies positive, negative, and medium markers per cluster</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background: color-mix(in srgb, var(--kimi-chart-2) 12%, transparent); color: var(--kimi-chart-2);">🔍</div>
+        <div class="feature-text"><strong>Sub-clustering</strong>Optional recursive partitioning for finer resolution</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background: color-mix(in srgb, var(--kimi-chart-5) 12%, transparent); color: var(--kimi-chart-5);">📊</div>
+        <div class="feature-text"><strong>Raw input ready</strong>Works directly on count matrices or Seurat objects</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background: color-mix(in srgb, var(--kimi-color-warning) 12%, transparent); color: var(--kimi-color-warning);">⚡</div>
+        <div class="feature-text"><strong>Sketching support</strong>Scalable to large datasets via subsampling & label transfer</div>
+      </div>
+    </div>
+
+    <h2>Quick start</h2>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-label">R</span>
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      </div>
+      <code><span class="kw">library</span>(celliverse)<br>
+      <span class="kw">library</span>(Seurat)<br><br>
+      <span class="com"># Run clustoCell directly on raw counts</span><br>
+      result &lt;- <span class="fn">clustoCell</span>(<br>
+      &nbsp;&nbsp;data = pbmc3k_so,<br>
+      &nbsp;&nbsp;seed = <span class="num">121</span>,<br>
+      &nbsp;&nbsp;verbose = <span class="num">FALSE</span><br>
+      )<br><br>
+      <span class="com"># Result is a ClustoCell S4 object</span><br>
+      <span class="fn">print</span>(result)</code>
+    </div>
+  </div>
+
+  <!-- Tab 2: Pipeline -->
+  <div class="tab-content" id="tab-1">
+    <p>The function executes a four-stage analytical pipeline. Click each step to explore details.</p>
+
+    <div class="pipeline">
+      <div class="pipe-step" onclick="toggleDetail('d1')">
+        <div class="icon-circle" style="background: color-mix(in srgb, var(--kimi-chart-1) 12%, transparent); color: var(--kimi-chart-1);">1</div>
+        <div class="step-title">EWCSR transform</div>
+        <div class="step-desc">Rank & scale</div>
+      </div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step" onclick="toggleDetail('d2')">
+        <div class="icon-circle" style="background: color-mix(in srgb, var(--kimi-chart-3) 12%, transparent); color: var(--kimi-chart-3);">2</div>
+        <div class="step-title">Leiden cluster</div>
+        <div class="step-desc">Community detect</div>
+      </div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step" onclick="toggleDetail('d3')">
+        <div class="icon-circle" style="background: color-mix(in srgb, var(--kimi-chart-4) 12%, transparent); color: var(--kimi-chart-4);">3</div>
+        <div class="step-title">Marker discovery</div>
+        <div class="step-desc">Pos / neg / med</div>
+      </div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step" onclick="toggleDetail('d4')">
+        <div class="icon-circle" style="background: color-mix(in srgb, var(--kimi-chart-2) 12%, transparent); color: var(--kimi-chart-2);">4</div>
+        <div class="step-title">Sub-clustering</div>
+        <div class="step-desc">Optional recurse</div>
+      </div>
+    </div>
+
+    <div id="d1" class="algo-card" style="display:none">
+      <h4>Step 1: Expression-Weighted Centered Scaled Ranks (EWCSR)</h4>
+      <p>Transforms the raw count matrix into a cell-by-gene matrix of centered, scaled ranks weighted by expression magnitude. This captures relative transcriptional structure without assuming parametric distributions.</p>
+      <div class="formula">EWCSR(i,j) = scale( rank( expr(i,j) ) ) × weight( expr(i,j) )</div>
+      <p style="font-size:12px;color:var(--kimi-color-text-quaternary);">The transformation preserves within-cell relationships while normalizing across the dataset, making it robust to sequencing depth variation.</p>
+    </div>
+    <div id="d2" class="algo-card" style="display:none">
+      <h4>Step 2: Leiden Community Detection</h4>
+      <p>Applies the Leiden algorithm to the EWCSR-transformed data to identify clusters that maximize intra-cluster similarity while preserving biological coherence.</p>
+      <div class="formula">Resolution → modularity optimization → cluster labels</div>
+      <p style="font-size:12px;color:var(--kimi-color-text-quaternary);">Leiden is preferred over Louvain for its guarantee of well-connected communities and faster convergence.</p>
+    </div>
+    <div id="d3" class="algo-card" style="display:none">
+      <h4>Step 3: Marker Discovery</h4>
+      <p>For each cluster, identifies genes that are:</p>
+      <ul style="margin-left:20px;font-size:13px;color:var(--kimi-color-text-secondary);line-height:1.8;">
+        <li><strong>Positive markers:</strong> Highly expressed in the target cluster vs. all others</li>
+        <li><strong>Negative markers:</strong> Depleted in the target cluster</li>
+        <li><strong>Medium markers:</strong> Moderately specific features</li>
+      </ul>
+    </div>
+    <div id="d4" class="algo-card" style="display:none">
+      <h4>Step 4: Optional Sub-clustering</h4>
+      <p>Recursively applies the same pipeline within major clusters to detect finer sub-populations. Sub-clusters inherit the parent cluster markers and generate their own specific signatures.</p>
+    </div>
+  </div>
+
+  <!-- Tab 3: Parameters -->
+  <div class="tab-content" id="tab-2">
+    <p>All parameters for <code>clustoCell()</code> with types, defaults, and descriptions.</p>
+    <div class="param-grid">
+      <div class="param-card">
+        <div class="param-name">data</div>
+        <div class="param-type">Seurat | dgCMatrix | matrix</div>
+        <div class="param-desc">Input single-cell dataset. Accepts Seurat objects (uses RNA assay counts by default), sparse matrices, or base matrices.</div>
+        <div class="param-default">Default: <em>required</em></div>
+      </div>
+      <div class="param-card">
+        <div class="param-name">assay</div>
+        <div class="param-type">character</div>
+        <div class="param-desc">Assay name to extract from Seurat object. Ignored for matrix input.</div>
+        <div class="param-default">Default: <code>"RNA"</code></div>
+      </div>
+      <div class="param-card">
+        <div class="param-name">layer</div>
+        <div class="param-type">character</div>
+        <div class="param-desc">Layer to use from the assay. Typically <code>"counts"</code> for raw data or <code>"data"</code> for normalized.</div>
+        <div class="param-default">Default: <code>"counts"</code></div>
+      </div>
+      <div class="param-card">
+        <div class="param-name">log1p</div>
+        <div class="param-type">logical</div>
+        <div class="param-desc">Apply log1p transformation? Set to <code>FALSE</code> if input is already log-normalized.</div>
+        <div class="param-default">Default: <code>TRUE</code></div>
+      </div>
+      <div class="param-card">
+        <div class="param-name">seed</div>
+        <div class="param-type">integer</div>
+        <div class="param-desc">Random seed for reproducibility of clustering and stochastic steps.</div>
+        <div class="param-default">Default: <code>121</code></div>
+      </div>
+      <div class="param-card">
+        <div class="param-name">resolution</div>
+        <div class="param-type">numeric</div>
+        <div class="param-desc">Leiden resolution parameter. Higher values yield more clusters.</div>
+        <div class="param-default">Default: <code>1.0</code></div>
+      </div>
+      <div class="param-card">
+        <div class="param-name">subcluster</div>
+        <div class="param-type">logical</div>
+        <div class="param-desc">Enable recursive sub-clustering within major clusters?</div>
+        <div class="param-default">Default: <code>TRUE</code></div>
+      </div>
+      <div class="param-card">
+        <div class="param-name">verbose</div>
+        <div class="param-type">logical</div>
+        <div class="param-desc">Print progress messages during execution.</div>
+        <div class="param-default">Default: <code>TRUE</code></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 4: Playground -->
+  <div class="tab-content" id="tab-3">
+    <p>Adjust parameters interactively to generate the corresponding R code.</p>
+    <div class="playground">
+      <div class="playground-row">
+        <div class="playground-label">Input type</div>
+        <div class="playground-control">
+          <select id="p-data" onchange="updatePreview()">
+            <option value="pbmc3k_so">Seurat object</option>
+            <option value="pbmc3k_mat">Matrix</option>
+          </select>
+        </div>
+      </div>
+      <div class="playground-row">
+        <div class="playground-label">Assay</div>
+        <div class="playground-control">
+          <select id="p-assay" onchange="updatePreview()">
+            <option value="RNA">RNA</option>
+            <option value="SCT">SCT</option>
+          </select>
+        </div>
+      </div>
+      <div class="playground-row">
+        <div class="playground-label">Layer</div>
+        <div class="playground-control">
+          <select id="p-layer" onchange="updatePreview()">
+            <option value="counts">counts</option>
+            <option value="data">data</option>
+          </select>
+        </div>
+      </div>
+      <div class="playground-row">
+        <div class="playground-label">log1p transform</div>
+        <div class="playground-control">
+          <select id="p-log1p" onchange="updatePreview()">
+            <option value="TRUE">TRUE</option>
+            <option value="FALSE">FALSE</option>
+          </select>
+        </div>
+      </div>
+      <div class="playground-row">
+        <div class="playground-label">Resolution</div>
+        <div class="playground-control">
+          <input type="range" id="p-resolution" min="0.2" max="2.0" step="0.1" value="1.0" oninput="updatePreview()">
+          <span class="playground-value" id="v-resolution">1.0</span>
+        </div>
+      </div>
+      <div class="playground-row">
+        <div class="playground-label">Sub-clustering</div>
+        <div class="playground-control">
+          <select id="p-subcluster" onchange="updatePreview()">
+            <option value="TRUE">TRUE</option>
+            <option value="FALSE">FALSE</option>
+          </select>
+        </div>
+      </div>
+      <div class="playground-row">
+        <div class="playground-label">Seed</div>
+        <div class="playground-control">
+          <input type="text" id="p-seed" value="121" oninput="updatePreview()" style="width:80px">
+        </div>
+      </div>
+      <div class="playground-row">
+        <div class="playground-label">Verbose</div>
+        <div class="playground-control">
+          <select id="p-verbose" onchange="updatePreview()">
+            <option value="FALSE">FALSE</option>
+            <option value="TRUE">TRUE</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="live-preview">
+      <h4>Generated R code</h4>
+      <div class="preview-call" id="preview-code">
+clustoCell(
+  data = pbmc3k_so,
+  assay = "RNA",
+  layer = "counts",
+  log1p = TRUE,
+  resolution = 1.0,
+  subcluster = TRUE,
+  seed = 121,
+  verbose = FALSE
+)
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 5: Output -->
+  <div class="tab-content" id="tab-4">
+    <p>The function returns a <strong>ClustoCell</strong> S4 object with the following structure:</p>
+    <div class="tree">
+      <div class="tree-line"><span class="tree-branch">├─</span> <span class="tree-key">clusters</span> <span class="tree-type">list</span> <span class="tree-desc">Major & sub-cluster labels per cell</span></div>
+      <div class="tree-nested">
+        <div class="tree-line"><span class="tree-branch">├─</span> <span class="tree-key">major</span> <span class="tree-type">factor</span> <span class="tree-desc">Cell → major cluster assignment</span></div>
+        <div class="tree-line"><span class="tree-branch">└─</span> <span class="tree-key">sub</span> <span class="tree-type">factor</span> <span class="tree-desc">Cell → sub-cluster assignment</span></div>
+      </div>
+      <div class="tree-line"><span class="tree-branch">├─</span> <span class="tree-key">markers</span> <span class="tree-type">list</span> <span class="tree-desc">Cluster-specific marker collections</span></div>
+      <div class="tree-nested">
+        <div class="tree-line"><span class="tree-branch">├─</span> <span class="tree-key">positive</span> <span class="tree-type">list</span> <span class="tree-desc">High-specificity markers per cluster</span></div>
+        <div class="tree-line"><span class="tree-branch">├─</span> <span class="tree-key">negative</span> <span class="tree-type">list</span> <span class="tree-desc">Depleted markers per cluster</span></div>
+        <div class="tree-line"><span class="tree-branch">└─</span> <span class="tree-key">medium</span> <span class="tree-type">list</span> <span class="tree-desc">Moderate markers per cluster</span></div>
+      </div>
+      <div class="tree-line"><span class="tree-branch">├─</span> <span class="tree-key">quiescent_cells</span> <span class="tree-type">character</span> <span class="tree-desc">Cell IDs with no high markers (inactive/resting)</span></div>
+      <div class="tree-line"><span class="tree-branch">├─</span> <span class="tree-key">globally_pure_ranked</span> <span class="tree-type">character</span> <span class="tree-desc">Top globally informative features</span></div>
+      <div class="tree-line"><span class="tree-branch">├─</span> <span class="tree-key">globally_pure_high</span> <span class="tree-type">character</span> <span class="tree-desc">High-purity features across dataset</span></div>
+      <div class="tree-line"><span class="tree-branch">└─</span> <span class="tree-key">globally_pure_medium</span> <span class="tree-type">character</span> <span class="tree-desc">Medium-purity features across dataset</span></div>
+    </div>
+
+    <h3>Accessor functions</h3>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-label">R</span>
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      </div>
+      <code><span class="com"># Access cluster labels</span><br>
+      result$clusters$major<br>
+      result$clusters$sub<br><br>
+      <span class="com"># Get markers for cluster 1</span><br>
+      result$markers$positive[[<span class="str">"1"</span>]]<br><br>
+      <span class="com"># Get globally pure features</span><br>
+      result@globally_pure_ranked</code>
+    </div>
+  </div>
+</div>
+
+<script>
+function showTab(n) {
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', i===n));
+  document.querySelectorAll('.tab-content').forEach((c,i) => c.classList.toggle('active', i===n));
+}
+function toggleDetail(id) {
+  const el = document.getElementById(id);
+  const all = ['d1','d2','d3','d4'];
+  all.forEach(d => { if(d!==id) document.getElementById(d).style.display='none'; });
+  el.style.display = el.style.display==='none' ? 'block' : 'none';
+}
+function updatePreview() {
+  const data = document.getElementById('p-data').value;
+  const assay = document.getElementById('p-assay').value;
+  const layer = document.getElementById('p-layer').value;
+  const log1p = document.getElementById('p-log1p').value;
+  const res = document.getElementById('p-resolution').value;
+  const sub = document.getElementById('p-subcluster').value;
+  const seed = document.getElementById('p-seed').value;
+  const verbose = document.getElementById('p-verbose').value;
+  document.getElementById('v-resolution').textContent = res;
+  document.getElementById('preview-code').innerHTML = 
+    '<span class="fn">clustoCell</span>(<br>' +
+    '&nbsp;&nbsp;data = ' + data + ',<br>' +
+    '&nbsp;&nbsp;assay = <span class="str">"' + assay + '"</span>,<br>' +
+    '&nbsp;&nbsp;layer = <span class="str">"' + layer + '"</span>,<br>' +
+    '&nbsp;&nbsp;log1p = ' + log1p + ',<br>' +
+    '&nbsp;&nbsp;resolution = ' + res + ',<br>' +
+    '&nbsp;&nbsp;subcluster = ' + sub + ',<br>' +
+    '&nbsp;&nbsp;seed = ' + seed + ',<br>' +
+    '&nbsp;&nbsp;verbose = ' + verbose + '<br>' +
+    ')';
+}
+function copyCode(btn) {
+  const code = btn.closest('.code-block').querySelector('code').innerText;
+  navigator.clipboard.writeText(code).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1500);
+  });
+}
+</script>
+
+</body>
+</html>

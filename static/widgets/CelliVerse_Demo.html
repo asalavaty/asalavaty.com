@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CelliVerse — Complete Package Explorer</title>
+<style>
+  :root {
+    --kimi-font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --kimi-font-mono: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, monospace;
+    --kimi-color-text-primary: #1a1a1a;
+    --kimi-color-text-secondary: #4a4a4a;
+    --kimi-color-text-tertiary: #6b6b6b;
+    --kimi-color-text-quaternary: #9a9a9a;
+    --kimi-color-surface: #f5f5f5;
+    --kimi-color-surface-secondary: #ebebeb;
+    --kimi-color-border: #e0e0e0;
+    --kimi-color-accent: #2563eb;
+    --kimi-color-positive: #16a34a;
+    --kimi-color-danger: #dc2626;
+    --kimi-color-warning: #d97706;
+    --kimi-chart-1: #2563eb;
+    --kimi-chart-2: #dc2626;
+    --kimi-chart-3: #16a34a;
+    --kimi-chart-4: #7c3aed;
+    --kimi-chart-5: #6b7280;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--kimi-font-sans);
+    color: var(--kimi-color-text-primary);
+    background: #fafafa;
+    line-height: 1.6;
+    padding: 24px;
+  }
+  .widget-container {
+    max-width: 1080px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid var(--kimi-color-border);
+    overflow: hidden;
+  }
+  .header {
+    padding: 28px 32px;
+    border-bottom: 1px solid var(--kimi-color-border);
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    color: #fff;
+    position: relative;
+  }
+  .header::after {
+    content: "";
+    position: absolute;
+    top: 0; right: 0; bottom: 0; width: 35%;
+    background: linear-gradient(90deg, transparent, rgba(37,99,235,0.08));
+    pointer-events: none;
+  }
+  .header h1 {
+    font-size: 32px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  .header .subtitle {
+    font-size: 15px;
+    color: #94a3b8;
+    font-weight: 400;
+    max-width: 600px;
+  }
+  .badge-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    font-family: var(--kimi-font-mono);
+  }
+  .badge-primary { background: color-mix(in srgb, var(--kimi-color-accent) 18%, transparent); color: #60a5fa; }
+  .badge-success { background: color-mix(in srgb, var(--kimi-color-positive) 18%, transparent); color: #4ade80; }
+  .badge-warning { background: color-mix(in srgb, var(--kimi-color-warning) 18%, transparent); color: #fbbf24; }
+  .badge-neutral { background: rgba(255,255,255,0.1); color: #cbd5e1; }
+
+  .tabs {
+    display: flex;
+    border-bottom: 1px solid var(--kimi-color-border);
+    background: var(--kimi-color-surface);
+    overflow-x: auto;
+  }
+  .tab {
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--kimi-color-text-tertiary);
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s ease;
+    background: none;
+    border-top: none; border-left: none; border-right: none;
+    white-space: nowrap;
+  }
+  .tab:hover { color: var(--kimi-color-text-primary); }
+  .tab.active {
+    color: var(--kimi-color-text-primary);
+    border-bottom-color: var(--kimi-color-text-primary);
+    background: #fff;
+  }
+  .tab-content { display: none; padding: 28px 32px; }
+  .tab-content.active { display: block; }
+
+  h2 {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0 0 14px;
+    color: var(--kimi-color-text-primary);
+  }
+  h3 {
+    font-size: 15px;
+    font-weight: 500;
+    margin: 20px 0 10px;
+    color: var(--kimi-color-text-secondary);
+  }
+  p {
+    font-size: 14px;
+    color: var(--kimi-color-text-secondary);
+    margin-bottom: 12px;
+    line-height: 1.6;
+  }
+
+  /* Workflow diagram */
+  .workflow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 20px 0;
+  }
+  .wf-stage {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+  }
+  .wf-stage-header {
+    width: 160px;
+    padding: 16px;
+    background: var(--kimi-color-surface);
+    border: 1px solid var(--kimi-color-border);
+    border-right: none;
+    border-radius: 10px 0 0 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+  }
+  .wf-stage-header .wf-num {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--kimi-color-text-quaternary);
+  }
+  .wf-stage-header .wf-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--kimi-color-text-primary);
+  }
+  .wf-stage-body {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid var(--kimi-color-border);
+    border-radius: 0 10px 10px 0;
+    background: #fff;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+  .wf-fn-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-family: var(--kimi-font-mono);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 1px solid transparent;
+  }
+  .wf-fn-chip:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  }
+  .wf-fn-chip .chip-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+  }
+  .wf-arrow {
+    text-align: center;
+    padding: 6px 0;
+    color: var(--kimi-color-text-quaternary);
+    font-size: 14px;
+  }
+
+  /* Function cards */
+  .fn-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 14px;
+    margin: 16px 0;
+  }
+  .fn-card {
+    border: 1px solid var(--kimi-color-border);
+    border-radius: 10px;
+    padding: 18px;
+    background: #fff;
+    transition: all 0.2s;
+    cursor: pointer;
+    position: relative;
+  }
+  .fn-card:hover {
+    border-color: var(--kimi-color-text-quaternary);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  }
+  .fn-card .fn-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .fn-card .fn-name {
+    font-family: var(--kimi-font-mono);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--kimi-color-accent);
+  }
+  .fn-card .fn-tag {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .fn-card .fn-desc {
+    font-size: 13px;
+    color: var(--kimi-color-text-secondary);
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+  .fn-card .fn-meta {
+    display: flex;
+    gap: 12px;
+    font-size: 11px;
+    color: var(--kimi-color-text-quaternary);
+  }
+  .fn-card .fn-meta span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Category filter */
+  .filter-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .filter-btn {
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--kimi-color-border);
+    background: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--kimi-color-text-secondary);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .filter-btn:hover { border-color: var(--kimi-color-text-quaternary); }
+  .filter-btn.active {
+    background: var(--kimi-color-text-primary);
+    color: #fff;
+    border-color: var(--kimi-color-text-primary);
+  }
+
+  /* Capability matrix */
+  .matrix {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 16px 0;
+  }
+  .matrix th, .matrix td {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--kimi-color-border);
+  }
+  .matrix th {
+    font-weight: 500;
+    color: var(--kimi-color-text-primary);
+    background: var(--kimi-color-surface);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .matrix td { color: var(--kimi-color-text-secondary); }
+  .matrix .cap-yes { color: var(--kimi-color-positive); font-weight: 500; }
+  .matrix .cap-no { color: var(--kimi-color-text-quaternary); }
+  .matrix .cap-partial { color: var(--kimi-color-warning); font-weight: 500; }
+  .matrix tr:hover td { background: var(--kimi-color-surface); }
+
+  /* Integration flow */
+  .integration-flow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 20px 0;
+    padding: 20px;
+    background: var(--kimi-color-surface);
+    border-radius: 10px;
+    flex-wrap: wrap;
+  }
+  .int-box {
+    padding: 10px 16px;
+    border-radius: 8px;
+    background: #fff;
+    border: 1px solid var(--kimi-color-border);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--kimi-color-text-primary);
+    text-align: center;
+    min-width: 100px;
+  }
+  .int-arrow {
+    color: var(--kimi-color-text-quaternary);
+    font-size: 16px;
+  }
+
+  /* Code block */
+  .code-block {
+    background: #1a1a2e;
+    color: #e2e8f0;
+    border-radius: 10px;
+    padding: 20px;
+    font-family: var(--kimi-font-mono);
+    font-size: 13px;
+    line-height: 1.6;
+    overflow-x: auto;
+    margin: 16px 0;
+    position: relative;
+  }
+  .code-block .code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .code-block .code-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #64748b;
+    font-weight: 500;
+  }
+  .code-block .copy-btn {
+    background: rgba(255,255,255,0.08);
+    border: none;
+    color: #94a3b8;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .code-block .copy-btn:hover { background: rgba(255,255,255,0.15); color: #fff; }
+  .code-block .kw { color: #c084fc; }
+  .code-block .fn { color: #60a5fa; }
+  .code-block .str { color: #86efac; }
+  .code-block .com { color: #64748b; }
+
+  /* Stats */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .stat-card {
+    text-align: center;
+    padding: 18px 12px;
+    border-radius: 10px;
+    background: var(--kimi-color-surface);
+    border: 1px solid var(--kimi-color-border);
+  }
+  .stat-card .stat-value {
+    font-size: 30px;
+    font-weight: 500;
+    color: var(--kimi-color-text-primary);
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-card .stat-label {
+    font-size: 12px;
+    color: var(--kimi-color-text-tertiary);
+    margin-top: 4px;
+  }
+
+  /* Feature grid */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+    margin: 16px 0;
+  }
+  .feature-card {
+    padding: 18px;
+    border-radius: 10px;
+    border: 1px solid var(--kimi-color-border);
+    background: #fff;
+    transition: all 0.2s;
+  }
+  .feature-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+  .feature-card .f-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; margin-bottom: 10px;
+  }
+  .feature-card .f-title {
+    font-size: 14px; font-weight: 500;
+    margin-bottom: 6px; color: var(--kimi-color-text-primary);
+  }
+  .feature-card .f-desc {
+    font-size: 12px; color: var(--kimi-color-text-secondary);
+    line-height: 1.5;
+  }
+
+  /* Detail panel */
+  .detail-panel {
+    border: 1px solid var(--kimi-color-border);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 16px 0;
+    background: var(--kimi-color-surface);
+    display: none;
+  }
+  .detail-panel.active { display: block; }
+  .detail-panel h4 {
+    font-size: 15px; font-weight: 500;
+    margin-bottom: 10px; color: var(--kimi-color-text-primary);
+  }
+  .detail-panel p { font-size: 13px; }
+
+  @media (max-width: 720px) {
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .wf-stage { flex-direction: column; }
+    .wf-stage-header { width: 100%; border-radius: 10px 10px 0 0; border-right: 1px solid var(--kimi-color-border); border-bottom: none; }
+    .wf-stage-body { border-radius: 0 0 10px 10px; }
+    .fn-grid { grid-template-columns: 1fr; }
+  }
+</style>
+<base target="_blank">
+</head>
+<body>
+
+<div class="widget-container">
+  <div class="header">
+    <h1>CelliVerse</h1>
+    <div class="subtitle">EWCSR-based clustering, marker discovery, and cell-type annotation for single-cell RNA-seq data</div>
+    <div class="badge-row">
+      <span class="badge badge-primary">R package</span>
+      <span class="badge badge-success">Single-cell</span>
+      <span class="badge badge-warning">Reference-free</span>
+      <span class="badge badge-neutral">v1.0+</span>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab(0)">Overview</button>
+    <button class="tab" onclick="showTab(1)">Workflow</button>
+    <button class="tab" onclick="showTab(2)">Functions</button>
+    <button class="tab" onclick="showTab(3)">Capabilities</button>
+    <button class="tab" onclick="showTab(4)">Integration</button>
+  </div>
+
+  <!-- Tab 1: Overview -->
+  <div class="tab-content active" id="tab-0">
+    <p><strong>CelliVerse</strong> is an R package for single-cell RNA-seq analysis built around <strong>Expression-Weighted Centered Scaled Ranks (EWCSR)</strong>. It provides an integrated, reference-free workflow for clustering, marker discovery, purity evaluation, and cell-type annotation.</p>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-value">12+</div>
+        <div class="stat-label">Core functions</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">4</div>
+        <div class="stat-label">Workflow stages</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">3</div>
+        <div class="stat-label">Marker types</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">∞</div>
+        <div class="stat-label">Scalable</div>
+      </div>
+    </div>
+
+    <h2>Core design principles</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="f-icon" style="background: color-mix(in srgb, var(--kimi-chart-1) 10%, transparent); color: var(--kimi-chart-1);">🧬</div>
+        <div class="f-title">EWCSR transformation</div>
+        <div class="f-desc">Captures within-cell transcriptional structure without parametric assumptions or pre-normalization.</div>
+      </div>
+      <div class="feature-card">
+        <div class="f-icon" style="background: color-mix(in srgb, var(--kimi-chart-3) 10%, transparent); color: var(--kimi-chart-3);">🎯</div>
+        <div class="f-title">Data-driven markers</div>
+        <div class="f-desc">Discovers positive, negative, and medium markers directly from the data without reference atlases.</div>
+      </div>
+      <div class="feature-card">
+        <div class="f-icon" style="background: color-mix(in srgb, var(--kimi-chart-4) 10%, transparent); color: var(--kimi-chart-4);">✅</div>
+        <div class="f-title">Purity evaluation</div>
+        <div class="f-desc">Quantifies marker specificity within clusters to ensure high-confidence biological signals.</div>
+      </div>
+      <div class="feature-card">
+        <div class="f-icon" style="background: color-mix(in srgb, var(--kimi-chart-2) 10%, transparent); color: var(--kimi-chart-2);">🏷</div>
+        <div class="f-title">Cell-type annotation</div>
+        <div class="f-desc">Annotates clusters using curated marker databases or LLM-based inference via typoClust.</div>
+      </div>
+      <div class="feature-card">
+        <div class="f-icon" style="background: color-mix(in srgb, var(--kimi-chart-5) 10%, transparent); color: var(--kimi-chart-5);">📉</div>
+        <div class="f-title">Feature selection</div>
+        <div class="f-desc">Selects globally informative markers for dimension reduction and visualization alternatives to HVG.</div>
+      </div>
+      <div class="feature-card">
+        <div class="f-icon" style="background: color-mix(in srgb, var(--kimi-color-warning) 10%, transparent); color: var(--kimi-color-warning);">⚡</div>
+        <div class="f-title">Sketch & transfer</div>
+        <div class="f-desc">Scales to massive datasets via geometric sketching with label transfer to full data.</div>
+      </div>
+    </div>
+
+    <h2>Installation</h2>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-label">R</span>
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      </div>
+      <code><span class="com"># Install from CRAN (when available)</span><br>
+      <span class="fn">install.packages</span>(<span class="str">"celliverse"</span>)<br><br>
+      <span class="com"># Or from GitHub</span><br>
+      <span class="kw">library</span>(remotes)<br>
+      <span class="fn">install_github</span>(<span class="str">"asalavaty/celliverse"</span>)<br><br>
+      <span class="kw">library</span>(celliverse)<br>
+      <span class="kw">library</span>(Seurat)</code>
+    </div>
+  </div>
+
+  <!-- Tab 2: Workflow -->
+  <div class="tab-content" id="tab-1">
+    <p>The recommended analytical workflow proceeds through four connected stages. Each stage exposes specific functions that operate on S4 objects.</p>
+
+    <div class="workflow">
+      <div class="wf-stage">
+        <div class="wf-stage-header">
+          <div class="wf-num">Stage 1</div>
+          <div class="wf-title">Cluster & discover</div>
+        </div>
+        <div class="wf-stage-body">
+          <div class="wf-fn-chip" style="background: color-mix(in srgb, var(--kimi-chart-1) 10%, transparent); color: var(--kimi-chart-1);" onclick="showFnDetail('clustoCell')">
+            <span class="chip-dot" style="background: var(--kimi-chart-1);"></span>clustoCell()
+          </div>
+          <div class="wf-fn-chip" style="background: color-mix(in srgb, var(--kimi-chart-1) 10%, transparent); color: var(--kimi-chart-1);" onclick="showFnDetail('addClustoData')">
+            <span class="chip-dot" style="background: var(--kimi-chart-1);"></span>addClustoData()
+          </div>
+        </div>
+      </div>
+      <div class="wf-arrow">↓</div>
+      <div class="wf-stage">
+        <div class="wf-stage-header">
+          <div class="wf-num">Stage 2</div>
+          <div class="wf-title">Evaluate markers</div>
+        </div>
+        <div class="wf-stage-body">
+          <div class="wf-fn-chip" style="background: color-mix(in srgb, var(--kimi-chart-3) 10%, transparent); color: var(--kimi-chart-3);" onclick="showFnDetail('markoClust')">
+            <span class="chip-dot" style="background: var(--kimi-chart-3);"></span>markoClust()
+          </div>
+          <div class="wf-fn-chip" style="background: color-mix(in srgb, var(--kimi-chart-3) 10%, transparent); color: var(--kimi-chart-3);" onclick="showFnDetail('markoCell')">
+            <span class="chip-dot" style="background: var(--kimi-chart-3);"></span>markoCell()
+          </div>
+          <div class="wf-fn-chip" style="background: color-mix(in srgb, var(--kimi-chart-3) 10%, transparent); color: var(--kimi-chart-3);" onclick="showFnDetail('markerPurity')">
+            <span class="chip-dot" style="background: var(--kimi-chart-3);"></span>markerPurity()
+          </div>
+          <div class="wf-fn-chip" style="background: color-mix(in srgb, var(--kimi-chart-3) 10%, transparent); color: var(--kimi-chart-3);" onclick="showFnDetail('markoClustVis')">
+            <span class="chip-dot" style="background: var(--kimi-chart-3);"></span>markoClustVis()
+          </div>
+        </div>
+      </div>
+      <div class="wf-arrow">↓</div>
+      <div class="wf-stage">
+        <div class="wf-stage-header">
+          <div class="wf-num">Stage 3</div>
+          <div class="wf-title">Select features</div>
+        </div>
+        <div class="wf-stage-body">
+          <div class="wf-fn-chip" style="background: color-mix(in srgb, var(--kimi-chart-4) 10%, transparent); color: var(--kimi-chart-4);" onclick="showFnDetail('getDatasetMarkers')">
+            <span class="chip-dot" style="background: var(--kimi-chart-4);"></span>getDatasetMarkers()
+          </div>
+          <div class="wf-fn-chip" style="background: color-mix(in srgb, var(--kimi-chart-4) 10%, transparent); color: var(--kimi-chart-4);" onclick="showFnDetail('featureInspect')">
+            <span class="chip-dot" style="background: var(--kimi-chart-4);"></span>featureInspect()
+          </div>
+        </div>
+      </div>
+      <div class="wf-arrow">↓</div>
+      <div class="wf-stage">
+        <div class="wf-stage-header">
+          <div class="wf-num">Stage 4</div>
+          <div class="wf-title">Annotate types</div>
+        </div>
+        <div class="wf-stage-body">
+          <div class="wf-fn-chip" style="background: color-mix(in srgb, var(--kimi-chart-2) 10%, transparent); color: var(--kimi-chart-2);" onclick="showFnDetail('typoClust')">
+            <span class="chip-dot" style="background: var(--kimi-chart-2);"></span>typoClust()
+          </div>
+          <div class="wf-fn-chip" style="background: color-mix(in srgb, var(--kimi-chart-2) 10%, transparent); color: var(--kimi-chart-2);" onclick="showFnDetail('addTypoData')">
+            <span class="chip-dot" style="background: var(--kimi-chart-2);"></span>addTypoData()
+          </div>
+          <div class="wf-fn-chip" style="background: color-mix(in srgb, var(--kimi-chart-2) 10%, transparent); color: var(--kimi-chart-2);" onclick="showFnDetail('typoClustVis')">
+            <span class="chip-dot" style="background: var(--kimi-chart-2);"></span>typoClustVis()
+          </div>
+          <div class="wf-fn-chip" style="background: color-mix(in srgb, var(--kimi-chart-2) 10%, transparent); color: var(--kimi-chart-2);" onclick="showFnDetail('signatureDotHeatmap')">
+            <span class="chip-dot" style="background: var(--kimi-chart-2);"></span>signatureDotHeatmap()
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="fn-detail-panel" class="detail-panel">
+      <h4 id="detail-title">Function</h4>
+      <p id="detail-desc">Select a function from the workflow above to see details.</p>
+      <div id="detail-meta" style="margin-top:10px;font-size:12px;color:var(--kimi-color-text-quaternary);"></div>
+    </div>
+  </div>
+
+  <!-- Tab 3: Functions -->
+  <div class="tab-content" id="tab-2">
+    <p>Browse all functions by category. Click any card to highlight its role in the workflow.</p>
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterFns('all')">All</button>
+      <button class="filter-btn" onclick="filterFns('cluster')">Clustering</button>
+      <button class="filter-btn" onclick="filterFns('marker')">Markers</button>
+      <button class="filter-btn" onclick="filterFns('viz')">Visualization</button>
+      <button class="filter-btn" onclick="filterFns('anno')">Annotation</button>
+      <button class="filter-btn" onclick="filterFns('helper')">Helpers</button>
+    </div>
+
+    <div class="fn-grid" id="fn-grid">
+      <div class="fn-card" data-cat="cluster">
+        <div class="fn-header">
+          <span class="fn-name">clustoCell()</span>
+          <span class="fn-tag" style="background: color-mix(in srgb, var(--kimi-chart-1) 12%, transparent); color: var(--kimi-chart-1);">Cluster</span>
+        </div>
+        <div class="fn-desc">Unsupervised EWCSR clustering with Leiden community detection, marker discovery, and optional sub-clustering.</div>
+        <div class="fn-meta">
+          <span>Input: Seurat / matrix</span>
+          <span>Output: ClustoCell</span>
+        </div>
+      </div>
+      <div class="fn-card" data-cat="cluster">
+        <div class="fn-header">
+          <span class="fn-name">clustoCell_TransferLabel()</span>
+          <span class="fn-tag" style="background: color-mix(in srgb, var(--kimi-chart-1) 12%, transparent); color: var(--kimi-chart-1);">Cluster</span>
+        </div>
+        <div class="fn-desc">Transfers major and sub-cluster labels from a sketched (subsampled) ClustoCell object to the full dataset.</div>
+        <div class="fn-meta">
+          <span>Input: ClustoCell</span>
+          <span>Output: labels</span>
+        </div>
+      </div>
+      <div class="fn-card" data-cat="marker">
+        <div class="fn-header">
+          <span class="fn-name">markoClust()</span>
+          <span class="fn-tag" style="background: color-mix(in srgb, var(--kimi-chart-3) 12%, transparent); color: var(--kimi-chart-3);">Marker</span>
+        </div>
+        <div class="fn-desc">Identifies markers in predefined clusters with optional Leiden sub-clustering.</div>
+        <div class="fn-meta">
+          <span>Input: Seurat / SCE</span>
+          <span>Output: MarkoCell</span>
+        </div>
+      </div>
+      <div class="fn-card" data-cat="marker">
+        <div class="fn-header">
+          <span class="fn-name">markoCell()</span>
+          <span class="fn-tag" style="background: color-mix(in srgb, var(--kimi-chart-3) 12%, transparent); color: var(--kimi-chart-3);">Marker</span>
+        </div>
+        <div class="fn-desc">Ranks positive and negative markers for arbitrary cell subsets or even single cells.</div>
+        <div class="fn-meta">
+          <span>Input: Seurat / SCE</span>
+          <span>Output: MarkoCell</span>
+        </div>
+      </div>
+      <div class="fn-card" data-cat="marker">
+        <div class="fn-header">
+          <span class="fn-name">markerPurity()</span>
+          <span class="fn-tag" style="background: color-mix(in srgb, var(--kimi-chart-3) 12%, transparent); color: var(--kimi-chart-3);">Marker</span>
+        </div>
+        <div class="fn-desc">Quantifies marker purity by evaluating expression specificity within clusters.</div>
+        <div class="fn-meta">
+          <span>Input: Seurat / SCE</span>
+          <span>Output: purity scores</span>
+        </div>
+      </div>
+      <div class="fn-card" data-cat="viz">
+        <div class="fn-header">
+          <span class="fn-name">markoClustVis()</span>
+          <span class="fn-tag" style="background: color-mix(in srgb, var(--kimi-chart-4) 12%, transparent); color: var(--kimi-chart-4);">Viz</span>
+        </div>
+        <div class="fn-desc">Generates faceted dot plots for marker visualization across clusters or sub-clusters.</div>
+        <div class="fn-meta">
+          <span>Input: ClustoCell / MarkoCell</span>
+          <span>Output: ggplot</span>
+        </div>
+      </div>
+      <div class="fn-card" data-cat="viz">
+        <div class="fn-header">
+          <span class="fn-name">signatureDotHeatmap()</span>
+          <span class="fn-tag" style="background: color-mix(in srgb, var(--kimi-chart-4) 12%, transparent); color: var(--kimi-chart-4);">Viz</span>
+        </div>
+        <div class="fn-desc">Dot heatmap summarizing signature-associated feature expression across clusters.</div>
+        <div class="fn-meta">
+          <span>Input: Seurat</span>
+          <span>Output: ggplot</span>
+        </div>
+      </div>
+      <div class="fn-card" data-cat="anno">
+        <div class="fn-header">
+          <span class="fn-name">typoClust()</span>
+          <span class="fn-tag" style="background: color-mix(in srgb, var(--kimi-chart-2) 12%, transparent); color: var(--kimi-chart-2);">Annotate</span>
+        </div>
+        <div class="fn-desc">Annotates clusters using curated marker databases or LLM-based inference.</div>
+        <div class="fn-meta">
+          <span>Input: ClustoCell / MarkoCell</span>
+          <span>Output: TypoClust</span>
+        </div>
+      </div>
+      <div class="fn-card" data-cat="anno">
+        <div class="fn-header">
+          <span class="fn-name">typoClustVis()</span>
+          <span class="fn-tag" style="background: color-mix(in srgb, var(--kimi-chart-2) 12%, transparent); color: var(--kimi-chart-2);">Annotate</span>
+        </div>
+        <div class="fn-desc">Visualizes cell-type annotation results from typoClust.</div>
+        <div class="fn-meta">
+          <span>Input: TypoClust</span>
+          <span>Output: ggplot</span>
+        </div>
+      </div>
+      <div class="fn-card" data-cat="helper">
+        <div class="fn-header">
+          <span class="fn-name">addClustoData()</span>
+          <span class="fn-tag" style="background: color-mix(in srgb, var(--kimi-chart-5) 12%, transparent); color: var(--kimi-chart-5);">Helper</span>
+        </div>
+        <div class="fn-desc">Adds major and sub-cluster labels from ClustoCell to Seurat or SCE metadata.</div>
+        <div class="fn-meta">
+          <span>Input: ClustoCell</span>
+          <span>Output: modified object</span>
+        </div>
+      </div>
+      <div class="fn-card" data-cat="helper">
+        <div class="fn-header">
+          <span class="fn-name">addTypoData()</span>
+          <span class="fn-tag" style="background: color-mix(in srgb, var(--kimi-chart-5) 12%, transparent); color: var(--kimi-chart-5);">Helper</span>
+        </div>
+        <div class="fn-desc">Adds inferred cell-type annotations from TypoClust to Seurat or SCE metadata.</div>
+        <div class="fn-meta">
+          <span>Input: TypoClust</span>
+          <span>Output: modified object</span>
+        </div>
+      </div>
+      <div class="fn-card" data-cat="helper">
+        <div class="fn-header">
+          <span class="fn-name">getDatasetMarkers()</span>
+          <span class="fn-tag" style="background: color-mix(in srgb, var(--kimi-chart-5) 12%, transparent); color: var(--kimi-chart-5);">Helper</span>
+        </div>
+        <div class="fn-desc">Extracts dataset-level positive, negative, and medium markers for dimension reduction.</div>
+        <div class="fn-meta">
+          <span>Input: ClustoCell</span>
+          <span>Output: gene list</span>
+        </div>
+      </div>
+      <div class="fn-card" data-cat="helper">
+        <div class="fn-header">
+          <span class="fn-name">featureInspect()</span>
+          <span class="fn-tag" style="background: color-mix(in srgb, var(--kimi-chart-5) 12%, transparent); color: var(--kimi-chart-5);">Helper</span>
+        </div>
+        <div class="fn-desc">Searches desired features across all marker collections in a ClustoCell object.</div>
+        <div class="fn-meta">
+          <span>Input: ClustoCell</span>
+          <span>Output: search results</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 4: Capabilities -->
+  <div class="tab-content" id="tab-3">
+    <p>Comparison of CelliVerse capabilities against common single-cell analysis needs.</p>
+    <table class="matrix">
+      <thead>
+        <tr>
+          <th>Capability</th>
+          <th>CelliVerse</th>
+          <th>Traditional HVG</th>
+          <th>Reference-based</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Raw count input</td><td class="cap-yes">Yes (native)</td><td class="cap-partial">Requires norm</td><td class="cap-partial">Requires norm</td></tr>
+        <tr><td>Reference-free clustering</td><td class="cap-yes">Yes</td><td class="cap-yes">Yes</td><td class="cap-no">No</td></tr>
+        <tr><td>Positive marker discovery</td><td class="cap-yes">Yes</td><td class="cap-partial">Post-hoc</td><td class="cap-partial">Post-hoc</td></tr>
+        <tr><td>Negative marker discovery</td><td class="cap-yes">Yes</td><td class="cap-no">No</td><td class="cap-no">No</td></tr>
+        <tr><td>Marker purity scoring</td><td class="cap-yes">Yes</td><td class="cap-no">No</td><td class="cap-no">No</td></tr>
+        <tr><td>Sub-clustering</td><td class="cap-yes">Yes (recursive)</td><td class="cap-partial">Manual</td><td class="cap-partial">Manual</td></tr>
+        <tr><td>Cell-type annotation</td><td class="cap-yes">Yes (DB + LLM)</td><td class="cap-no">No</td><td class="cap-yes">Yes</td></tr>
+        <tr><td>Dataset feature selection</td><td class="cap-yes">Yes (marker-based)</td><td class="cap-yes">Yes (HVG)</td><td class="cap-partial">Limited</td></tr>
+        <tr><td>Scalability (sketching)</td><td class="cap-yes">Yes</td><td class="cap-partial">Partial</td><td class="cap-partial">Partial</td></tr>
+        <tr><td>Quiescent cell detection</td><td class="cap-yes">Yes</td><td class="cap-no">No</td><td class="cap-no">No</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Object class hierarchy</h3>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-label">S4 Classes</span>
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      </div>
+      <code>ClustoCell<br>
+      ├─ clusters (major + sub)<br>
+      ├─ markers (pos / neg / med)<br>
+      ├─ quiescent_cells<br>
+      └─ globally_pure_* features<br><br>
+      MarkoCell<br>
+      ├─ cluster / subset markers<br>
+      └─ ranking statistics<br><br>
+      TypoClust<br>
+      └─ inferred cell-type labels</code>
+    </div>
+  </div>
+
+  <!-- Tab 5: Integration -->
+  <div class="tab-content" id="tab-4">
+    <p>CelliVerse integrates seamlessly with existing Bioconductor and Seurat workflows.</p>
+
+    <h3>Standard integration flow</h3>
+    <div class="integration-flow">
+      <div class="int-box">Seurat object</div>
+      <div class="int-arrow">→</div>
+      <div class="int-box" style="color:var(--kimi-chart-1);"><strong>clustoCell()</strong></div>
+      <div class="int-arrow">→</div>
+      <div class="int-box">ClustoCell</div>
+      <div class="int-arrow">→</div>
+      <div class="int-box" style="color:var(--kimi-chart-3);"><strong>addClustoData()</strong></div>
+      <div class="int-arrow">→</div>
+      <div class="int-box">Annotated Seurat</div>
+    </div>
+</div>
+
+<script>
+const fnDetails = {
+  clustoCell: {
+    title: 'clustoCell() — Unsupervised clustering & marker discovery',
+    desc: 'The primary entry point. Performs EWCSR transformation, Leiden clustering, marker discovery, and optional sub-clustering directly on raw counts. Returns a ClustoCell S4 object.',
+    meta: 'Input: Seurat | dgCMatrix | matrix  →  Output: ClustoCell'
+  },
+  addClustoData: {
+    title: 'addClustoData() — Add cluster labels to dataset',
+    desc: 'Transfers major cluster and sub-cluster labels from a ClustoCell object into the cell-level metadata of a Seurat or SingleCellExperiment object.',
+    meta: 'Input: Seurat/SCE + ClustoCell  →  Output: Modified Seurat/SCE'
+  },
+  markoClust: {
+    title: 'markoClust() — Cluster marker identification',
+    desc: 'Identifies positive, negative, and medium markers for predefined clusters. Optionally performs additional Leiden sub-clustering within existing clusters.',
+    meta: 'Input: Seurat/SCE  →  Output: MarkoCell'
+  },
+  markoCell: {
+    title: 'markoCell() — Cell subset marker identification',
+    desc: 'Identifies and ranks markers for arbitrary cell subsets, which may correspond to clusters, sub-clusters, or even single cells.',
+    meta: 'Input: Seurat/SCE + cell subset  →  Output: MarkoCell'
+  },
+  markerPurity: {
+    title: 'markerPurity() — Marker purity assessment',
+    desc: 'Quantifies how specific a marker is to its target cluster by evaluating expression patterns across all clusters or user-defined subsets.',
+    meta: 'Input: Seurat/SCE + markers  →  Output: purity scores'
+  },
+  markoClustVis: {
+    title: 'markoClustVis() — Marker visualization',
+    desc: 'Generates faceted dot plots showing marker expression across clusters, sub-clusters, or arbitrary cell subsets stored in a ClustoCell or MarkoCell object.',
+    meta: 'Input: ClustoCell / MarkoCell  →  Output: ggplot'
+  },
+  getDatasetMarkers: {
+    title: 'getDatasetMarkers() — Dataset feature selection',
+    desc: 'Extracts positive, negative, and/or medium markers from major and sub-clusters. These serve as dataset-level features for PCA, UMAP, or machine learning.',
+    meta: 'Input: ClustoCell  →  Output: list of gene vectors'
+  },
+  featureInspect: {
+    title: 'featureInspect() — Feature search',
+    desc: 'Searches one or more desired features across all marker collections in a ClustoCell object: global, cross-cluster, major cluster, and sub-cluster markers.',
+    meta: 'Input: ClustoCell + gene names  →  Output: search results'
+  },
+  typoClust: {
+    title: 'typoClust() — Cell-type annotation',
+    desc: 'Annotates clusters or cell subsets using curated cell-type marker databases (CelliVerse Marker DB) or LLM-based inference.',
+    meta: 'Input: ClustoCell / MarkoCell  →  Output: TypoClust'
+  },
+  addTypoData: {
+    title: 'addTypoData() — Add annotations to dataset',
+    desc: 'Transfers inferred cell-type annotations from a TypoClust object into Seurat or SingleCellExperiment metadata.',
+    meta: 'Input: Seurat/SCE + TypoClust  →  Output: Modified Seurat/SCE'
+  },
+  typoClustVis: {
+    title: 'typoClustVis() — Annotation visualization',
+    desc: 'Visualizes cell-type annotation results generated by typoClust, showing confidence and distribution across clusters.',
+    meta: 'Input: TypoClust  →  Output: ggplot'
+  },
+  signatureDotHeatmap: {
+    title: 'signatureDotHeatmap() — Signature heatmap',
+    desc: 'Generates a dot heatmap summarizing expression of signature-associated features across clusters for rapid biological interpretation.',
+    meta: 'Input: Seurat  →  Output: ggplot'
+  }
+};
+
+function showTab(n) {
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', i===n));
+  document.querySelectorAll('.tab-content').forEach((c,i) => c.classList.toggle('active', i===n));
+}
+function showFnDetail(key) {
+  const d = fnDetails[key];
+  if (!d) return;
+  document.getElementById('detail-title').textContent = d.title;
+  document.getElementById('detail-desc').textContent = d.desc;
+  document.getElementById('detail-meta').textContent = d.meta;
+  document.getElementById('fn-detail-panel').classList.add('active');
+  document.getElementById('fn-detail-panel').scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+function filterFns(cat) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  document.querySelectorAll('.fn-card').forEach(card => {
+    const show = cat === 'all' || card.dataset.cat === cat;
+    card.style.display = show ? 'block' : 'none';
+  });
+}
+function copyCode(btn) {
+  const code = btn.closest('.code-block').querySelector('code').innerText;
+  navigator.clipboard.writeText(code).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1500);
+  });
+}
+</script>
+
+</body>
+</html>
