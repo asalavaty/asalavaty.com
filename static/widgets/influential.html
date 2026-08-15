@@ -1,0 +1,1175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="influential is an R package for network influence analysis, centrality assessment, ExIR-based experimental feature prioritization, SIRIR simulation and in silico perturbation.">
+  <meta name="theme-color" content="#176987">
+  <title>influential — Network influence analysis & experimental feature prioritization</title>
+
+  <style>
+    :root{
+      --inf-bg:#f4f7f9;
+      --inf-surface:#ffffff;
+      --inf-soft:#f8fafb;
+      --inf-soft-blue:#eef6f8;
+      --inf-soft-purple:#f2effb;
+      --inf-soft-gold:#fff7e9;
+      --inf-ink:#182431;
+      --inf-text:#263746;
+      --inf-muted:#657688;
+      --inf-line:#d8e3e9;
+      --inf-line-strong:#c6d7df;
+      --inf-teal:#176987;
+      --inf-teal-dark:#0e4f67;
+      --inf-teal-bright:#24a7b6;
+      --inf-purple:#6854b2;
+      --inf-purple-dark:#493a8d;
+      --inf-gold:#b8782e;
+      --inf-green:#287a58;
+      --inf-red:#b84a50;
+      --inf-navy:#17263a;
+      --inf-shadow:0 22px 60px rgba(24,43,58,.11);
+      --inf-shadow-sm:0 8px 24px rgba(24,43,58,.07);
+      --inf-radius:20px;
+      --inf-radius-sm:14px;
+      --inf-container:1180px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;background:var(--inf-bg)}
+    body{
+      margin:0;
+      background:
+        radial-gradient(circle at 8% 2%,rgba(23,105,135,.08),transparent 29rem),
+        radial-gradient(circle at 94% 4%,rgba(104,84,178,.08),transparent 31rem),
+        var(--inf-bg);
+      color:var(--inf-text);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      line-height:1.62;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+    }
+
+    a{color:inherit}
+    button,input,textarea,select{font:inherit}
+    ::selection{background:#d8eef4;color:#13394a}
+    .inf-page{overflow:hidden}
+    .inf-container{width:min(calc(100% - 40px),var(--inf-container));margin:0 auto}
+    .inf-section{padding:86px 0}
+    .inf-section-tight{padding:55px 0}
+    .inf-section-alt{background:rgba(255,255,255,.58);border-block:1px solid rgba(216,227,233,.75)}
+    .inf-anchor{scroll-margin-top:92px}
+    .inf-kicker{
+      display:inline-flex;align-items:center;gap:8px;
+      color:var(--inf-teal);font-size:12px;font-weight:850;
+      text-transform:uppercase;letter-spacing:.09em
+    }
+    .inf-kicker:before{
+      content:"";width:18px;height:3px;border-radius:999px;
+      background:linear-gradient(90deg,var(--inf-teal),var(--inf-purple))
+    }
+    .inf-section-head{
+      display:grid;grid-template-columns:minmax(0,1.12fr) minmax(280px,.72fr);
+      gap:45px;align-items:end;margin-bottom:34px
+    }
+    .inf-section-head h2,.inf-single-head h2{
+      margin:7px 0 0;color:var(--inf-ink);
+      font-size:clamp(31px,4.2vw,52px);line-height:1.06;letter-spacing:-.045em
+    }
+    .inf-section-intro{
+      margin:0;color:var(--inf-muted);font-size:16px;line-height:1.72
+    }
+    .inf-single-head{max-width:760px;margin-bottom:34px}
+    .inf-single-head p{margin:14px 0 0;color:var(--inf-muted);font-size:16px}
+
+    /* NAV */
+    .inf-nav-wrap{
+      position:sticky;top:0;z-index:1000;
+      border-bottom:1px solid rgba(216,227,233,.85);
+      background:rgba(248,251,252,.86);
+      backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)
+    }
+    .inf-nav{
+      min-height:68px;display:flex;align-items:center;justify-content:space-between;gap:24px
+    }
+    .inf-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .inf-brand-mark{
+      width:38px;height:38px;border-radius:11px;
+      display:grid;place-items:center;
+      color:#fff;font-size:20px;font-weight:900;
+      background:linear-gradient(135deg,var(--inf-teal-dark),var(--inf-teal) 52%,var(--inf-purple));
+      box-shadow:0 8px 20px rgba(38,89,113,.22)
+    }
+    .inf-brand-text{display:flex;flex-direction:column;line-height:1}
+    .inf-brand-text strong{font-size:17px;color:var(--inf-ink);letter-spacing:-.02em}
+    .inf-brand-text span{margin-top:4px;color:var(--inf-muted);font-size:9.5px;text-transform:uppercase;letter-spacing:.09em;font-weight:800}
+    .inf-nav-links{display:flex;align-items:center;gap:5px}
+    .inf-nav-links a{
+      text-decoration:none;color:#475968;font-size:12.5px;font-weight:760;
+      padding:9px 10px;border-radius:10px
+    }
+    .inf-nav-links a:hover{color:var(--inf-teal-dark);background:#eef5f7}
+    .inf-nav-actions{display:flex;gap:7px}
+    .inf-icon-btn{
+      border:1px solid var(--inf-line);background:#fff;color:#526474;
+      width:37px;height:37px;border-radius:11px;cursor:pointer;
+      display:grid;place-items:center;box-shadow:0 3px 10px rgba(24,43,58,.04)
+    }
+    .inf-icon-btn:hover{border-color:#bcd3dd;color:var(--inf-teal-dark)}
+    .inf-mobile-menu{display:none}
+
+    /* BUTTONS */
+    .inf-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+    .inf-btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:7px;
+      min-height:44px;padding:10px 16px;border-radius:12px;
+      border:1px solid transparent;text-decoration:none;
+      font-size:12.5px;font-weight:820;transition:.16s ease
+    }
+    .inf-btn:hover{transform:translateY(-1px)}
+    .inf-btn-primary{
+      color:#fff;background:linear-gradient(135deg,var(--inf-teal-dark),var(--inf-teal));
+      box-shadow:0 10px 24px rgba(23,105,135,.22)
+    }
+    .inf-btn-primary:hover{box-shadow:0 13px 27px rgba(23,105,135,.28)}
+    .inf-btn-accent{
+      color:#fff;background:linear-gradient(135deg,var(--inf-purple-dark),var(--inf-purple));
+      box-shadow:0 10px 24px rgba(104,84,178,.2)
+    }
+    .inf-btn-secondary{color:var(--inf-ink);background:#fff;border-color:var(--inf-line)}
+    .inf-btn-secondary:hover{border-color:#b8cfd9;background:#fbfdfe}
+    .inf-btn-ghost{color:#536778;background:transparent;border-color:#cfdae1}
+
+    /* HERO */
+    .inf-hero{padding:80px 0 52px}
+    .inf-hero-grid{
+      display:grid;grid-template-columns:minmax(0,1.04fr) minmax(430px,.96fr);
+      gap:64px;align-items:center
+    }
+    .inf-hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+    .inf-badge{
+      display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border-radius:999px;
+      border:1px solid #d5e2e7;background:rgba(255,255,255,.84);
+      box-shadow:0 5px 14px rgba(24,43,58,.04);
+      color:#4b6070;font-size:10.5px;font-weight:820
+    }
+    .inf-badge-dot{width:7px;height:7px;border-radius:50%;background:var(--inf-teal)}
+    .inf-hero h1{
+      margin:0;color:var(--inf-ink);
+      font-size:clamp(54px,7.4vw,88px);line-height:.92;letter-spacing:-.065em
+    }
+    .inf-gradient{
+      background:linear-gradient(100deg,var(--inf-teal-dark) 0%,var(--inf-teal) 36%,var(--inf-purple) 82%);
+      -webkit-background-clip:text;background-clip:text;color:transparent
+    }
+    .inf-hero-lead{
+      max-width:710px;margin:25px 0 0;color:#283a49;
+      font-size:clamp(20px,2.2vw,27px);line-height:1.43;font-weight:760;letter-spacing:-.02em
+    }
+    .inf-hero-copy{
+      max-width:720px;margin:17px 0 0;color:var(--inf-muted);font-size:15.5px;line-height:1.75
+    }
+    .inf-trust{
+      display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:9px;margin-top:28px
+    }
+    .inf-trust-item{
+      padding:12px 12px;border:1px solid var(--inf-line);border-radius:13px;background:rgba(255,255,255,.68)
+    }
+    .inf-trust-item strong{display:block;color:var(--inf-ink);font-size:12px}
+    .inf-trust-item span{display:block;margin-top:3px;color:var(--inf-muted);font-size:10.5px;line-height:1.35}
+
+    .inf-hero-visual{
+      position:relative;min-height:530px;padding:30px;border-radius:34px;
+      background:
+        radial-gradient(circle at 28% 20%,rgba(39,145,163,.16),transparent 240px),
+        radial-gradient(circle at 78% 72%,rgba(104,84,178,.17),transparent 245px),
+        linear-gradient(145deg,#f7fbfc,#f4f1fb);
+      border:1px solid #d7e2e8;box-shadow:var(--inf-shadow)
+    }
+    .inf-network-card{
+      position:absolute;inset:36px;border:1px solid rgba(199,215,224,.92);
+      border-radius:26px;background:rgba(255,255,255,.86);overflow:hidden
+    }
+    .inf-network-svg{width:100%;height:100%;display:block}
+    .inf-core-label{
+      position:absolute;left:50%;bottom:50px;transform:translateX(-50%);
+      width:min(78%,360px);padding:13px 17px;text-align:center;
+      background:rgba(255,255,255,.92);border:1px solid #d8e3e9;border-radius:16px;
+      box-shadow:0 9px 28px rgba(24,43,58,.09)
+    }
+    .inf-core-label strong{display:block;color:var(--inf-ink);font-size:16px}
+    .inf-core-label span{display:block;margin-top:3px;color:var(--inf-muted);font-size:10.5px}
+    .inf-float-chip{
+      position:absolute;z-index:3;padding:8px 11px;border-radius:11px;
+      color:#253544;background:rgba(255,255,255,.94);border:1px solid #d6e1e8;
+      box-shadow:0 8px 21px rgba(24,43,58,.08);font-size:10.5px;font-weight:850
+    }
+    .inf-chip-1{top:55px;left:52px}
+    .inf-chip-2{top:105px;right:48px}
+    .inf-chip-3{bottom:128px;left:46px}
+    .inf-chip-4{bottom:118px;right:48px}
+    .inf-chip-5{top:52%;right:44px;transform:translateY(-50%)}
+
+    /* ROUTES */
+    .inf-route-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+    .inf-route{
+      position:relative;min-height:184px;padding:21px;border:1px solid var(--inf-line);
+      border-radius:17px;background:#fff;box-shadow:var(--inf-shadow-sm);overflow:hidden;
+      text-decoration:none;transition:.16s ease
+    }
+    .inf-route:hover{transform:translateY(-2px);border-color:#b9d3de;box-shadow:0 13px 30px rgba(24,43,58,.1)}
+    .inf-route-icon{
+      width:42px;height:42px;border-radius:13px;display:grid;place-items:center;
+      margin-bottom:15px;color:#fff;font-size:18px;font-weight:850;
+      background:linear-gradient(135deg,var(--inf-teal),var(--inf-purple))
+    }
+    .inf-route:nth-child(2) .inf-route-icon,
+    .inf-route:nth-child(5) .inf-route-icon{background:linear-gradient(135deg,#7c5bc5,#514199)}
+    .inf-route:nth-child(3) .inf-route-icon{background:linear-gradient(135deg,#ba792d,#e2a24b)}
+    .inf-route:nth-child(4) .inf-route-icon{background:linear-gradient(135deg,#287a58,#49a27b)}
+    .inf-route:nth-child(6) .inf-route-icon{background:linear-gradient(135deg,#38536b,#176987)}
+    .inf-route strong{display:block;color:var(--inf-ink);font-size:17px;line-height:1.28}
+    .inf-route p{margin:8px 0 0;color:var(--inf-muted);font-size:12.5px}
+    .inf-route-go{position:absolute;right:17px;top:17px;color:#91a1ae;font-size:15px}
+
+    /* TWO MODES */
+    .inf-mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .inf-mode{
+      padding:27px;border:1px solid var(--inf-line);border-radius:22px;background:#fff;box-shadow:var(--inf-shadow-sm)
+    }
+    .inf-mode-label{
+      display:inline-flex;padding:5px 9px;border-radius:999px;
+      color:var(--inf-teal-dark);background:var(--inf-soft-blue);
+      font-size:10.5px;font-weight:850;text-transform:uppercase;letter-spacing:.06em
+    }
+    .inf-mode:nth-child(2) .inf-mode-label{color:var(--inf-purple-dark);background:var(--inf-soft-purple)}
+    .inf-mode h3{margin:13px 0 8px;color:var(--inf-ink);font-size:25px;letter-spacing:-.03em}
+    .inf-mode p{margin:0;color:var(--inf-muted);font-size:13.5px}
+    .inf-pipeline{
+      display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:19px
+    }
+    .inf-pipeline span{
+      padding:7px 9px;border-radius:9px;background:#f4f8fa;border:1px solid #dce7ec;
+      color:#405463;font-size:10.5px;font-weight:750
+    }
+    .inf-pipeline b{color:#91a2ae;font-size:12px}
+
+    /* WORKFLOW */
+    .inf-workflow-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+    .inf-flow-card{
+      padding:20px 16px;border:1px solid var(--inf-line);border-radius:17px;background:#fff;
+      box-shadow:var(--inf-shadow-sm);min-height:195px
+    }
+    .inf-flow-num{
+      display:inline-flex;width:29px;height:29px;align-items:center;justify-content:center;
+      border-radius:9px;color:#fff;font-size:11px;font-weight:900;
+      background:linear-gradient(135deg,var(--inf-teal),var(--inf-purple))
+    }
+    .inf-flow-card h3{margin:13px 0 7px;color:var(--inf-ink);font-size:15px;line-height:1.25}
+    .inf-flow-card p{margin:0;color:var(--inf-muted);font-size:11.5px;line-height:1.55}
+    .inf-mini-art{height:58px;margin-top:13px;display:flex;align-items:end;gap:5px}
+    .inf-mini-art i{display:block;border-radius:5px;background:#d9e9ee}
+    .inf-flow-card:nth-child(1) .inf-mini-art i:nth-child(1){width:15%;height:38%}
+    .inf-flow-card:nth-child(1) .inf-mini-art i:nth-child(2){width:15%;height:80%;background:#68a9bf}
+    .inf-flow-card:nth-child(1) .inf-mini-art i:nth-child(3){width:15%;height:54%}
+    .inf-flow-card:nth-child(1) .inf-mini-art i:nth-child(4){width:15%;height:94%;background:#7764ba}
+    .inf-flow-card:nth-child(1) .inf-mini-art i:nth-child(5){width:15%;height:68%}
+    .inf-flow-card:nth-child(n+2) .inf-mini-art{align-items:center;justify-content:center}
+
+    /* METHOD CARDS */
+    .inf-method-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+    .inf-method{
+      min-height:225px;padding:23px;border:1px solid var(--inf-line);
+      border-radius:18px;background:#fff;box-shadow:var(--inf-shadow-sm);position:relative;overflow:hidden
+    }
+    .inf-method:after{
+      content:"";position:absolute;width:120px;height:120px;right:-55px;bottom:-65px;border-radius:50%;
+      background:rgba(23,105,135,.055)
+    }
+    .inf-method:nth-child(even):after{background:rgba(104,84,178,.06)}
+    .inf-method-badge{
+      display:inline-flex;padding:5px 9px;border-radius:999px;background:var(--inf-soft-purple);
+      color:var(--inf-purple-dark);font-size:10px;font-weight:850;letter-spacing:.04em
+    }
+    .inf-method:nth-child(2) .inf-method-badge,
+    .inf-method:nth-child(3) .inf-method-badge{background:var(--inf-soft-blue);color:var(--inf-teal-dark)}
+    .inf-method h3{margin:13px 0 7px;color:var(--inf-ink);font-size:23px;letter-spacing:-.03em}
+    .inf-method p{margin:0;color:var(--inf-muted);font-size:12.7px}
+    .inf-method-meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:17px}
+    .inf-method-meta span{
+      padding:5px 8px;border-radius:8px;background:#f7f9fb;color:#5b6c7a;
+      border:1px solid #e0e7eb;font-size:9.5px;font-weight:760
+    }
+
+    /* DECISION TABLE */
+    .inf-decision-wrap{overflow-x:auto;border:1px solid var(--inf-line);border-radius:19px;background:#fff;box-shadow:var(--inf-shadow-sm)}
+    .inf-decision{width:100%;border-collapse:collapse;min-width:780px}
+    .inf-decision th,.inf-decision td{text-align:left;padding:14px 16px;border-bottom:1px solid #e6ecef;font-size:12.5px;vertical-align:top}
+    .inf-decision th{background:#eef5f7;color:#304553;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em}
+    .inf-decision td strong{color:var(--inf-ink)}
+    .inf-decision tr:last-child td{border-bottom:0}
+    .inf-decision tbody tr:hover{background:#fbfdfe}
+
+    /* SPOTLIGHTS */
+    .inf-spot{
+      display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
+      gap:25px;padding:31px;border-radius:25px;border:1px solid var(--inf-line);
+      background:#fff;box-shadow:var(--inf-shadow)
+    }
+    .inf-spot + .inf-spot{margin-top:22px}
+    .inf-spot-copy h3{margin:8px 0 10px;color:var(--inf-ink);font-size:35px;letter-spacing:-.04em}
+    .inf-spot-copy p{margin:0;color:var(--inf-muted);font-size:14px}
+    .inf-output-pills{display:flex;flex-wrap:wrap;gap:7px;margin-top:18px}
+    .inf-output-pills span{padding:6px 9px;border-radius:999px;background:#f4f7f9;border:1px solid #dbe5ea;color:#536777;font-size:10px;font-weight:800}
+    .inf-diagram{
+      position:relative;min-height:300px;border-radius:20px;overflow:hidden;
+      border:1px solid #dbe5e9;background:
+        radial-gradient(circle at 80% 20%,rgba(104,84,178,.10),transparent 180px),
+        linear-gradient(145deg,#f8fbfc,#f5f4fa)
+    }
+    .inf-exir-flow{padding:24px;display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;height:100%}
+    .inf-exir-col{display:grid;gap:9px}
+    .inf-exir-box{padding:12px;border:1px solid #d5e2e7;border-radius:13px;background:#fff;box-shadow:0 5px 15px rgba(24,43,58,.05);font-size:10.5px;color:#4c6070;font-weight:740}
+    .inf-exir-box strong{display:block;color:var(--inf-ink);font-size:12px;margin-bottom:3px}
+    .inf-exir-arrow{color:var(--inf-purple);font-size:24px;font-weight:900}
+    .inf-ivi-viz{height:100%;display:grid;place-items:center;padding:18px}
+    .inf-ivi-ring{position:relative;width:250px;height:250px}
+    .inf-ivi-center{
+      position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+      width:88px;height:88px;border-radius:50%;display:grid;place-items:center;text-align:center;
+      color:#fff;font-weight:900;font-size:20px;background:linear-gradient(135deg,var(--inf-teal-dark),var(--inf-purple));
+      box-shadow:0 16px 35px rgba(51,69,119,.24)
+    }
+    .inf-ivi-node{
+      position:absolute;width:94px;padding:9px;border-radius:13px;text-align:center;
+      background:#fff;border:1px solid #d7e3e8;box-shadow:0 7px 18px rgba(24,43,58,.07);
+      color:#526776;font-size:9.5px;font-weight:760
+    }
+    .inf-ivi-node b{display:block;color:var(--inf-ink);font-size:11px;margin-bottom:2px}
+    .inf-ivi-a{left:50%;top:4px;transform:translateX(-50%)}
+    .inf-ivi-b{left:4px;bottom:25px}
+    .inf-ivi-c{right:4px;bottom:25px}
+
+    /* TOOLKIT */
+    .inf-tool-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+    .inf-tool{
+      padding:20px;border:1px solid var(--inf-line);border-radius:17px;background:#fff;box-shadow:var(--inf-shadow-sm)
+    }
+    .inf-tool-icon{font-size:24px;margin-bottom:10px}
+    .inf-tool strong{display:block;color:var(--inf-ink);font-size:14px}
+    .inf-tool p{margin:5px 0 0;color:var(--inf-muted);font-size:11.5px}
+
+    /* APPS */
+    .inf-app-shell{
+      padding:35px;border-radius:30px;color:#fff;
+      background:
+        radial-gradient(circle at 90% 10%,rgba(255,255,255,.1),transparent 220px),
+        linear-gradient(125deg,#14253a 0%,#205b73 54%,#6450aa 100%);
+      box-shadow:0 28px 70px rgba(28,52,80,.25)
+    }
+    .inf-app-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:32px;align-items:center}
+    .inf-app-shell h2{margin:7px 0 12px;font-size:clamp(34px,4.5vw,54px);line-height:1.05;letter-spacing:-.045em}
+    .inf-app-shell p{color:#d9e5ec}
+    .inf-app-shell .inf-kicker{color:#a9ddea}
+    .inf-app-shell .inf-kicker:before{background:#70ccd8}
+    .inf-app-cards{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+    .inf-app-card{padding:18px;border-radius:17px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);backdrop-filter:blur(4px)}
+    .inf-app-card strong{display:block;font-size:15px}
+    .inf-app-card p{margin:5px 0 13px;font-size:11.5px;color:#cfdee8}
+    .inf-app-card code{display:block;padding:8px 9px;border-radius:9px;background:rgba(8,17,33,.34);color:#fff;font-size:10.5px;overflow-wrap:anywhere}
+
+    /* CODE */
+    .inf-code-layout{display:grid;grid-template-columns:.78fr 1.22fr;gap:28px;align-items:start}
+    .inf-code-copy h2{margin:7px 0 13px;color:var(--inf-ink);font-size:clamp(34px,4vw,48px);letter-spacing:-.04em;line-height:1.07}
+    .inf-code-copy p{color:var(--inf-muted)}
+    .inf-code-box{border:1px solid #cbd9df;border-radius:20px;background:#132131;color:#dce7ee;overflow:hidden;box-shadow:var(--inf-shadow)}
+    .inf-code-tabs{display:flex;gap:3px;padding:9px;background:#17283a;border-bottom:1px solid rgba(255,255,255,.08);overflow:auto}
+    .inf-code-tab{border:0;border-radius:8px;padding:8px 10px;white-space:nowrap;cursor:pointer;background:transparent;color:#9fb2c0;font-size:10.5px;font-weight:800}
+    .inf-code-tab.active{background:#263c50;color:#fff}
+    .inf-code-panel{display:none;position:relative}
+    .inf-code-panel.active{display:block}
+    .inf-code-panel pre{margin:0;padding:21px 20px 24px;overflow:auto;font-size:11.5px;line-height:1.65;white-space:pre;tab-size:2}
+    .inf-code-panel code{font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace}
+    .inf-copy{
+      position:absolute;right:11px;top:11px;border:1px solid rgba(255,255,255,.12);
+      background:#20374b;color:#d8e6ee;border-radius:8px;padding:6px 8px;cursor:pointer;font-size:9.5px;font-weight:800
+    }
+    .inf-copy:hover{background:#2a455b}
+
+    /* USE CASES */
+    .inf-use-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+    .inf-use{
+      position:relative;min-height:215px;padding:22px;border:1px solid var(--inf-line);
+      border-radius:18px;background:#fff;overflow:hidden;box-shadow:var(--inf-shadow-sm)
+    }
+    .inf-use h3{margin:0 0 7px;color:var(--inf-ink);font-size:17px}
+    .inf-use p{margin:0;max-width:86%;color:var(--inf-muted);font-size:12px}
+    .inf-use-tag{
+      display:inline-flex;margin-top:17px;padding:5px 8px;border-radius:999px;background:#f1effa;color:#554294;
+      font-size:9.5px;font-weight:830
+    }
+    .inf-use-art{position:absolute;right:-5px;bottom:-7px;width:145px;height:90px;opacity:.86}
+
+    /* PUBLICATIONS */
+    .inf-pub-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .inf-pub{
+      padding:24px;border:1px solid var(--inf-line);border-radius:19px;background:#fff;box-shadow:var(--inf-shadow-sm)
+    }
+    .inf-pub-label{font-size:10px;font-weight:850;text-transform:uppercase;letter-spacing:.07em;color:var(--inf-teal)}
+    .inf-pub h3{margin:9px 0 7px;color:var(--inf-ink);font-size:18px;line-height:1.34}
+    .inf-pub p{margin:0;color:var(--inf-muted);font-size:11.5px}
+    .inf-pub a{display:inline-flex;margin-top:15px;color:var(--inf-teal-dark);font-size:11.5px;font-weight:850;text-decoration:none}
+
+    /* RESOURCES */
+    .inf-resource-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+    .inf-resource-card{padding:21px;border:1px solid var(--inf-line);border-radius:17px;background:#fff;box-shadow:var(--inf-shadow-sm)}
+    .inf-resource-card h3{margin:0 0 5px;color:var(--inf-ink);font-size:15px}
+    .inf-resource-card p{margin:0 0 13px;color:var(--inf-muted);font-size:11.5px}
+    .inf-resource-list{display:grid;gap:7px}
+    .inf-resource{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 10px;
+      border-radius:10px;background:#f6f8fa;border:1px solid #e0e7eb;text-decoration:none
+    }
+    .inf-resource strong{font-size:10.5px;color:#334855}
+    .inf-resource span{font-size:9.5px;color:#738392;text-align:right}
+
+    /* FAQ */
+    .inf-faq{display:grid;grid-template-columns:.78fr 1.22fr;gap:28px;align-items:start}
+    .inf-faq aside{position:sticky;top:92px}
+    .inf-faq aside h2{margin:7px 0 11px;color:var(--inf-ink);font-size:clamp(34px,4vw,49px);letter-spacing:-.04em}
+    .inf-faq details{border:1px solid var(--inf-line);border-radius:15px;background:#fff;margin-bottom:9px;box-shadow:0 5px 17px rgba(24,43,58,.04);overflow:hidden}
+    .inf-faq summary{cursor:pointer;padding:15px 17px;font-weight:820;font-size:13px;color:var(--inf-ink);list-style:none}
+    .inf-faq summary::-webkit-details-marker{display:none}
+    .inf-faq summary:after{content:"+";float:right;color:var(--inf-purple);font-size:18px}
+    .inf-faq details[open] summary:after{content:"−"}
+    .inf-faq details p{margin:0;padding:0 17px 17px;color:var(--inf-muted);font-size:12.3px}
+
+    /* FINAL CTA + FOOTER */
+    .inf-final{padding:40px;border-radius:29px;color:#fff;background:linear-gradient(120deg,#13243a,#176987 52%,#6854b2);box-shadow:0 28px 70px rgba(31,54,93,.25);display:flex;align-items:center;justify-content:space-between;gap:30px}
+    .inf-final h2{margin:0 0 8px;font-size:clamp(31px,4vw,48px);letter-spacing:-.045em;line-height:1.06}
+    .inf-final p{margin:0;color:#dae6ed;max-width:720px}
+    .inf-footer{padding:30px 0 34px;color:#6f7e8b;font-size:11.5px}
+    .inf-footer-row{display:flex;justify-content:space-between;gap:25px;align-items:center}
+    .inf-footer-links{display:flex;flex-wrap:wrap;gap:14px}
+    .inf-footer-links a{text-decoration:none;font-weight:770;color:#526574}
+
+    /* REVEAL */
+    .inf-reveal{opacity:0;transform:translateY(13px);transition:opacity .5s ease,transform .5s ease}
+    .inf-reveal.visible{opacity:1;transform:none}
+
+    /* DARK */
+    html[data-theme="dark"]{
+      --inf-bg:#0d1722;--inf-surface:#111e2a;--inf-soft:#142330;--inf-soft-blue:#15303b;
+      --inf-soft-purple:#211f3a;--inf-ink:#f0f6f8;--inf-text:#d3dee4;--inf-muted:#9db0bd;
+      --inf-line:#2b3c49;--inf-line-strong:#394f5e;--inf-teal:#4eb3c1;--inf-teal-dark:#76cad5;
+      --inf-shadow:0 22px 60px rgba(0,0,0,.27);--inf-shadow-sm:0 8px 24px rgba(0,0,0,.17)
+    }
+    html[data-theme="dark"] body{background:radial-gradient(circle at 8% 2%,rgba(34,144,164,.11),transparent 29rem),radial-gradient(circle at 94% 4%,rgba(104,84,178,.12),transparent 31rem),var(--inf-bg)}
+    html[data-theme="dark"] .inf-nav-wrap{background:rgba(13,23,34,.88)}
+    html[data-theme="dark"] .inf-icon-btn,
+    html[data-theme="dark"] .inf-route,
+    html[data-theme="dark"] .inf-mode,
+    html[data-theme="dark"] .inf-flow-card,
+    html[data-theme="dark"] .inf-method,
+    html[data-theme="dark"] .inf-tool,
+    html[data-theme="dark"] .inf-use,
+    html[data-theme="dark"] .inf-pub,
+    html[data-theme="dark"] .inf-resource-card,
+    html[data-theme="dark"] .inf-faq details,
+    html[data-theme="dark"] .inf-spot,
+    html[data-theme="dark"] .inf-decision-wrap{background:var(--inf-surface)}
+    html[data-theme="dark"] .inf-network-card{background:rgba(17,30,42,.92)}
+    html[data-theme="dark"] .inf-core-label,
+    html[data-theme="dark"] .inf-float-chip{background:rgba(17,30,42,.95);color:#d9e5eb}
+    html[data-theme="dark"] .inf-btn-secondary{background:var(--inf-surface);color:var(--inf-ink)}
+    html[data-theme="dark"] .inf-trust-item{background:rgba(17,30,42,.72)}
+    html[data-theme="dark"] .inf-decision th{background:#16303b}
+    html[data-theme="dark"] .inf-decision tbody tr:hover{background:#142531}
+    html[data-theme="dark"] .inf-resource{background:#152532}
+    html[data-theme="dark"] .inf-diagram{background:linear-gradient(145deg,#13232e,#191d31)}
+    html[data-theme="dark"] .inf-exir-box,.inf-dark-placeholder{background:var(--inf-surface)}
+
+    /* RESPONSIVE */
+    @media(max-width:1050px){
+      .inf-nav-links{display:none}
+      .inf-mobile-menu{display:grid}
+      .inf-hero-grid{grid-template-columns:1fr;gap:42px}
+      .inf-hero-visual{min-height:500px}
+      .inf-route-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .inf-workflow-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+      .inf-method-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .inf-tool-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .inf-use-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    }
+    @media(max-width:800px){
+      .inf-section{padding:65px 0}.inf-section-tight{padding:43px 0}
+      .inf-section-head{grid-template-columns:1fr;gap:14px}
+      .inf-mode-grid,.inf-spot,.inf-app-grid,.inf-code-layout,.inf-faq,.inf-pub-grid{grid-template-columns:1fr}
+      .inf-faq aside{position:static}
+      .inf-workflow-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .inf-trust{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .inf-resource-grid{grid-template-columns:1fr}
+      .inf-final{display:block}.inf-final .inf-actions{margin-top:22px}
+    }
+    @media(max-width:580px){
+      .inf-container{width:min(calc(100% - 24px),var(--inf-container))}
+      .inf-nav{min-height:61px}.inf-brand-text span{display:none}
+      .inf-hero{padding:54px 0 36px}
+      .inf-hero h1{font-size:53px}
+      .inf-route-grid,.inf-method-grid,.inf-use-grid,.inf-tool-grid,.inf-workflow-grid{grid-template-columns:1fr}
+      .inf-hero-visual{min-height:445px;padding:14px;border-radius:25px}
+      .inf-network-card{inset:18px}
+      .inf-float-chip{font-size:9px;padding:6px 8px}
+      .inf-chip-1{top:33px;left:29px}.inf-chip-2{top:72px;right:28px}.inf-chip-3{bottom:102px;left:27px}.inf-chip-4{bottom:98px;right:27px}.inf-chip-5{right:27px}
+      .inf-core-label{bottom:35px}
+      .inf-app-cards{grid-template-columns:1fr}
+      .inf-code-panel pre{font-size:10.4px}
+      .inf-footer-row{display:block}.inf-footer-links{margin-top:13px}
+    }
+    @media(prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}
+      .inf-reveal{opacity:1;transform:none;transition:none}
+      .inf-btn:hover,.inf-route:hover{transform:none}
+    }
+
+    p code, td code, details code, .inf-hero-copy code, .inf-section-intro code, .inf-mode code {
+      padding:2px 5px;border-radius:5px;background:#eaf3f6;border:1px solid #dce9ee;
+      color:#19566c;font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+      font-size:.9em;overflow-wrap:anywhere
+    }
+    html[data-theme="dark"] p code,
+    html[data-theme="dark"] td code,
+    html[data-theme="dark"] details code,
+    html[data-theme="dark"] .inf-hero-copy code,
+    html[data-theme="dark"] .inf-section-intro code,
+    html[data-theme="dark"] .inf-mode code {
+      background:#18303c;border-color:#274656;color:#9bd3dd
+    }
+
+  </style>
+</head>
+<body>
+<div class="inf-page">
+
+  <header class="inf-nav-wrap">
+    <div class="inf-container inf-nav">
+      <a class="inf-brand" href="#top" aria-label="influential home">
+        <span class="inf-brand-mark">i</span>
+        <span class="inf-brand-text"><strong>influential</strong><span>network influence & feature prioritization</span></span>
+      </a>
+
+      <nav class="inf-nav-links" aria-label="Page navigation">
+        <a href="#choose">Start here</a>
+        <a href="#methods">Methods</a>
+        <a href="#exir">ExIR</a>
+        <a href="#ivi">IVI</a>
+        <a href="#apps">Apps</a>
+        <a href="#quickstart">Quick start</a>
+        <a href="#resources">Resources</a>
+      </nav>
+
+      <div class="inf-nav-actions">
+        <a class="inf-icon-btn" href="https://github.com/asalavaty/influential" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub">⌘</a>
+        <button class="inf-icon-btn" id="themeToggle" type="button" title="Switch appearance" aria-label="Switch appearance">◐</button>
+        <button class="inf-icon-btn inf-mobile-menu" id="jumpTop" type="button" title="Back to top" aria-label="Back to top">↑</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="inf-hero">
+      <div class="inf-container inf-hero-grid">
+        <div>
+          <div class="inf-hero-badges">
+            <span class="inf-badge"><span class="inf-badge-dot"></span>CRAN 2.3.1</span>
+            <span class="inf-badge">GPL-3</span>
+            <span class="inf-badge">NetworkAnalysis</span>
+            <span class="inf-badge">bulk + single-cell omics</span>
+          </div>
+
+          <h1><span class="inf-gradient">Find what matters.</span><br>From networks to biological candidates.</h1>
+
+          <p class="inf-hero-lead"><code>influential</code> unifies network reconstruction, multi-scale centrality, influence ranking and experimental feature prioritization in one R toolkit.</p>
+
+          <p class="inf-hero-copy">
+            Analyze complex networks with <strong>IVI</strong>, quantify local hubs and information spread,
+            simulate topology-level influence with <strong>SIRIR</strong>, or move directly from experimental
+            omics data to ranked <strong>drivers, biomarkers and mediators</strong> with <strong>ExIR</strong>.
+          </p>
+
+          <div class="inf-actions">
+            <a class="inf-btn inf-btn-primary" href="https://cran.r-project.org/package=influential" target="_blank" rel="noopener">Install from CRAN ↗</a>
+            <a class="inf-btn inf-btn-secondary" href="https://github.com/asalavaty/influential" target="_blank" rel="noopener">View on GitHub ↗</a>
+            <a class="inf-btn inf-btn-secondary" href="https://asalavaty.github.io/influential/articles/Vignettes.html" target="_blank" rel="noopener">Read the vignette</a>
+            <a class="inf-btn inf-btn-ghost" href="https://influential.erc.monash.edu/" target="_blank" rel="noopener">Open web apps ↗</a>
+          </div>
+
+          <div class="inf-trust" aria-label="Package highlights">
+            <div class="inf-trust-item"><strong>Multi-scale</strong><span>Local, semi-local and global network structure.</span></div>
+            <div class="inf-trust-item"><strong>Integrative</strong><span>Centrality, machine learning and experimental evidence.</span></div>
+            <div class="inf-trust-item"><strong>Flexible</strong><span>Networks, bulk omics and single-cell RNA-seq.</span></div>
+            <div class="inf-trust-item"><strong>Interactive</strong><span>Bundled and browser-based Shiny interfaces.</span></div>
+          </div>
+        </div>
+
+        <div class="inf-hero-visual" aria-label="influential ecosystem diagram">
+          <div class="inf-network-card">
+            <svg class="inf-network-svg" viewBox="0 0 520 470" role="img" aria-label="Network influence illustration">
+              <defs>
+                <linearGradient id="heroEdge" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#176987" stop-opacity=".38"/>
+                  <stop offset="1" stop-color="#6854b2" stop-opacity=".42"/>
+                </linearGradient>
+                <radialGradient id="heroNode" cx=".35" cy=".3">
+                  <stop offset="0" stop-color="#7ed4de"/>
+                  <stop offset=".52" stop-color="#23849c"/>
+                  <stop offset="1" stop-color="#144f68"/>
+                </radialGradient>
+              </defs>
+              <g stroke="url(#heroEdge)" stroke-width="2.2" opacity=".75">
+                <line x1="260" y1="104" x2="152" y2="168"/><line x1="260" y1="104" x2="361" y2="159"/>
+                <line x1="152" y1="168" x2="116" y2="275"/><line x1="152" y1="168" x2="245" y2="232"/>
+                <line x1="361" y1="159" x2="405" y2="270"/><line x1="361" y1="159" x2="245" y2="232"/>
+                <line x1="116" y1="275" x2="195" y2="344"/><line x1="405" y1="270" x2="323" y2="349"/>
+                <line x1="245" y1="232" x2="195" y2="344"/><line x1="245" y1="232" x2="323" y2="349"/>
+                <line x1="195" y1="344" x2="323" y2="349"/><line x1="116" y1="275" x2="245" y2="232"/>
+                <line x1="405" y1="270" x2="245" y2="232"/><line x1="152" y1="168" x2="361" y2="159"/>
+              </g>
+              <g fill="#fff" stroke="#b9d3dd" stroke-width="1.4">
+                <circle cx="260" cy="104" r="17"/><circle cx="152" cy="168" r="13"/><circle cx="361" cy="159" r="14"/>
+                <circle cx="116" cy="275" r="12"/><circle cx="405" cy="270" r="13"/><circle cx="195" cy="344" r="14"/><circle cx="323" cy="349" r="12"/>
+              </g>
+              <circle cx="245" cy="232" r="42" fill="url(#heroNode)" stroke="#fff" stroke-width="7"/>
+              <circle cx="245" cy="232" r="20" fill="#6b55b4" opacity=".95"/>
+              <circle cx="245" cy="232" r="7" fill="#fff"/>
+              <g fill="#6854b2">
+                <circle cx="260" cy="104" r="7"/><circle cx="152" cy="168" r="6"/><circle cx="361" cy="159" r="6"/>
+              </g>
+              <g fill="#1f8197">
+                <circle cx="116" cy="275" r="6"/><circle cx="405" cy="270" r="6"/><circle cx="195" cy="344" r="6"/><circle cx="323" cy="349" r="6"/>
+              </g>
+              <g fill="#b7782e" opacity=".82">
+                <circle cx="80" cy="162" r="5"/><circle cx="428" cy="141" r="5"/><circle cx="83" cy="354" r="5"/><circle cx="431" cy="355" r="5"/>
+              </g>
+              <text x="245" y="237" fill="#fff" font-size="18" font-family="Arial, sans-serif" font-weight="800" text-anchor="middle">IVI</text>
+            </svg>
+          </div>
+          <span class="inf-float-chip inf-chip-1">IVI · network influence</span>
+          <span class="inf-float-chip inf-chip-2">ExIR · experimental prioritization</span>
+          <span class="inf-float-chip inf-chip-3">Hubness · local power</span>
+          <span class="inf-float-chip inf-chip-4">Spreading · information flow</span>
+          <span class="inf-float-chip inf-chip-5">SIRIR · simulation</span>
+          <div class="inf-core-label"><strong>From structure to actionable candidates</strong><span>Data → associations → network → influence → prioritized features</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- START WHERE YOU ARE -->
+    <section class="inf-section-tight inf-anchor" id="choose">
+      <div class="inf-container">
+        <div class="inf-section-head inf-reveal">
+          <div><span class="inf-kicker">Start where you are</span><h2>Choose the shortest path to your question.</h2></div>
+          <p class="inf-section-intro">You do not need to learn every function first. Start with the scientific question or data type you already have.</p>
+        </div>
+
+        <div class="inf-route-grid">
+          <a class="inf-route inf-reveal" href="#ivi"><span class="inf-route-go">↗</span><span class="inf-route-icon">◎</span><strong>I have a network</strong><p>Rank influential nodes with IVI and inspect complementary centrality dimensions.</p></a>
+          <a class="inf-route inf-reveal" href="#exir"><span class="inf-route-go">↗</span><span class="inf-route-icon">Σ</span><strong>I have experimental omics data</strong><p>Use ExIR to classify and prioritize candidate drivers, biomarkers and mediators.</p></a>
+          <a class="inf-route inf-reveal" href="#methods"><span class="inf-route-go">↗</span><span class="inf-route-icon">⌁</span><strong>I want hubs or spreaders</strong><p>Use Hubness score for local network power or Spreading score for information-diffusion potential.</p></a>
+          <a class="inf-route inf-reveal" href="#simulation"><span class="inf-route-go">↗</span><span class="inf-route-icon">S</span><strong>I want simulation-based influence</strong><p>Use SIRIR to rank nodes by their effect on network topology and information spread.</p></a>
+          <a class="inf-route inf-reveal" href="#simulation"><span class="inf-route-go">↗</span><span class="inf-route-icon">±</span><strong>I want to test perturbations</strong><p>Simulate knockout or up-regulation before experimental validation.</p></a>
+          <a class="inf-route inf-reveal" href="#apps"><span class="inf-route-go">↗</span><span class="inf-route-icon">▣</span><strong>I prefer a graphical interface</strong><p>Launch IVI or ExIR through the web portal or the bundled local Shiny apps.</p></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- TWO MODES -->
+    <section class="inf-section inf-section-alt">
+      <div class="inf-container">
+        <div class="inf-single-head inf-reveal">
+          <span class="inf-kicker">One toolkit, complementary questions</span>
+          <h2>Work from a network, or let experimental data drive the network.</h2>
+          <p><code>influential</code> supports both classical network-centric analysis and experimental feature prioritization, so the workflow can begin with either relationships or measurements.</p>
+        </div>
+
+        <div class="inf-mode-grid">
+          <article class="inf-mode inf-reveal">
+            <span class="inf-mode-label">Network-first</span>
+            <h3>Understand topology and influence.</h3>
+            <p>Reconstruct networks, quantify centrality, examine associations among centrality measures and use integrative scores to identify influential nodes, hubs and spreaders.</p>
+            <div class="inf-pipeline"><span>Associations</span><b>→</b><span>Network</span><b>→</b><span>Centrality</span><b>→</b><span>IVI / scores</span></div>
+          </article>
+
+          <article class="inf-mode inf-reveal">
+            <span class="inf-mode-label">Experimental-data first</span>
+            <h3>Prioritize candidates from omics data.</h3>
+            <p>ExIR combines experimental evidence, machine learning, network reconstruction and influence ranking to classify candidate features into biologically interpretable result classes.</p>
+            <div class="inf-pipeline"><span>Omics data</span><b>→</b><span>Filtering & scoring</span><b>→</b><span>Network</span><b>→</b><span>Candidates</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PACKAGE WORKFLOW -->
+    <section class="inf-section inf-anchor" id="workflow">
+      <div class="inf-container">
+        <div class="inf-section-head inf-reveal">
+          <div><span class="inf-kicker">Core workflows</span><h2>Build the analysis from association to prioritization.</h2></div>
+          <p class="inf-section-intro">The package spans the foundational steps required to construct and interrogate networks, then extends them with integrative influence methods and experimental feature ranking.</p>
+        </div>
+
+        <div class="inf-workflow-grid">
+          <article class="inf-flow-card inf-reveal"><span class="inf-flow-num">1</span><h3>Association analysis</h3><p>Calculate Pearson or Spearman relationships, mutual ranks, p-values and adjusted p-values with <code>fcor()</code>.</p><div class="inf-mini-art"><i></i><i></i><i></i><i></i><i></i></div></article>
+          <article class="inf-flow-card inf-reveal"><span class="inf-flow-num">2</span><h3>Network reconstruction</h3><p>Build <code>igraph</code> networks from edge lists, adjacency matrices, incidence matrices or SIF files.</p><div class="inf-mini-art"><svg viewBox="0 0 90 50" width="95" height="55"><g stroke="#87a9b8" stroke-width="2"><line x1="17" y1="29" x2="42" y2="12"/><line x1="42" y1="12" x2="69" y2="26"/><line x1="17" y1="29" x2="48" y2="42"/><line x1="48" y1="42" x2="69" y2="26"/></g><g fill="#176987"><circle cx="17" cy="29" r="6"/><circle cx="42" cy="12" r="6"/><circle cx="69" cy="26" r="6"/><circle cx="48" cy="42" r="6"/></g></svg></div></article>
+          <article class="inf-flow-card inf-reveal"><span class="inf-flow-num">3</span><h3>Centrality analysis</h3><p>Quantify local, semi-local and global structure using complementary centrality measures.</p><div class="inf-mini-art"><svg viewBox="0 0 90 50" width="95" height="55"><circle cx="45" cy="25" r="9" fill="#6854b2"/><g fill="#7cb5c8"><circle cx="14" cy="12" r="5"/><circle cx="20" cy="39" r="5"/><circle cx="73" cy="11" r="5"/><circle cx="77" cy="38" r="5"/></g><g stroke="#9fb8c3" stroke-width="2"><line x1="45" y1="25" x2="14" y2="12"/><line x1="45" y1="25" x2="20" y2="39"/><line x1="45" y1="25" x2="73" y2="11"/><line x1="45" y1="25" x2="77" y2="38"/></g></svg></div></article>
+          <article class="inf-flow-card inf-reveal"><span class="inf-flow-num">4</span><h3>Centrality association</h3><p>Assess dependence, non-linearity, non-monotonicity and conditional relationships among continuous measures.</p><div class="inf-mini-art"><svg viewBox="0 0 90 50" width="95" height="55"><path d="M7 40 C24 11 33 44 47 24 S69 11 84 18" fill="none" stroke="#176987" stroke-width="3"/><circle cx="23" cy="22" r="4" fill="#6854b2"/><circle cx="54" cy="20" r="4" fill="#b7782e"/></svg></div></article>
+          <article class="inf-flow-card inf-reveal"><span class="inf-flow-num">5</span><h3>Feature prioritization</h3><p>Integrate experimental evidence and network influence to classify and rank candidates with ExIR.</p><div class="inf-mini-art"><svg viewBox="0 0 90 50" width="95" height="55"><rect x="8" y="9" width="55" height="7" rx="3" fill="#176987"/><rect x="8" y="22" width="72" height="7" rx="3" fill="#6854b2"/><rect x="8" y="35" width="41" height="7" rx="3" fill="#b7782e"/></svg></div></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURED METHODS -->
+    <section class="inf-section inf-section-alt inf-anchor" id="methods">
+      <div class="inf-container">
+        <div class="inf-section-head inf-reveal">
+          <div><span class="inf-kicker">Featured methods</span><h2>Six ways to ask what matters most.</h2></div>
+          <p class="inf-section-intro">Choose a method according to whether your question is about experimental candidates, overall influence, local hubs, spreading potential, simulation or perturbation.</p>
+        </div>
+
+        <div class="inf-method-grid">
+          <article class="inf-method inf-reveal"><span class="inf-method-badge">Experimental data</span><h3>ExIR</h3><p>Classify and prioritize candidate drivers, biomarkers and mediators from experimental omics data by integrating experimental evidence, machine learning, network reconstruction and influence ranking.</p><div class="inf-method-meta"><span>bulk RNA-seq</span><span>scRNA-seq</span><span>proteomics</span></div></article>
+          <article class="inf-method inf-reveal"><span class="inf-method-badge">Network influence</span><h3>IVI</h3><p>Combine local, semi-local and global topological information to identify influential nodes while reducing the limitations of relying on any single centrality measure.</p><div class="inf-method-meta"><span>local</span><span>semi-local</span><span>global</span></div></article>
+          <article class="inf-method inf-reveal"><span class="inf-method-badge">Local topology</span><h3>Hubness score</h3><p>Summarize local network power using degree centrality and local H-index to identify nodes that are structurally strong in their surrounding environment.</p><div class="inf-method-meta"><span>degree</span><span>local H-index</span></div></article>
+          <article class="inf-method inf-reveal"><span class="inf-method-badge">Information spread</span><h3>Spreading score</h3><p>Prioritize nodes with high potential to spread information by integrating ClusterRank, neighborhood connectivity, betweenness and collective influence.</p><div class="inf-method-meta"><span>spreaders</span><span>diffusion</span></div></article>
+          <article class="inf-method inf-reveal"><span class="inf-method-badge">Simulation</span><h3>SIRIR</h3><p>Combine susceptible–infected–recovered simulations with leave-one-out perturbation to rank nodes according to their effect on topology and information spread.</p><div class="inf-method-meta"><span>SIR</span><span>leave-one-out</span></div></article>
+          <article class="inf-method inf-reveal"><span class="inf-method-badge">In silico perturbation</span><h3>Computational manipulation</h3><p>Simulate feature knockout and/or up-regulation and evaluate how those manipulations alter information flow within an association network.</p><div class="inf-method-meta"><span>knockout</span><span>up-regulation</span></div></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- DECISION -->
+    <section class="inf-section-tight">
+      <div class="inf-container">
+        <div class="inf-single-head inf-reveal">
+          <span class="inf-kicker">Method selector</span>
+          <h2>Which method should I use?</h2>
+          <p>Use the scientific objective, not the function list, to choose your entry point.</p>
+        </div>
+
+        <div class="inf-decision-wrap inf-reveal">
+          <table class="inf-decision">
+            <thead><tr><th>Your goal</th><th>Start with</th><th>Typical input</th><th>Main output</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Find the most influential nodes</strong></td><td>IVI</td><td>Network / <code>igraph</code> object</td><td>Integrated influence score per node</td></tr>
+              <tr><td><strong>Prioritize experimental candidates</strong></td><td>ExIR</td><td>Omics data + differential/regression evidence</td><td>Drivers, biomarkers and mediators</td></tr>
+              <tr><td><strong>Find locally powerful hubs</strong></td><td>Hubness score</td><td>Network</td><td>Local topological power</td></tr>
+              <tr><td><strong>Find strong information spreaders</strong></td><td>Spreading score</td><td>Network</td><td>Spreading potential</td></tr>
+              <tr><td><strong>Measure simulation-based influence</strong></td><td>SIRIR</td><td>Network</td><td>Influence rank from SIR perturbation</td></tr>
+              <tr><td><strong>Evaluate candidate perturbations</strong></td><td><code>comp_manipulate()</code></td><td>ExIR output or independent network</td><td>Knockout / up-regulation ranks</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXIR -->
+    <section class="inf-section inf-anchor" id="exir">
+      <div class="inf-container">
+        <article class="inf-spot inf-reveal">
+          <div class="inf-spot-copy">
+            <span class="inf-kicker">Experimental prioritization</span>
+            <h3>ExIR turns omics measurements into ranked biological candidates.</h3>
+            <p>
+              ExIR accepts experimental data from platforms including transcriptomics, proteomics, bulk RNA-seq and single-cell RNA-seq.
+              It combines multi-level filtration and scoring based on supervised learning, unsupervised learning,
+              network reconstruction and integrated influence ranking.
+            </p>
+            <div class="inf-output-pills">
+              <span>Drivers</span><span>Biomarkers</span><span>DE-mediators</span><span>nonDE-mediators</span>
+            </div>
+            <div class="inf-actions">
+              <a class="inf-btn inf-btn-accent" href="https://influential.erc.monash.edu/ExIR/" target="_blank" rel="noopener">Open ExIR web app ↗</a>
+              <a class="inf-btn inf-btn-secondary" href="https://doi.org/10.1016/j.isci.2026.116303" target="_blank" rel="noopener">Read the ExIR paper ↗</a>
+            </div>
+          </div>
+
+          <div class="inf-diagram">
+            <div class="inf-exir-flow">
+              <div class="inf-exir-col">
+                <div class="inf-exir-box"><strong>Experimental data</strong>Matrix, sparse matrix, data frame or Seurat object</div>
+                <div class="inf-exir-box"><strong>Differential / regression evidence</strong>Effect sizes, significance and trajectory-related evidence</div>
+                <div class="inf-exir-box"><strong>Scale-aware preparation</strong>Optional normalization, pseudo-sampling and conservative feature filtering</div>
+              </div>
+              <div class="inf-exir-arrow">→</div>
+              <div class="inf-exir-col">
+                <div class="inf-exir-box"><strong>Integrative scoring</strong>Supervised + unsupervised learning</div>
+                <div class="inf-exir-box"><strong>Network reconstruction</strong>Feature–feature relationships</div>
+                <div class="inf-exir-box"><strong>Influence ranking</strong>Network importance contributes to final prioritization</div>
+                <div class="inf-exir-box"><strong>Biological classes</strong>Drivers · biomarkers · DE/nonDE mediators</div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- IVI -->
+    <section class="inf-section-tight inf-anchor" id="ivi">
+      <div class="inf-container">
+        <article class="inf-spot inf-reveal">
+          <div class="inf-spot-copy">
+            <span class="inf-kicker">Integrative network influence</span>
+            <h3>IVI captures influence across multiple topological scales.</h3>
+            <p>
+              IVI integrates complementary local, semi-local and global centrality information rather than
+              treating one network property as a universal definition of influence. It can be calculated
+              directly from a graph or from previously calculated component indices.
+            </p>
+            <div class="inf-output-pills"><span>Degree</span><span>ClusterRank</span><span>Neighborhood connectivity</span><span>Local H-index</span><span>Betweenness</span><span>Collective influence</span></div>
+            <div class="inf-actions">
+              <a class="inf-btn inf-btn-primary" href="https://influential.erc.monash.edu/IVI/" target="_blank" rel="noopener">Open IVI web app ↗</a>
+              <a class="inf-btn inf-btn-secondary" href="https://doi.org/10.1016/j.patter.2020.100052" target="_blank" rel="noopener">Read the IVI paper ↗</a>
+            </div>
+          </div>
+
+          <div class="inf-diagram">
+            <div class="inf-ivi-viz">
+              <div class="inf-ivi-ring">
+                <div class="inf-ivi-node inf-ivi-a"><b>Local</b>Degree + ClusterRank</div>
+                <div class="inf-ivi-node inf-ivi-b"><b>Semi-local</b>Neighborhood connectivity + local H-index</div>
+                <div class="inf-ivi-node inf-ivi-c"><b>Global</b>Betweenness + collective influence</div>
+                <div class="inf-ivi-center">IVI</div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- TOOLKIT -->
+    <section class="inf-section inf-section-alt">
+      <div class="inf-container">
+        <div class="inf-section-head inf-reveal">
+          <div><span class="inf-kicker">Network analysis toolkit</span><h2>More than a ranking function.</h2></div>
+          <p class="inf-section-intro">The package provides the upstream and downstream utilities needed to move from measurements to networks, network statistics and interpretable visualizations.</p>
+        </div>
+
+        <div class="inf-tool-grid">
+          <article class="inf-tool inf-reveal"><div class="inf-tool-icon">≈</div><strong>Fast correlation</strong><p><code>fcor()</code> calculates Pearson/Spearman correlations with optional mutual rank, p-values and adjusted p-values.</p></article>
+          <article class="inf-tool inf-reveal"><div class="inf-tool-icon">◇</div><strong>Network reconstruction</strong><p>Create <code>igraph</code> networks from data frames, adjacency matrices, incidence matrices and SIF files.</p></article>
+          <article class="inf-tool inf-reveal"><div class="inf-tool-icon">◎</div><strong>Centrality measures</strong><p>Calculate degree, betweenness, neighborhood connectivity, H-index, local H-index, collective influence and ClusterRank.</p></article>
+          <article class="inf-tool inf-reveal"><div class="inf-tool-icon">⌁</div><strong>Association assessment</strong><p>Evaluate dependence, non-linearity, non-monotonicity and conditional relationships between continuous measures.</p></article>
+          <article class="inf-tool inf-reveal"><div class="inf-tool-icon">◉</div><strong>Centrality visualization</strong><p>Map a centrality measure to node size and color for directed/undirected and weighted/unweighted networks.</p></article>
+          <article class="inf-tool inf-reveal"><div class="inf-tool-icon">↗</div><strong>Scalable ExIR inputs</strong><p>Use matrices, sparse matrices, data frames, tibbles or Seurat objects with optional pseudo-sampling for larger datasets.</p></article>
+          <article class="inf-tool inf-reveal" id="simulation"><div class="inf-tool-icon">S</div><strong>SIRIR simulation</strong><p>Quantify the effect of leaving nodes out of the network under susceptible–infected–recovered dynamics.</p></article>
+          <article class="inf-tool inf-reveal"><div class="inf-tool-icon">±</div><strong>Computational perturbation</strong><p>Simulate knockout and up-regulation to assess effects on information flow before experimental validation.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SHINY APPS -->
+    <section class="inf-section inf-anchor" id="apps">
+      <div class="inf-container">
+        <div class="inf-app-shell inf-reveal">
+          <div class="inf-app-grid">
+            <div>
+              <span class="inf-kicker">No-code and local interfaces</span>
+              <h2>Explore IVI and ExIR without writing a full analysis script.</h2>
+              <p>
+                Use the Influential Software Package web portal in a browser, or launch the bundled IVI
+                and ExIR Shiny interfaces locally from R. The apps make core workflows accessible while
+                preserving the scripted package interface for reproducible analysis.
+              </p>
+              <div class="inf-actions">
+                <a class="inf-btn inf-btn-secondary" href="https://influential.erc.monash.edu/" target="_blank" rel="noopener">Open web portal ↗</a>
+                <a class="inf-btn inf-btn-secondary" href="https://influential.erc.monash.edu/IVI/" target="_blank" rel="noopener">IVI app ↗</a>
+                <a class="inf-btn inf-btn-secondary" href="https://influential.erc.monash.edu/ExIR/" target="_blank" rel="noopener">ExIR app ↗</a>
+              </div>
+            </div>
+            <div class="inf-app-cards">
+              <div class="inf-app-card"><strong>IVI Shiny app</strong><p>Calculate IVI and visualize networks according to node influence.</p><code>influential::runShinyApp("IVI")</code></div>
+              <div class="inf-app-card"><strong>ExIR Shiny app</strong><p>Run ExIR, inspect result classes and explore candidate prioritization.</p><code>influential::runShinyApp("ExIR")</code></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUICK START -->
+    <section class="inf-section inf-section-alt inf-anchor" id="quickstart">
+      <div class="inf-container inf-code-layout">
+        <div class="inf-code-copy inf-reveal">
+          <span class="inf-kicker">Quick start</span>
+          <h2>Install it. Build a network. Ask what matters.</h2>
+          <p>Start with the stable CRAN release, then move directly to the workflow that fits your question.</p>
+          <div class="inf-actions">
+            <a class="inf-btn inf-btn-primary" href="https://cran.r-project.org/package=influential" target="_blank" rel="noopener">CRAN ↗</a>
+            <a class="inf-btn inf-btn-secondary" href="https://asalavaty.github.io/influential/articles/Vignettes.html" target="_blank" rel="noopener">Full vignette ↗</a>
+          </div>
+        </div>
+
+        <div class="inf-code-box inf-reveal">
+          <div class="inf-code-tabs" role="tablist">
+            <button class="inf-code-tab active" data-code-tab="install" type="button">Install</button>
+            <button class="inf-code-tab" data-code-tab="ivi" type="button">IVI</button>
+            <button class="inf-code-tab" data-code-tab="exir" type="button">ExIR</button>
+            <button class="inf-code-tab" data-code-tab="apps" type="button">Shiny apps</button>
+          </div>
+
+          <div class="inf-code-panel active" data-code-panel="install"><button class="inf-copy" type="button">Copy</button><pre><code>install.packages("influential")
+library(influential)
+
+# Development version
+# install.packages("remotes")
+remotes::install_github(
+  "asalavaty/influential",
+  build_vignettes = TRUE
+)</code></pre></div>
+
+          <div class="inf-code-panel" data-code-panel="ivi"><button class="inf-copy" type="button">Copy</button><pre><code>library(influential)
+library(igraph)
+
+g <- graph_from_data_frame(coexpression.data)
+
+ivi_scores <- ivi(
+  graph = g,
+  directed = FALSE,
+  scale = "range"
+)
+
+head(ivi_scores)</code></pre></div>
+
+          <div class="inf-code-panel" data-code-panel="exir"><button class="inf-copy" type="button">Copy</button><pre><code>fit <- exir(
+  Diff_data = my_Diff_data,
+  Diff_value = c(1, 3),
+  Regr_value = 5,
+  Sig_value = c(2, 4),
+  Exptl_data = expression_matrix,
+  Exptl_data_type = "bulk",
+  condition = condition,
+  feature_filter = TRUE,
+  verbose = FALSE
+)
+
+names(fit)
+# "Driver table"
+# "DE-mediator table"
+# "Biomarker table"
+# "Graph"</code></pre></div>
+
+          <div class="inf-code-panel" data-code-panel="apps"><button class="inf-copy" type="button">Copy</button><pre><code># Interactive IVI interface
+influential::runShinyApp("IVI")
+
+# Interactive ExIR interface
+influential::runShinyApp("ExIR")</code></pre></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- USE CASES -->
+    <section class="inf-section">
+      <div class="inf-container">
+        <div class="inf-section-head inf-reveal">
+          <div><span class="inf-kicker">Where it fits</span><h2>From network science to experimental biology.</h2></div>
+          <p class="inf-section-intro">The same toolkit can be used to interrogate abstract networks or prioritize biologically meaningful candidates from high-dimensional experimental data.</p>
+        </div>
+
+        <div class="inf-use-grid">
+          <article class="inf-use inf-reveal"><h3>Network influence analysis</h3><p>Identify nodes that integrate local connectivity, neighborhood structure and global network position.</p><span class="inf-use-tag">IVI</span><svg class="inf-use-art" viewBox="0 0 150 90"><g stroke="#91b7c4" stroke-width="1.5"><line x1="33" y1="54" x2="78" y2="25"/><line x1="78" y1="25" x2="119" y2="48"/><line x1="33" y1="54" x2="75" y2="72"/><line x1="75" y1="72" x2="119" y2="48"/></g><g fill="#176987"><circle cx="33" cy="54" r="7"/><circle cx="119" cy="48" r="6"/><circle cx="75" cy="72" r="5"/></g><circle cx="78" cy="25" r="11" fill="#6854b2"/></svg></article>
+          <article class="inf-use inf-reveal"><h3>Driver discovery</h3><p>Prioritize features predicted to exert strong impact on the progression of a biological process or disease.</p><span class="inf-use-tag">ExIR drivers</span><svg class="inf-use-art" viewBox="0 0 150 90"><rect x="26" y="20" width="87" height="10" rx="5" fill="#d9e8ed"/><rect x="26" y="39" width="109" height="10" rx="5" fill="#6854b2"/><rect x="26" y="58" width="65" height="10" rx="5" fill="#176987"/></svg></article>
+          <article class="inf-use inf-reveal"><h3>Biomarker prioritization</h3><p>Rank features predicted to show high sensitivity to the conditions and severity represented in the experimental data.</p><span class="inf-use-tag">ExIR biomarkers</span><svg class="inf-use-art" viewBox="0 0 150 90"><path d="M22 68 L44 47 L66 55 L87 24 L109 36 L134 15" fill="none" stroke="#176987" stroke-width="4"/><g fill="#6854b2"><circle cx="44" cy="47" r="5"/><circle cx="87" cy="24" r="5"/><circle cx="134" cy="15" r="5"/></g></svg></article>
+          <article class="inf-use inf-reveal"><h3>Single-cell feature prioritization</h3><p>Use raw-count single-cell inputs with pseudo-sampling, including sparse matrices and Seurat objects.</p><span class="inf-use-tag">scRNA-seq</span><svg class="inf-use-art" viewBox="0 0 150 90"><g fill="#78b8c9"><circle cx="25" cy="22" r="5"/><circle cx="43" cy="34" r="4"/><circle cx="68" cy="22" r="6"/><circle cx="84" cy="43" r="5"/><circle cx="112" cy="29" r="4"/><circle cx="124" cy="55" r="6"/><circle cx="53" cy="65" r="5"/><circle cx="91" cy="69" r="4"/></g><g fill="#6854b2"><circle cx="38" cy="17" r="4"/><circle cx="75" cy="56" r="5"/><circle cx="107" cy="62" r="4"/></g></svg></article>
+          <article class="inf-use inf-reveal"><h3>Influence benchmarking</h3><p>Use simulation-based SIRIR ranks to assess how strongly individual nodes affect topology and spreading behavior.</p><span class="inf-use-tag">SIRIR</span><svg class="inf-use-art" viewBox="0 0 150 90"><circle cx="40" cy="45" r="16" fill="#176987" opacity=".9"/><circle cx="78" cy="45" r="16" fill="#b7782e" opacity=".88"/><circle cx="116" cy="45" r="16" fill="#6854b2" opacity=".9"/><text x="40" y="49" text-anchor="middle" font-size="10" fill="#fff">S</text><text x="78" y="49" text-anchor="middle" font-size="10" fill="#fff">I</text><text x="116" y="49" text-anchor="middle" font-size="10" fill="#fff">R</text></svg></article>
+          <article class="inf-use inf-reveal"><h3>In silico perturbation</h3><p>Compare knockout and up-regulation effects on information flow before committing candidates to validation experiments.</p><span class="inf-use-tag">comp_manipulate</span><svg class="inf-use-art" viewBox="0 0 150 90"><circle cx="45" cy="45" r="19" fill="#eaf4f6" stroke="#176987" stroke-width="3"/><line x1="32" y1="45" x2="58" y2="45" stroke="#176987" stroke-width="4"/><circle cx="105" cy="45" r="19" fill="#f0edfa" stroke="#6854b2" stroke-width="3"/><line x1="92" y1="45" x2="118" y2="45" stroke="#6854b2" stroke-width="4"/><line x1="105" y1="32" x2="105" y2="58" stroke="#6854b2" stroke-width="4"/></svg></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PUBLICATIONS -->
+    <section class="inf-section-tight inf-section-alt">
+      <div class="inf-container">
+        <div class="inf-section-head inf-reveal">
+          <div><span class="inf-kicker">Associated methods papers</span><h2>Read the methodological foundations.</h2></div>
+          <p class="inf-section-intro">The package connects published network-influence methodology with newer experimental-data-driven feature prioritization.</p>
+        </div>
+
+        <div class="inf-pub-grid">
+          <article class="inf-pub inf-reveal">
+            <span class="inf-pub-label">ExIR · iScience · 2026</span>
+            <h3>ExIR enables prioritizing driver and biomarker genes from omics data in a reference free manner.</h3>
+            <p>Salavaty A, Douek AM, Kaslin J, Ramialison M, Currie PD.</p>
+            <a href="https://doi.org/10.1016/j.isci.2026.116303" target="_blank" rel="noopener">Read publication ↗</a>
+          </article>
+          <article class="inf-pub inf-reveal">
+            <span class="inf-pub-label">IVI · Patterns · 2020</span>
+            <h3>Integrated Value of Influence: An Integrative Method for the Identification of the Most Influential Nodes within Networks.</h3>
+            <p>Salavaty A, Ramialison M, Currie PD.</p>
+            <a href="https://doi.org/10.1016/j.patter.2020.100052" target="_blank" rel="noopener">Read publication ↗</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESOURCES -->
+    <section class="inf-section inf-anchor" id="resources">
+      <div class="inf-container">
+        <div class="inf-section-head inf-reveal">
+          <div><span class="inf-kicker">Open & documented</span><h2>Everything you need to install, learn and reproduce.</h2></div>
+          <p class="inf-section-intro">Use CRAN for the stable release, GitHub for development and issues, the vignette for step-by-step workflows, and the web portal for interactive analyses.</p>
+        </div>
+
+        <div class="inf-resource-grid">
+          <article class="inf-resource-card inf-reveal"><h3>Package</h3><p>Stable release, source code and issue tracking.</p><div class="inf-resource-list">
+            <a class="inf-resource" href="https://cran.r-project.org/package=influential" target="_blank" rel="noopener"><strong>CRAN</strong><span>Version 2.3.1 ↗</span></a>
+            <a class="inf-resource" href="https://github.com/asalavaty/influential" target="_blank" rel="noopener"><strong>GitHub</strong><span>asalavaty/influential ↗</span></a>
+            <a class="inf-resource" href="https://github.com/asalavaty/influential/issues" target="_blank" rel="noopener"><strong>Issues</strong><span>Report bugs / request features ↗</span></a>
+          </div></article>
+
+          <article class="inf-resource-card inf-reveal"><h3>Documentation</h3><p>Overview, detailed workflows and function references.</p><div class="inf-resource-list">
+            <a class="inf-resource" href="https://asalavaty.github.io/influential/" target="_blank" rel="noopener"><strong>Package website</strong><span>pkgdown ↗</span></a>
+            <a class="inf-resource" href="https://asalavaty.github.io/influential/articles/Vignettes.html" target="_blank" rel="noopener"><strong>Full vignette</strong><span>Step-by-step guide ↗</span></a>
+            <a class="inf-resource" href="https://cran.r-project.org/web/packages/influential/index.html" target="_blank" rel="noopener"><strong>CRAN documentation</strong><span>Manual + vignette ↗</span></a>
+          </div></article>
+
+          <article class="inf-resource-card inf-reveal"><h3>Interactive tools</h3><p>Browser-based and locally launchable analysis interfaces.</p><div class="inf-resource-list">
+            <a class="inf-resource" href="https://influential.erc.monash.edu/" target="_blank" rel="noopener"><strong>Software portal</strong><span>Open online ↗</span></a>
+            <a class="inf-resource" href="https://influential.erc.monash.edu/IVI/" target="_blank" rel="noopener"><strong>IVI app</strong><span>Influence analysis ↗</span></a>
+            <a class="inf-resource" href="https://influential.erc.monash.edu/ExIR/" target="_blank" rel="noopener"><strong>ExIR app</strong><span>Candidate prioritization ↗</span></a>
+          </div></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="inf-section-tight inf-section-alt inf-anchor" id="faq">
+      <div class="inf-container inf-faq">
+        <aside class="inf-reveal">
+          <span class="inf-kicker">FAQ</span>
+          <h2>Common questions.</h2>
+          <p class="inf-section-intro">Short answers for researchers deciding which <code>influential</code> workflow fits their analysis.</p>
+        </aside>
+
+        <div class="inf-reveal">
+          <details open><summary>What is the difference between <code>influential</code> and IVI?</summary><p><strong><code>influential</code></strong> is the R package. <strong>IVI</strong> is one of its featured network-influence methods. The package also contains ExIR, Hubness score, Spreading score, SIRIR, perturbation tools, network reconstruction, centrality functions and visualization utilities.</p></details>
+          <details><summary>Can I use ExIR without starting from a pre-built network?</summary><p>Yes. ExIR is designed around experimental data and can reconstruct feature relationships internally as part of its integrative prioritization workflow.</p></details>
+          <details><summary>What kinds of experimental data can ExIR use?</summary><p>The vignette describes transcriptomics, proteomics, bulk RNA-seq and single-cell RNA-seq applications. Inputs can include data frames, tibbles, matrices, sparse matrices and Seurat objects.</p></details>
+          <details><summary>Does ExIR return only one ranked list?</summary><p>No. Depending on the supplied evidence and arguments, ExIR can return a graph plus tables for drivers, biomarkers, DE-mediators and nonDE-mediators.</p></details>
+          <details><summary>Can IVI handle directed or weighted networks?</summary><p>Yes. IVI supports directed networks through the relevant direction/mode settings and can use edge weights where appropriate.</p></details>
+          <details><summary>What is the difference between Hubness score and Spreading score?</summary><p>Hubness score emphasizes local topological power using degree centrality and local H-index. Spreading score integrates measures associated with information-diffusion potential, including ClusterRank, neighborhood connectivity, betweenness and collective influence.</p></details>
+          <details><summary>When should I use SIRIR?</summary><p>Use SIRIR when you want a simulation-based view of influence. It combines SIR dynamics with leave-one-out perturbation to rank nodes according to their effect on network topology and information spread.</p></details>
+          <details><summary>Can I use the package without coding?</summary><p>The Influential Software Package web portal provides browser-based IVI and ExIR interfaces. The same apps can also be launched locally from R with <code>runShinyApp("IVI")</code> and <code>runShinyApp("ExIR")</code>.</p></details>
+          <details><summary>How do I cite the package?</summary><p>Use the publication associated with the method you use. ExIR is described in the 2026 iScience article and IVI/network influence analysis is described in the 2020 Patterns article. <code>citation("influential")</code> provides package citation information from R.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="inf-section">
+      <div class="inf-container">
+        <div class="inf-final inf-reveal">
+          <div>
+            <h2>Find the nodes and features that move the system.</h2>
+            <p>Install <code>influential</code> from CRAN, explore the full vignette, or open the interactive IVI and ExIR interfaces.</p>
+          </div>
+          <div class="inf-actions">
+            <a class="inf-btn inf-btn-secondary" href="https://cran.r-project.org/package=influential" target="_blank" rel="noopener">CRAN ↗</a>
+            <a class="inf-btn inf-btn-secondary" href="https://github.com/asalavaty/influential" target="_blank" rel="noopener">GitHub ↗</a>
+            <a class="inf-btn inf-btn-secondary" href="https://influential.erc.monash.edu/" target="_blank" rel="noopener">Web apps ↗</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="inf-footer">
+    <div class="inf-container inf-footer-row">
+      <div><strong style="color:var(--inf-ink)">influential</strong> · Network influence analysis, centrality assessment and experimental feature prioritization.<br>Developed by Adrian Salavaty · GPL-3 licensed R package.</div>
+      <div class="inf-footer-links">
+        <a href="https://cran.r-project.org/package=influential" target="_blank" rel="noopener">CRAN</a>
+        <a href="https://github.com/asalavaty/influential" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://asalavaty.github.io/influential/articles/Vignettes.html" target="_blank" rel="noopener">Vignette</a>
+        <a href="https://influential.erc.monash.edu/" target="_blank" rel="noopener">Web apps</a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  const root = document.documentElement;
+  const themeButton = document.getElementById('themeToggle');
+
+  function preferredTheme(){
+    try{
+      const stored = localStorage.getItem('influential-theme');
+      if(stored === 'light' || stored === 'dark') return stored;
+    }catch(e){}
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+
+  function setTheme(theme){
+    if(theme === 'dark') root.setAttribute('data-theme','dark');
+    else root.removeAttribute('data-theme');
+    if(themeButton) themeButton.textContent = theme === 'dark' ? '☀' : '◐';
+    try{ localStorage.setItem('influential-theme',theme); }catch(e){}
+  }
+
+  setTheme(preferredTheme());
+  if(themeButton){
+    themeButton.addEventListener('click',function(){
+      setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
+  }
+
+  const jumpTop = document.getElementById('jumpTop');
+  if(jumpTop) jumpTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+  document.querySelectorAll('.inf-code-tab').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const key = btn.getAttribute('data-code-tab');
+      const box = btn.closest('.inf-code-box');
+      box.querySelectorAll('.inf-code-tab').forEach(x=>x.classList.toggle('active',x===btn));
+      box.querySelectorAll('.inf-code-panel').forEach(panel=>{
+        panel.classList.toggle('active',panel.getAttribute('data-code-panel')===key);
+      });
+    });
+  });
+
+  document.querySelectorAll('.inf-copy').forEach(btn=>{
+    btn.addEventListener('click',async()=>{
+      const code = btn.parentElement.querySelector('code').innerText;
+      try{
+        await navigator.clipboard.writeText(code);
+        const old = btn.textContent;
+        btn.textContent = 'Copied';
+        setTimeout(()=>btn.textContent=old,1200);
+      }catch(e){
+        const area = document.createElement('textarea');
+        area.value = code; document.body.appendChild(area); area.select();
+        document.execCommand('copy'); area.remove();
+        btn.textContent='Copied'; setTimeout(()=>btn.textContent='Copy',1200);
+      }
+    });
+  });
+
+  const reveal = document.querySelectorAll('.inf-reveal');
+  if('IntersectionObserver' in window){
+    const obs = new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){ entry.target.classList.add('visible'); obs.unobserve(entry.target); }
+      });
+    },{threshold:.08,rootMargin:'0px 0px -35px 0px'});
+    reveal.forEach(el=>obs.observe(el));
+  }else{
+    reveal.forEach(el=>el.classList.add('visible'));
+  }
+})();
+</script>
+</body>
+</html>

@@ -51,3 +51,11 @@ functions have been provided for the assessment of dependence and
 correlation of two network centrality measures as well as the
 conditional probability of deviation from their corresponding means in
 opposite directions.
+
+## Interactive Demo
+
+Explore different features of the influential R package in an interactive mode.
+
+<a href="/widgets/influential.html" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px;">
+  <i class="fas fa-desktop"></i> Interactive Demo
+</a>
