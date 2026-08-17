@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Interactive onboarding hub for the CelliVerse R package: quick start, capabilities, workflow navigator, function finder, troubleshooting and Agent guidance.">
+<title>CelliVerse Adoption Hub</title>
+<style>
+:root{--bg:#f4f6fb;--bg2:#fbfcff;--card:#fff;--ink:#172138;--muted:#667895;--line:#dce3ee;--navy:#172b72;--indigo:#3e49c8;--purple:#7437d1;--teal:#18a5b8;--green:#3f9b70;--orange:#e99545;--red:#d85d68;--pale-purple:#f0ecff;--pale-teal:#eaf8fa;--pale-blue:#edf1ff;--pale-orange:#fff3e7;--shadow:0 18px 48px rgba(39,52,91,.10)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);background:radial-gradient(circle at 8% 0,#e7e9ff 0,transparent 31rem),radial-gradient(circle at 92% 12%,#e7f9fb 0,transparent 25rem),linear-gradient(180deg,var(--bg2),var(--bg));font:14px/1.56 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}a{color:inherit}button,input{font:inherit}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace}.wrap{width:min(1180px,calc(100% - 30px));margin:auto}section{padding:62px 0;scroll-margin-top:96px}.section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:22px}.section-head>div:first-child{max-width:790px}.eyebrow{display:inline-flex;align-items:center;gap:7px;color:#6840c0;font-weight:850;text-transform:uppercase;letter-spacing:.1em;font-size:10px;margin-bottom:7px}.eyebrow:before{content:"";width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--purple))}h1{font-size:clamp(43px,7vw,68px);line-height:.97;letter-spacing:-.057em;margin:8px 0 20px}h2{font-size:clamp(30px,4vw,40px);letter-spacing:-.045em;line-height:1.02;margin:0 0 9px}h3{margin:0 0 6px;letter-spacing:-.02em}.grad{background:linear-gradient(90deg,var(--navy),#4650cc,var(--purple));-webkit-background-clip:text;color:transparent}.lead{font-size:18px;font-weight:720;color:#2c3952;max-width:720px}.muted{color:var(--muted)}.panel,.card{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}.panel{padding:19px}.card{padding:18px}
+nav{position:sticky;top:0;z-index:50;padding-top:10px}.nav{background:rgba(255,255,255,.88);border:1px solid rgba(220,227,238,.95);backdrop-filter:blur(16px);border-radius:17px;padding:9px 12px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 13px 34px rgba(36,52,93,.11)}.brand{display:flex;align-items:center;gap:9px;text-decoration:none;font-weight:900;letter-spacing:-.02em;white-space:nowrap}.brand-mark{width:29px;height:29px;border-radius:9px;display:grid;place-items:center;background:linear-gradient(135deg,var(--navy),var(--purple));color:#fff;font-weight:900;box-shadow:0 6px 15px rgba(71,58,174,.22)}.nav-links{display:flex;align-items:center;gap:3px}.nav-links a{text-decoration:none;color:#5f6e87;font-size:11.5px;font-weight:760;padding:7px 8px;border-radius:8px;white-space:nowrap}.nav-links a:hover{color:var(--navy);background:#f3f5fb}.github{display:inline-grid;place-items:center;width:32px;height:32px;border:1px solid var(--line);border-radius:10px;text-decoration:none;margin-left:4px;background:#fff}.github svg{width:17px;height:17px;fill:#28354f}.menu-btn{display:none;border:0;background:transparent;font-size:21px;cursor:pointer}
+.hero{padding:78px 0 42px;display:grid;grid-template-columns:1.05fr .85fr;gap:42px;align-items:center}.hero p{margin:12px 0}.actions{margin-top:22px;display:flex;flex-wrap:wrap;gap:8px}.btn{display:inline-flex;align-items:center;gap:7px;text-decoration:none;border:0;cursor:pointer;background:var(--navy);color:#fff;padding:10px 13px;border-radius:10px;font-weight:820;transition:.16s ease}.btn.alt{background:#fff;color:var(--navy);border:1px solid var(--line)}.btn.ghost{background:#f2efff;color:#6437c0}.btn:hover{transform:translateY(-1px)}.hero-card{position:relative;overflow:hidden}.hero-card:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,#eee9ff,transparent 67%);right:-55px;top:-65px;pointer-events:none}.question{font-weight:900;font-size:18px;margin-bottom:12px;position:relative;z-index:1}.choice{width:100%;text-align:left;border:1px solid var(--line);background:#fff;padding:11px 12px;border-radius:11px;margin:5px 0;cursor:pointer;font-weight:750;color:#52637e;transition:.16s ease;position:relative;z-index:1}.choice:hover,.choice.active{background:var(--pale-purple);color:#5b32be;border-color:#d8ceff;transform:translateX(2px)}.result{margin-top:12px;padding:14px;border-radius:12px;background:var(--pale-teal);color:#245d66;min-height:84px;position:relative;z-index:1}.result code{color:#4d33b2;font-weight:900}
+.route-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.route-step{min-height:150px;position:relative;padding:19px;border-radius:18px;border:1px solid var(--line);background:linear-gradient(145deg,#fff,#fafbff);box-shadow:0 12px 30px rgba(39,52,91,.07)}.route-step:after{content:"";position:absolute;top:50%;right:-13px;width:14px;height:2px;background:#cfd7e6}.route-step:last-child:after{display:none}.route-num{width:31px;height:31px;border-radius:10px;display:grid;place-items:center;font-size:15px;font-weight:900;color:#fff;background:linear-gradient(135deg,var(--indigo),var(--purple));margin-bottom:13px}.route-step code{color:#5634b7;font-weight:900;font-size:14px}.route-note{margin-top:13px;padding:12px 14px;border-radius:13px;background:#f7f8fc;border:1px solid var(--line);color:#596a86}
+.cap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.cap-card{position:relative;overflow:hidden;min-height:170px}.cap-card:before{content:"";position:absolute;inset:0 auto 0 0;width:4px;background:var(--accent,var(--indigo))}.cap-stage{display:inline-flex;padding:5px 8px;border-radius:999px;background:#f3f0ff;color:#6338bd;font-size:10px;font-weight:850;text-transform:uppercase;letter-spacing:.07em;margin-bottom:11px}.cap-card code{color:var(--accent,var(--purple));font-weight:900;display:block;margin:8px 0}.helper-strip{margin-top:13px;padding:16px;background:linear-gradient(135deg,#f8f9fd,#f4f6fb);border:1px solid var(--line);border-radius:18px}.helper-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.helper{border:1px solid var(--line);background:#fff;border-radius:11px;padding:10px}.helper code{color:var(--navy);font-weight:850;font-size:11px;display:block;margin-bottom:3px}.helper span{color:var(--muted);font-size:11px}
+.navigator{display:grid;grid-template-columns:260px 1fr;gap:14px;align-items:start}.nav-panel{position:sticky;top:84px}.nav-mode{display:flex;flex-direction:column;gap:6px;margin-top:12px}.mode-btn{border:1px solid var(--line);background:#fff;color:#596a86;padding:10px 11px;border-radius:10px;text-align:left;cursor:pointer;font-weight:780}.mode-btn.active{background:var(--pale-purple);color:#5b32be;border-color:#d7ceff}.stage-mini{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:7px;
+  margin-top:15px;
+  width:100%;
+}
+.stage-mini span{
+  min-width:0;padding:7px 5px;border-radius:9px;text-align:center;
+  font-size:8.5px;font-weight:900;text-transform:uppercase;letter-spacing:.045em;
+  border:1px solid transparent;overflow:hidden;text-overflow:ellipsis;
+}
+.stage-discover{background:#edf1ff!important;color:#3347ad!important;border-color:#d3dcff!important}
+.stage-interrogate{background:#e9f8fa!important;color:#177788!important;border-color:#ccebef!important}
+.stage-annotate{background:#f1ebff!important;color:#6838bd!important;border-color:#ddd1ff!important}
+.stage-integrate{background:#fff1e5!important;color:#a35e22!important;border-color:#f2d9bf!important}.workspace{min-height:520px}.workspace-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:13px}.workspace-title{font-size:21px;font-weight:900;letter-spacing:-.025em}.search{width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:11px;background:#fff;outline:none}.search:focus{border-color:#bcb1ef;box-shadow:0 0 0 3px rgba(116,55,209,.08)}.option-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.start-card{border:1px solid var(--line);background:#fff;border-radius:13px;padding:13px;cursor:pointer;transition:.16s ease;text-align:left}.start-card:hover,.start-card.active{border-color:#cfc4fb;background:#faf8ff;transform:translateY(-1px)}.start-card strong{display:block;margin-bottom:4px}.recommendation{margin-top:12px;padding:17px;border-radius:15px;border:1px solid #d8dff0;background:linear-gradient(135deg,#f7f8ff,#eef9fb)}.rec-stage{font-size:10px;text-transform:uppercase;font-weight:900;color:#6676a0;letter-spacing:.08em}.rec-function{color:#5535b7;font-weight:900;font-size:16px;margin:5px 0}.pipeline{display:flex;align-items:stretch;gap:7px;overflow-x:auto;padding-bottom:5px}.pipe-col{min-width:190px;flex:1;border:1px solid var(--line);background:#fff;border-radius:15px;padding:12px}.pipe-title{font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:900;color:#61718d;margin-bottom:9px}.pipe-fn{padding:9px;border-radius:10px;background:#f7f8fb;margin:6px 0;cursor:pointer;border:1px solid transparent}.pipe-fn:hover{background:#f0ecff;border-color:#ddd5ff}.pipe-fn code{display:block;font-weight:900;color:#5634b7;font-size:10.5px}.pipe-fn span{color:var(--muted);font-size:10.5px}.finder-list{display:grid;gap:8px;margin-top:11px}.finder-row{
+  display:grid;grid-template-columns:1.1fr .75fr 1.4fr;gap:12px;align-items:start;
+  padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;
+  cursor:pointer;transition:.15s ease;
+}
+.finder-row:hover{border-color:#d2c9f5;background:#fbfaff}
+.finder-row.active{border-color:#bfaef2;background:#f7f3ff;box-shadow:0 5px 16px rgba(87,55,177,.08)}
+.finder-row code{color:#5935b8;font-weight:900;font-size:11px}.stage-chip{
+  display:inline-flex;align-items:center;width:max-content;max-width:100%;
+  padding:4px 7px;border-radius:999px;font-size:8.5px;font-weight:900;
+  text-transform:uppercase;letter-spacing:.055em;margin-top:5px;border:1px solid transparent;
+}
+.pipe-title.stage-chip{margin:0 0 9px;font-size:8.5px}
+.rec-stage.stage-chip{margin:0 0 6px}
+.quality-note{
+  display:none;margin-top:14px;padding:14px;background:var(--pale-orange);
+  border:1px solid #f4dfc8;border-radius:13px;color:#735132;
+}
+.quality-note.visible{display:block}
+.trouble-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 13px}.filter-btn{border:1px solid var(--line);background:#fff;padding:7px 10px;border-radius:999px;cursor:pointer;color:#61718d;font-size:11px;font-weight:800}.filter-btn.active{color:#fff;background:var(--navy);border-color:var(--navy)}.trouble-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.issue{border:1px solid var(--line);background:#fff;border-radius:15px;overflow:hidden;transition:.16s ease}.issue-head{width:100%;display:flex;justify-content:space-between;gap:12px;align-items:flex-start;text-align:left;border:0;background:#fff;cursor:pointer;padding:14px}.issue-title{font-weight:880;letter-spacing:-.01em}.issue-cat{display:inline-flex;margin-top:6px;padding:4px 7px;border-radius:999px;background:#f2f4f9;color:#6b7a94;font-size:9px;text-transform:uppercase;font-weight:900;letter-spacing:.06em}.chev{color:#7b88a0;transition:.18s ease}.issue.open .chev{transform:rotate(180deg)}.issue-body{max-height:0;overflow:hidden;transition:max-height .24s ease}.issue.open .issue-body{max-height:360px}.issue-inner{padding:0 14px 14px;color:#5f6f89}.issue-summary{color:#8090aa;margin-bottom:8px;font-size:12px}.code-line{position:relative;margin-top:10px;background:#f5f6fb;border:1px solid var(--line);border-radius:10px;padding:10px 42px 10px 11px;color:var(--navy);font-size:11px;overflow:auto}.copy{position:absolute;right:7px;top:6px;border:1px solid var(--line);background:#fff;border-radius:7px;padding:4px 6px;cursor:pointer;font-size:9px;color:#64728a}.empty{padding:26px;border:1px dashed #cdd5e3;border-radius:13px;text-align:center;color:#7c89a1}
+.agent-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.agent-step{padding:15px;border-radius:14px;background:#fff;border:1px solid var(--line);min-height:123px}.agent-step b{display:block;color:var(--purple);font-size:18px;margin-bottom:5px}.prompt-box{margin-top:12px;padding:14px;border-radius:14px;background:#182238;color:#eff3ff;box-shadow:var(--shadow)}.prompt-box code{display:block;padding:6px 0;color:#e7e2ff}.footer{padding:35px 0 50px;color:var(--muted);font-size:11px}.footer-inner{border-top:1px solid var(--line);padding-top:18px;display:flex;justify-content:space-between;gap:12px;align-items:center}.footer a{color:var(--navy);font-weight:800;text-decoration:none}
+@media(max-width:980px){.nav-links{display:none;position:absolute;left:15px;right:15px;top:62px;padding:10px;border:1px solid var(--line);border-radius:14px;background:#fff;box-shadow:var(--shadow);flex-direction:column;align-items:stretch}.nav-links.open{display:flex}.nav-links a{padding:9px 10px}.menu-btn{display:block}.hero{grid-template-columns:1fr;gap:24px;padding-top:56px}.navigator{grid-template-columns:1fr}.nav-panel{position:static}.nav-mode{flex-direction:row;flex-wrap:wrap}.mode-btn{flex:1 1 180px}}
+@media(max-width:760px){section{padding:48px 0}.route-grid,.cap-grid,.helper-grid,.trouble-grid,.agent-steps{grid-template-columns:1fr}.route-step:after{display:none}.option-grid{grid-template-columns:1fr}.finder-row{grid-template-columns:1fr;gap:5px}.stage-mini{grid-template-columns:repeat(2,1fr)}.section-head{align-items:flex-start;flex-direction:column;gap:8px}.footer-inner{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="wrap nav">
+    <a class="brand" href="#top"><span class="brand-mark">C</span><span>CelliVerse Adoption Hub</span></a>
+    <div class="nav-links" id="navLinks">
+      <a href="#start">Quick start</a>
+      <a href="#capabilities">At a glance</a>
+      <a href="#navigator">Function guide</a>
+      <a href="#troubleshooting">Troubleshooting</a>
+      <a href="#agent">Agent</a>
+      <a href="https://asalavaty.com/widgets/celliverse" target="_blank" rel="noopener">CelliVerse</a>
+    </div>
+    <div style="display:flex;align-items:center">
+      <a class="github" href="https://github.com/asalavaty/celliverse" target="_blank" rel="noopener" aria-label="CelliVerse GitHub" title="CelliVerse GitHub">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .7a11.3 11.3 0 0 0-3.57 22.02c.57.1.78-.25.78-.55v-2.16c-3.17.69-3.84-1.35-3.84-1.35-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.25 3.34.96.1-.74.4-1.25.73-1.54-2.53-.29-5.19-1.27-5.19-5.64 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.45.11-3.03 0 0 .96-.31 3.11 1.17A10.8 10.8 0 0 1 12 6c.96 0 1.93.13 2.83.38 2.15-1.48 3.11-1.17 3.11-1.17.62 1.58.23 2.74.11 3.03.73.8 1.18 1.82 1.18 3.07 0 4.38-2.67 5.35-5.21 5.63.41.35.77 1.04.77 2.1v3.12c0 .31.2.66.79.55A11.3 11.3 0 0 0 12 .7Z"/></svg>
+      </a>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+    </div>
+  </div>
+</nav>
+
+<main class="wrap" id="top">
+  <div class="hero">
+    <div>
+      <div class="eyebrow">Professional onboarding</div>
+      <h1>Your first hour with <span class="grad">CelliVerse</span>.</h1>
+      <div class="lead">Choose the right workflow, run a minimal analysis, understand how the functions connect and resolve common first-use problems without digging through several separate documents.</div>
+      <p class="muted">This standalone hub brings the most useful adoption material into one interactive page.</p>
+      <div class="actions">
+        <a class="btn" href="#start">Start the workflow</a>
+        <a class="btn alt" href="https://asalavaty.com/widgets/celliverse" target="_blank" rel="noopener">Explore CelliVerse</a>
+        <a class="btn alt" href="https://cran.r-project.org/web/packages/celliverse/vignettes/Introduction-to-CelliVerse.html" target="_blank" rel="noopener">Full vignette</a>
+      </div>
+    </div>
+    <div class="panel hero-card">
+      <div class="question">What is your starting point?</div>
+      <button class="choice" data-start="unknown">I do not know the cell populations yet</button>
+      <button class="choice" data-start="clusters">I already have clusters</button>
+      <button class="choice" data-start="cells">I have a selected subset of cells</button>
+      <button class="choice" data-start="markers">I already have marker genes</button>
+      <button class="choice" data-start="large">My dataset is very large</button>
+      <div class="result" id="heroResult">Choose a starting point to get an immediate recommendation.</div>
+    </div>
+  </div>
+
+  <section id="start">
+    <div class="section-head"><div><div class="eyebrow">Quick start</div><h2>Minimal reproducible route</h2><p class="muted">For a new dataset, keep the first pass deliberately simple. Discover structure and markers, return the labels to the original object, then annotate with evidence.</p></div></div>
+    <div class="route-grid">
+      <div class="route-step"><div class="route-num">1</div><code>clustoCell()</code><h3>Discover structure + markers</h3><p class="muted">Run joint population discovery and obtain ranked marker evidence for the inferred structure.</p></div>
+      <div class="route-step"><div class="route-num">2</div><code>addClustoData()</code><h3>Write labels to metadata</h3><p class="muted">Add the major and/or sub-cluster labels back to your Seurat or SingleCellExperiment object.</p></div>
+      <div class="route-step"><div class="route-num">3</div><code>typoClust() / typoPrompt()</code><h3>Annotate with evidence</h3><p class="muted">Use curated MarkerDB or LLM-assisted annotation, or generate a portable prompt for a chatbot of your choice.</p></div>
+    </div>
+    <div class="route-note"><strong>Focused analysis comes later:</strong> <code>markoClust()</code> and <code>markoCell()</code> are not part of the minimal route. Use them when you already have defined groups or when a specific subset of cells deserves deeper marker analysis.</div>
+  </section>
+
+  <section id="capabilities">
+    <div class="section-head">
+      <div><div class="eyebrow">CelliVerse at a glance</div><h2>Choose the biological question first.</h2><p class="muted">The core workflows are easier to remember as analytical intentions than as a flat function list.</p></div>
+      <a class="btn ghost" href="#navigator">Open interactive function guide</a>
+    </div>
+    <div class="cap-grid">
+      <div class="card cap-card" style="--accent:#3e49c8"><span class="cap-stage">Discover</span><h3>Discover populations</h3><code>clustoCell()</code><div class="muted">Unknown structure; joint major/sub-clustering plus ranked marker evidence.</div></div>
+      <div class="card cap-card" style="--accent:#18a5b8"><span class="cap-stage">Interrogate</span><h3>Markers for known groups</h3><code>markoClust()</code><div class="muted">Predefined groups; identify markers and optionally resolve sub-clusters.</div></div>
+      <div class="card cap-card" style="--accent:#18a5b8"><span class="cap-stage">Interrogate</span><h3>Markers for selected cells</h3><code>markoCell()</code><div class="muted">Arbitrary subsets, rare populations, discordant cells or even individual cells.</div></div>
+      <div class="card cap-card" style="--accent:#7437d1"><span class="cap-stage">Annotate</span><h3>Curated annotation</h3><code>typoClust(mode = "markerDB")</code><div class="muted">Positive/negative marker matching against CelliVerse MarkerDB; no LLM or API key required.</div></div>
+      <div class="card cap-card" style="--accent:#7437d1"><span class="cap-stage">Annotate</span><h3>LLM annotation</h3><code>typoClust(..."ceLLMarkup") / ceLLMarkup()</code><div class="muted">Use object markers through typoClust or external marker data through ceLLMarkup.</div></div>
+      <div class="card cap-card" style="--accent:#7437d1"><span class="cap-stage">Annotate</span><h3>Portable annotation prompt</h3><code>typoPrompt()</code><div class="muted">Create an inspectable prompt for your preferred chatbot without calling a model from R.</div></div>
+    </div>
+    <div class="helper-strip"><strong>Common next steps</strong><div class="muted">These helpers usually appear after the main discovery, interrogation or annotation step.</div>
+      <div class="helper-grid">
+        <div class="helper"><code>addClustoData()</code><span>write major/sub-cluster labels to metadata</span></div>
+        <div class="helper"><code>getDatasetMarkers()</code><span>select marker-derived features for PCA, UMAP or ML</span></div>
+        <div class="helper"><code>markerPurity()</code><span>quantify purity of a candidate marker</span></div>
+        <div class="helper"><code>featureInspect()</code><span>locate a feature across marker collections</span></div>
+        <div class="helper"><code>addTypoData()</code><span>write cell-type annotations back to metadata</span></div>
+        <div class="helper"><code>clustoCell_TransferLabel()</code><span>transfer sketch labels to the full dataset</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="navigator">
+    <div class="section-head"><div><div class="eyebrow">Interactive function guide</div><h2>One navigator, three ways to think.</h2><p class="muted">The decision tree, function map and task-to-function lookup are combined here so the same workflow knowledge can be explored by <strong>situation</strong>, <strong>stage</strong> or <strong>search</strong> without repeating content.</p></div></div>
+    <div class="navigator">
+      <aside class="panel nav-panel"><strong>How do you want to navigate?</strong>
+        <div class="nav-mode"><button class="mode-btn active" data-mode="situation">Start from my situation</button><button class="mode-btn" data-mode="stage">Browse by workflow stage</button><button class="mode-btn" data-mode="search">Search all functions</button></div>
+        <div class="stage-mini">
+          <span class="stage-discover">Discover</span>
+          <span class="stage-interrogate">Interrogate</span>
+          <span class="stage-annotate">Annotate</span>
+          <span class="stage-integrate">Integrate</span>
+        </div>
+        <p class="muted" style="font-size:11px;margin-top:13px">Object flow: <code>Seurat/matrix → ClustoCell/MarkoCell → TypoClust/TypoPrompt → metadata/figures/downstream analysis</code></p>
+      </aside>
+      <div class="panel workspace" id="workspace"></div>
+    </div>
+    <div class="quality-note" id="annotationQualityNote"><strong>Annotation quality rule:</strong> automated labels are evidence-supported suggestions, not a replacement for marker biology and context. For broad or mixed parent clusters, compare hierarchical annotation with inheritance disabled; in MarkerDB mode, <code>inherit_score_ratio</code> controls how close runner-up parent candidates must be to constrain sub-clusters.</div>
+  </section>
+
+  <section id="troubleshooting">
+    <div class="section-head"><div><div class="eyebrow">Troubleshooting</div><h2>Common problems, fast fixes.</h2><p class="muted">Search by symptom or filter by category. Open a card only when you need the explanation or code.</p></div></div>
+    <div class="panel"><input class="search" id="troubleSearch" placeholder="Search: log1p, assay, memory, sketch, inheritance, API, Agent, file format..."><div class="trouble-toolbar" id="troubleFilters"></div><div class="trouble-grid" id="troubleGrid"></div></div>
+  </section>
+
+  <section id="agent">
+    <div class="section-head"><div><div class="eyebrow">Natural-language interface</div><h2>Agent in four steps</h2><p class="muted">The Agent is optional and complementary to standard R scripts. Use it for conversational convenience while keeping formal analyses reproducible.</p></div></div>
+    <div class="agent-steps">
+      <div class="agent-step"><b>1</b><strong>Load data</strong><div class="muted">Upload a supported object/file or use a server-side path for large data.</div></div>
+      <div class="agent-step"><b>2</b><strong>Choose a model</strong><div class="muted">Select a supported cloud provider or use Ollama/LM Studio for a local workflow.</div></div>
+      <div class="agent-step"><b>3</b><strong>Ask clearly</strong><div class="muted">One explicit task at a time is the most reliable pattern, especially for smaller models.</div></div>
+      <div class="agent-step"><b>4</b><strong>Review outputs</strong><div class="muted">Inspect generated figures, tables and R objects, then preserve the reproducible analysis trail.</div></div>
+    </div>
+    <div class="prompt-box"><code>run clustoCell on the object</code><code>add labels to the Seurat object</code><code>generate a UMAP of the object and color cells by sub-clusters</code><code>give me the top 10 ranked markers of C2 and C4</code><code>annotate clusters C1-C3</code><code>annotate sub-clusters C1-Sub1 and C3-Sub2</code></div>
+  </section>
+</main>
+<footer class="wrap footer"><div class="footer-inner"><div>CelliVerse Adoption Hub · practical onboarding for the CelliVerse R package</div><div><a href="https://asalavaty.com/widgets/celliverse" target="_blank" rel="noopener">CelliVerse</a>&nbsp;·&nbsp;<a href="https://github.com/asalavaty/celliverse" target="_blank" rel="noopener">GitHub</a>&nbsp;·&nbsp;<a href="https://cran.r-project.org/package=celliverse" target="_blank" rel="noopener">CRAN</a></div></div></footer>
+<script>
+const FUNCTIONS=[
+{id:'clustocell',stage:'Discover',task:'I do not know the clusters yet',fn:'clustoCell()',summary:'Joint clustering and marker discovery',detail:'Use this as the default discovery route when population structure is unknown. It identifies major clusters, optional sub-clusters and ranked marker evidence.',tags:'unknown clusters clustering markers sub-clusters discovery'},
+{id:'clustocell-sketch',stage:'Discover',task:'My dataset is large',fn:'clustoCell(sketch = TRUE)',summary:'Scale discovery with built-in sketching',detail:'Use the built-in sketching route for moderate-to-large datasets. For very large data or limited resources, sketch externally and transfer labels afterward.',tags:'large dataset sketch scaling memory performance'},
+{id:'markoclust',stage:'Interrogate',task:'I already have cluster labels',fn:'markoClust()',summary:'Find markers for predefined groups',detail:'Use when clusters already exist and the main question is which features distinguish those groups. Optional sub-clustering can be performed within this workflow.',tags:'known clusters predefined groups markers sub-clustering'},
+{id:'markocell',stage:'Interrogate',task:'I only care about selected cells',fn:'markoCell()',summary:'Target arbitrary cell subsets',detail:'Use for rare, discordant, ambiguous or otherwise selected cells, including very small subsets and even individual cells.',tags:'selected cells discordant rare subset markers'},
+{id:'markerpurity',stage:'Interrogate',task:'I want to inspect a candidate marker',fn:'markerPurity()',summary:'Quantify marker purity',detail:'Use when you already have a candidate marker and want to assess how purely it identifies the selected cluster or cell subset.',tags:'marker purity candidate specificity'},
+{id:'featureinspect',stage:'Interrogate',task:'I want to find where a gene appears',fn:'featureInspect()',summary:'Search marker collections',detail:'Use to locate a feature across the marker collections stored in a ClustoCell result.',tags:'feature gene marker collections inspect'},
+{id:'typoclust-db',stage:'Annotate',task:'I want curated cell-type annotation',fn:'typoClust(mode = "markerDB")',summary:'Curated MarkerDB annotation',detail:'Matches positive and/or negative markers against the curated CelliVerse MarkerDB. No LLM or API key is required.',tags:'annotation markerdb curated no api cell type'},
+{id:'typoclust-llm',stage:'Annotate',task:'I want LLM annotation of CelliVerse markers',fn:'typoClust(mode = "ceLLMarkup")',summary:'LLM annotation from CelliVerse objects',detail:'Use when markers are already stored in ClustoCell or MarkoCell objects and you want to keep the usual typoClust interface.',tags:'annotation llm clustocell markocell cell type'},
+{id:'cellmarkup',stage:'Annotate',task:'I have external marker tables or panels',fn:'ceLLMarkup()',summary:'Standalone LLM annotation',detail:'Use directly for Seurat marker results, standalone marker tables, or custom positive/negative marker panels.',tags:'annotation llm external markers seurat custom panel'},
+{id:'typoprompt',stage:'Annotate',task:'I want to paste a prompt into my own chatbot',fn:'typoPrompt()',summary:'Generate a portable annotation prompt',detail:'Builds an inspectable LLM-ready prompt from a ClustoCell or MarkoCell object without contacting a model from R.',tags:'annotation prompt chatbot no model portable'},
+{id:'addclusto',stage:'Integrate',task:'I want cluster labels back in Seurat or SCE',fn:'addClustoData()',summary:'Write clustering labels to metadata',detail:'Adds major and/or sub-cluster labels from a ClustoCell result back to a Seurat or SingleCellExperiment object.',tags:'metadata seurat sce labels integration'},
+{id:'getdatasetmarkers',stage:'Integrate',task:'I want features for PCA, UMAP or machine learning',fn:'getDatasetMarkers()',summary:'Extract dataset-level marker features',detail:'Collects marker-derived features from major clusters and sub-clusters for downstream dimensionality reduction, visualization or modelling.',tags:'pca umap machine learning feature selection markers'},
+{id:'addtypo',stage:'Integrate',task:'I want annotations back in Seurat or SCE',fn:'addTypoData()',summary:'Write annotation labels to metadata',detail:'Adds inferred cell-type annotations from a TypoClust-compatible object back to the original dataset.',tags:'metadata annotation seurat sce integration'},
+{id:'transfer',stage:'Integrate',task:'I used an external sketch',fn:'clustoCell_TransferLabel()',summary:'Transfer sketch labels to the full dataset',detail:'Use after running ClustoCell on an externally created sketch to transfer the learned major/sub-cluster labels to the full-resolution data.',tags:'sketch label transfer large full resolution integration'}];
+const ISSUES=[
+{cat:'Input',title:'Expression scale looks wrong',summary:'Already normalized or log-transformed input can be transformed again if you leave the default unchanged.',fix:'If the data are already normalized/log-transformed, set `log1p = FALSE`. The default `TRUE` is intended for raw or otherwise non-log-transformed input.',code:'clustoCell(data = your_object, log1p = FALSE)'},
+{cat:'Input',title:'Wrong assay or layer',summary:'Your object may not use the standard RNA/count location.',fix:'Check the active assay/layer and set the corresponding CelliVerse arguments explicitly rather than relying on defaults.',code:''},
+{cat:'Performance',title:'Memory use is high',summary:'Dense matrices can become unnecessarily expensive.',fix:'Prefer sparse `dgCMatrix` input where possible instead of converting a large expression matrix to dense form.',code:''},
+{cat:'Performance',title:'Large dataset is slow',summary:'Full-resolution discovery can be computationally expensive.',fix:'Try built-in sketching. For very large data, sketch externally, run ClustoCell only on the sketch, then transfer labels.',code:'clustoCell(data = your_object, sketch = TRUE, sketch_ncells = 5000)'},
+{cat:'Performance',title:'Seurat sketch did not actually reduce the data',summary:'A newly created sketch assay is not guaranteed to contain fewer cells.',fix:'Before external `SketchData()`, ensure the required Seurat preprocessing is present and explicitly verify that the sketch contains fewer cells before running ClustoCell.',code:''},
+{cat:'Annotation',title:'Sub-cluster annotation is over-constrained',summary:'A broad or mixed parent identity can restrict biologically plausible sub-cluster labels.',fix:'Compare the result with `inherit_major_clusters = FALSE`. In MarkerDB mode, also inspect `inherit_score_ratio` when plausible parent identities are near-tied.',code:'inherit_major_clusters = FALSE'},
+{cat:'Annotation',title:'MarkerDB label seems questionable',summary:'A ranked annotation should not replace marker-level biological interpretation.',fix:'Treat the label as an evidence-supported suggestion. Review positive/negative markers, tissue, condition, sub-cluster markers and biological context.',code:''},
+{cat:'Annotation',title:'typoClust or ceLLMarkup?',summary:'The right interface depends on where your markers already live.',fix:'Use `typoClust(mode = "ceLLMarkup")` when markers are already in ClustoCell/MarkoCell. Use `ceLLMarkup()` directly for Seurat marker tables, standalone tables or custom panels.',code:''},
+{cat:'LLM / Agent',title:'LLM annotation will not start',summary:'The provider, model, server or API configuration may be incomplete.',fix:'Check the provider, model identifier, local model server for Ollama/LM Studio, and cloud API key when applicable. Use `typoPrompt()` when you want no model call from R.',code:''},
+{cat:'LLM / Agent',title:'Agent port is busy',summary:'Another process may already be using the default port.',fix:'Allow the launcher to scan for another available port.',code:'run_celliverse_agent(port_scan = TRUE)'},
+{cat:'LLM / Agent',title:'Agent completes only part of a request',summary:'Compound requests can be difficult for smaller or lightweight models.',fix:'Split the request into atomic steps, especially when several dependent tool calls are required.',code:'run clustoCell on the object'},
+{cat:'LLM / Agent',title:'Agent will not load my file',summary:'The file may not match a supported upload/server-load route.',fix:'Supported routes include `.rds`, `.RData/.rda`, delimited text, `.mtx` with sidecars, a zipped 10x triplet, and `.h5` when `hdf5r` is installed.',code:''}];
+function esc(s){return String(s).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}function inlineCode(s){return esc(s).replace(/`([^`]+)`/g,'<code style="color:#5634b7;font-weight:850">$1</code>')}
+const navLinks=document.getElementById('navLinks');document.getElementById('menuBtn').onclick=()=>navLinks.classList.toggle('open');navLinks.querySelectorAll('a[href^="#"]').forEach(a=>a.onclick=()=>navLinks.classList.remove('open'));
+const heroAns={unknown:'<code>clustoCell()</code> → <code>addClustoData()</code> → <code>typoClust()</code> or <code>typoPrompt()</code>. Start with discovery, keep the labels connected to the original object, then annotate from the marker evidence.',clusters:'Use <code>markoClust()</code> when the groups are already defined and your main question is which markers distinguish them.',cells:'Use <code>markoCell()</code> for arbitrary selected cells, including rare or discordant subsets.',markers:'For curated annotation use <code>typoClust(mode = "markerDB")</code>. For external marker tables/panels with an LLM use <code>ceLLMarkup()</code>. For a portable prompt from a CelliVerse object use <code>typoPrompt()</code>.',large:'For moderate-to-large data consider <code>clustoCell(sketch = TRUE)</code>. For very large data, sketch externally, run ClustoCell on the sketch, then use <code>clustoCell_TransferLabel()</code>.'};document.querySelectorAll('[data-start]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-start]').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById('heroResult').innerHTML=heroAns[b.dataset.start]});
+const workspace=document.getElementById('workspace');
+const annotationQualityNote=document.getElementById('annotationQualityNote');
+let navMode='situation';
+function stageClass(stage){return 'stage-'+String(stage).toLowerCase()}
+function stageBadge(stage,extra=''){return `<span class="stage-chip ${stageClass(stage)} ${extra}">${esc(stage)}</span>`}
+function setAnnotationQualityFor(f){annotationQualityNote.classList.toggle('visible',!!f&&f.stage==='Annotate')}
+function hideAnnotationQuality(){annotationQualityNote.classList.remove('visible')}const situations=[['I do not know the clusters yet','clustocell'],['I already have cluster labels','markoclust'],['I only care about selected cells','markocell'],['I want to inspect a candidate marker','markerpurity'],['I want to find where a gene appears','featureinspect'],['I want curated cell-type annotation','typoclust-db'],['I want LLM annotation of CelliVerse markers','typoclust-llm'],['I have external marker tables/panels','cellmarkup'],['I want to use my own chatbot','typoprompt'],['I want features for PCA/UMAP/ML','getdatasetmarkers'],['I want labels back in Seurat/SCE','addclusto'],['I used an external sketch','transfer']];const fById=id=>FUNCTIONS.find(x=>x.id===id);
+const rec=f=>`<div class="recommendation">${stageBadge(f.stage,'rec-stage')}<div class="rec-function"><code>${esc(f.fn)}</code></div><strong>${esc(f.summary)}</strong><div class="muted" style="margin-top:5px">${esc(f.detail)}</div></div>`;
+function renderSituation(){
+  hideAnnotationQuality();
+  workspace.innerHTML=`<div class="workspace-head"><div><div class="workspace-title">Start from your situation</div><div class="muted">Decision-tree view: choose what you already know or what you want next.</div></div></div><div class="option-grid">${situations.map(([label,id])=>`<button class="start-card" data-fid="${id}"><strong>${esc(label)}</strong><span class="muted">${esc(fById(id).summary)}</span></button>`).join('')}</div><div id="situationResult"></div>`;
+  workspace.querySelectorAll('[data-fid]').forEach(b=>b.onclick=()=>{
+    workspace.querySelectorAll('[data-fid]').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    const f=fById(b.dataset.fid);
+    document.getElementById('situationResult').innerHTML=rec(f);
+    setAnnotationQualityFor(f);
+  });
+}
+function renderStage(){
+  hideAnnotationQuality();
+  const stages=['Discover','Interrogate','Annotate','Integrate'];
+  workspace.innerHTML=`<div class="workspace-head"><div><div class="workspace-title">Browse the function map</div><div class="muted">Follow the analysis from discovery to downstream integration. Click any function for its practical role.</div></div></div><div class="pipeline">${stages.map(stage=>`<div class="pipe-col">${stageBadge(stage,'pipe-title')}${FUNCTIONS.filter(f=>f.stage===stage).map(f=>`<div class="pipe-fn" data-fid="${f.id}"><code>${esc(f.fn)}</code><span>${esc(f.summary)}</span></div>`).join('')}</div>`).join('')}</div><div id="stageResult"></div>`;
+  workspace.querySelectorAll('[data-fid]').forEach(el=>el.onclick=()=>{
+    const f=fById(el.dataset.fid);
+    document.getElementById('stageResult').innerHTML=rec(f);
+    setAnnotationQualityFor(f);
+  });
+}
+function renderSearch(){
+  hideAnnotationQuality();
+  workspace.innerHTML=`<div class="workspace-head"><div><div class="workspace-title">Search by task or function</div><div class="muted">Compact task-to-function lookup. Click a result for its practical explanation.</div></div></div><input class="search" id="functionSearch" placeholder="e.g. selected cells, annotation, PCA, sketch, marker purity..."><div class="finder-list" id="finderList"></div><div id="searchResult"></div>`;
+  const input=document.getElementById('functionSearch'),list=document.getElementById('finderList');
+  const draw=q=>{
+    hideAnnotationQuality();
+    document.getElementById('searchResult').innerHTML='';
+    q=(q||'').toLowerCase();
+    const rows=FUNCTIONS.filter(f=>[f.task,f.fn,f.summary,f.detail,f.tags].join(' ').toLowerCase().includes(q));
+    list.innerHTML=rows.length?rows.map(f=>`<div class="finder-row" data-fid="${f.id}"><div><strong>${esc(f.task)}</strong>${stageBadge(f.stage)}</div><div><code>${esc(f.fn)}</code></div><div class="muted">${esc(f.summary)}</div></div>`).join(''):'<div class="empty">No matching function. Try a broader analytical term.</div>';
+    list.querySelectorAll('[data-fid]').forEach(row=>row.onclick=()=>{
+      list.querySelectorAll('[data-fid]').forEach(x=>x.classList.remove('active'));
+      row.classList.add('active');
+      const f=fById(row.dataset.fid);
+      document.getElementById('searchResult').innerHTML=rec(f);
+      setAnnotationQualityFor(f);
+    });
+  };
+  input.oninput=()=>draw(input.value);
+  draw('');
+}
+function renderNavigator(){
+  hideAnnotationQuality();
+  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.toggle('active',b.dataset.mode===navMode));
+  if(navMode==='situation')renderSituation();
+  if(navMode==='stage')renderStage();
+  if(navMode==='search')renderSearch();
+}
+document.querySelectorAll('.mode-btn').forEach(b=>b.onclick=()=>{navMode=b.dataset.mode;renderNavigator()});
+renderNavigator();
+const cats=['All',...new Set(ISSUES.map(x=>x.cat))];let activeCat='All';const filters=document.getElementById('troubleFilters'),grid=document.getElementById('troubleGrid'),ts=document.getElementById('troubleSearch');filters.innerHTML=cats.map(c=>`<button class="filter-btn ${c==='All'?'active':''}" data-cat="${esc(c)}">${esc(c)}</button>`).join('');filters.querySelectorAll('[data-cat]').forEach(b=>b.onclick=()=>{activeCat=b.dataset.cat;filters.querySelectorAll('[data-cat]').forEach(x=>x.classList.toggle('active',x.dataset.cat===activeCat));renderTrouble()});ts.oninput=renderTrouble;
+function renderTrouble(){const q=ts.value.toLowerCase();const rows=ISSUES.filter(x=>(activeCat==='All'||x.cat===activeCat)&&[x.title,x.summary,x.fix,x.code,x.cat].join(' ').toLowerCase().includes(q));grid.innerHTML=rows.length?rows.map(x=>`<article class="issue"><button class="issue-head"><span><span class="issue-title">${esc(x.title)}</span><span class="issue-cat">${esc(x.cat)}</span></span><span class="chev">⌄</span></button><div class="issue-body"><div class="issue-inner"><div class="issue-summary">${esc(x.summary)}</div><div>${inlineCode(x.fix)}</div>${x.code?`<div class="code-line"><code>${esc(x.code)}</code><button class="copy" data-copy="${esc(x.code)}">Copy</button></div>`:''}</div></div></article>`).join(''):'<div class="empty" style="grid-column:1/-1">No matching troubleshooting item.</div>';grid.querySelectorAll('.issue-head').forEach(h=>h.onclick=()=>h.closest('.issue').classList.toggle('open'));grid.querySelectorAll('[data-copy]').forEach(b=>b.onclick=async e=>{e.stopPropagation();try{await navigator.clipboard.writeText(b.dataset.copy);const old=b.textContent;b.textContent='Copied';setTimeout(()=>b.textContent=old,900)}catch(err){}})}renderTrouble();
+</script>
+</body>
+</html>
